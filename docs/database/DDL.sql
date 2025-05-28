@@ -133,19 +133,3 @@ CREATE TABLE team_member_permission (
     permission_id UUID NOT NULL REFERENCES permission(id) ON DELETE CASCADE,
     PRIMARY KEY (team_member_id, permission_id)
 );
-
-CREATE INDEX idx_users_email ON users(email);
-CREATE INDEX idx_users_cpf ON users(cpf);
-CREATE INDEX idx_auth_user_id ON authentications(user_id);
-CREATE INDEX idx_content_user_id ON content(user_id);
-CREATE INDEX idx_metric_user_id ON metric(user_id);
-CREATE INDEX idx_metric_content_id ON metric(content_id);
-CREATE INDEX idx_notification_user_id ON notification(user_id);
-CREATE INDEX idx_publication_user_id ON publication(user_id);
-CREATE INDEX idx_publication_content_id ON publication(content_id);
-CREATE INDEX idx_subscription_user_id ON subscription(user_id);
-CREATE INDEX idx_subscription_status ON subscription(status);
-CREATE INDEX idx_team_owner_id ON team(owner_id);
-CREATE INDEX idx_team_member_team_id ON team_member(team_id);
-CREATE INDEX idx_team_member_user_id ON team_member(user_id);
-CREATE INDEX idx_topic_suggestion_user_id ON topic_suggestion(user_id);

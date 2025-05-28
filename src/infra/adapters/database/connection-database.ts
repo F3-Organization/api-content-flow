@@ -33,14 +33,14 @@ export class ConnectionDatabase implements IConnectionDatabase {
         }
       }
       if (params.orderBy) {
-        for (const [column, direction] of Object.entries(params.orderBy)) {
-          query = query.orderBy(column, direction);
+        for (const order of params.orderBy) {
+          query = query.orderBy(order.column, order.direction);
         }
       }
-      if (params.offset) {
+      if (params.offset !== undefined) {
         query = query.offset(params.offset);
       }
-      if (params.limit) {
+      if (params.limit !== undefined) {
         query = query.limit(params.limit);
       }
       return query;
@@ -50,13 +50,15 @@ export class ConnectionDatabase implements IConnectionDatabase {
   async raw<T = any>(params: rawType): Promise<T[]> {
     return this.transaction<T[]>(async (trx) => {
       const result = await trx.raw(params.sql, params.params);
-      return result;
+      return result as T[];
     });
   }
 
   async insert<T = any>(params: insertType): Promise<T> {
     return this.transaction<T>(async (trx) => {
-      const [result] = await trx(params.table).insert(params.data);
+      const [result] = await trx(params.table)
+        .insert(params.data)
+        .returning("*");
       return result as T;
     });
   }

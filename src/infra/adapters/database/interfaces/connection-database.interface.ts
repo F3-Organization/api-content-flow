@@ -12,7 +12,7 @@ export type queryType = {
   where: Record<string, any>;
   whereIn?: Record<string, any[]>;
   whereLike?: Record<string, any>;
-  orderBy?: Record<string, 'asc' | 'desc'>;
+  orderBy?: { column: string; direction: 'asc' | 'desc' }[];
   offset?: number;
   limit?: number;
 };

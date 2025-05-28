@@ -20,5 +20,10 @@ export default defineConfig([
       },
     },
   },
-  tseslint.configs.recommended,
+  tseslint.configs({
+    rules: {
+      "no-explicit-any": "off",
+    },
+    ...tseslint.configs.recommended,
+  }),
 ]);

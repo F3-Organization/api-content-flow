@@ -1,11 +1,10 @@
 import { DomainError } from "@/domain/error/index";
-import { CPF, Email, UserRole, userRoleEnum } from "@/domain/value-objects";
+import { CPF, Email, UserRole, userRoleEnum } from "@/domain/entities/value-objects";
 
 export interface UserProps {
   id: string;
   name: string;
   email: Email;
-  passwordHash: string;
   cpf: CPF;
   isActive: boolean;
   emailVerified: boolean;
@@ -47,14 +46,6 @@ export class User {
 
   set setCpf(value: CPF) {
     this.props.cpf = value;
-    this.touch();
-  }
-  get getPasswordHash() {
-    return this.props.passwordHash;
-  }
-  set setPasswordHash(value: string) {
-    if (!value) throw new DomainError("Password hash is required");
-    this.props.passwordHash = value;
     this.touch();
   }
   get getIsActive() {
@@ -102,7 +93,6 @@ export class User {
   private validateProps(props: UserProps) {
     if (!props.name) throw new DomainError("Name is required");
     if (!props.email) throw new DomainError("Email is required");
-    if (!props.passwordHash) throw new DomainError("Password hash is required");
     if (!props.cpf) throw new DomainError("CPF is required");
     if (!(props.cpf instanceof CPF))
       throw new DomainError("CPF must be a valid CPF value object");

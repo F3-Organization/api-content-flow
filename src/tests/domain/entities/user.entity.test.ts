@@ -1,4 +1,4 @@
-import { CPF, Email, UserRole, userRoleEnum } from "@/domain/value-objects";
+import { CPF, Email, UserRole, userRoleEnum } from "@/domain/entities/value-objects";
 import { User } from "../../../domain/entities/user.entity";
 import { DomainError } from "@/domain/error";
 
@@ -7,7 +7,6 @@ describe("User Entity", () => {
     id: "user-1",
     name: "Test User",
     email: new Email("test@example.com"),
-    passwordHash: "hash",
     cpf: new CPF("03257820240"),
     isActive: true,
     emailVerified: false,
@@ -20,7 +19,6 @@ describe("User Entity", () => {
     id: "user-invalid",
     name: "Test User",
     email: new Email("test@example.com"),
-    passwordHash: "hash",
     isActive: true,
     emailVerified: false,
     role: new UserRole(userRoleEnum.admin),
@@ -33,7 +31,6 @@ describe("User Entity", () => {
     expect(user.getId).toBe(validProps.id);
     expect(user.getName).toBe(validProps.name);
     expect(user.getEmail).toBe(validProps.email);
-    expect(user.getPasswordHash).toBe(validProps.passwordHash);
     expect(user.getIsActive).toBe(true);
     expect(user.getEmailVerified).toBe(false);
     expect(user.getRoleValue).toBe("member");
@@ -51,11 +48,6 @@ describe("User Entity", () => {
     );
   });
 
-  it("should throw error if passwordHash is empty", () => {
-    expect(() => new User({ ...validProps, passwordHash: "" })).toThrow(
-      "Password hash is required"
-    );
-  });
 
   it("should update name and updatedAt", async () => {
     const user = new User(validProps);
@@ -75,14 +67,6 @@ describe("User Entity", () => {
     expect(user.updatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
   });
 
-  it("should update passwordHash and updatedAt", async () => {
-    const user = new User(validProps);
-    const oldUpdatedAt = user.updatedAt;
-    await new Promise((r) => setTimeout(r, 2));
-    user.setPasswordHash = "newhash";
-    expect(user.getPasswordHash).toBe("newhash");
-    expect(user.updatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
-  });
 
   it("should activate and deactivate user", () => {
     const user = new User(validProps);

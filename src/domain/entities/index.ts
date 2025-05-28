@@ -9,5 +9,5 @@ export * from "./team.entity";
 export * from "./team-member.entity";
 export * from "./subscription.entity";
 export * from "./editorial-calendar.entity";
-
+export * from "./authentication.entity";
 export * from "../value-objects/cpf.vo";

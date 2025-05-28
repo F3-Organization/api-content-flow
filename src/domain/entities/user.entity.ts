@@ -9,6 +9,7 @@ export interface UserProps {
   isActive: boolean;
   emailVerified: boolean;
   role: UserRole;
+  avatar?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -66,18 +67,21 @@ export class User {
     this.props.emailVerified = true;
     this.touch();
   }
-
   get getRoleValue() {
     return this.props.role.getRoleValue;
   }
-
   get getRole() {
     return this.props.role.getRole;
   }
-
   set setRole(value: userRoleEnum) {
     this.props.role = new UserRole(value);
     this.touch();
+  }
+  get getAvatar() {
+    return this.props.avatar;
+  }
+  set setAvatar(value: string) {
+    this.props.avatar = value;
   }
   get createdAt() {
     return this.props.createdAt;

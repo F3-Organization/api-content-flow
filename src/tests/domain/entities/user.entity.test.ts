@@ -11,6 +11,7 @@ describe("User Entity", () => {
     isActive: true,
     emailVerified: false,
     role: new UserRole(userRoleEnum.member),
+    avatar: "default.png",
     createdAt: new Date(),
     updatedAt: new Date(),
   };
@@ -22,6 +23,7 @@ describe("User Entity", () => {
     isActive: true,
     emailVerified: false,
     role: new UserRole(userRoleEnum.admin),
+    avatar: "default.png",
     createdAt: new Date(),
     updatedAt: new Date(),
   };

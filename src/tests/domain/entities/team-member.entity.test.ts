@@ -1,5 +1,5 @@
 import { TeamMember, TeamMemberRole } from '../../../domain/entities/team-member.entity';
-import { DomainError } from '../../../domain/error/domain.error';
+import { DomainException } from '../../../domain/error/domain.exception';
 
 describe('TeamMember Entity', () => {
   const validProps = {
@@ -24,13 +24,13 @@ describe('TeamMember Entity', () => {
   });
 
   it('should throw if teamId is empty', () => {
-    expect(() => new TeamMember({ ...validProps, teamId: '' })).toThrow(DomainError);
+    expect(() => new TeamMember({ ...validProps, teamId: '' })).toThrow(DomainException);
   });
   it('should throw if userId is empty', () => {
-    expect(() => new TeamMember({ ...validProps, userId: '' })).toThrow(DomainError);
+    expect(() => new TeamMember({ ...validProps, userId: '' })).toThrow(DomainException);
   });
   it('should throw if role is empty', () => {
-    expect(() => new TeamMember({ ...validProps, role: '' as any })).toThrow(DomainError);
+    expect(() => new TeamMember({ ...validProps, role: '' as any })).toThrow(DomainException);
   });
 
   it('should update role', () => {

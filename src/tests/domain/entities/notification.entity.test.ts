@@ -1,5 +1,5 @@
 import { Notification, NotificationType } from '../../../domain/entities/notification.entity';
-import { DomainError } from '../../../domain/error/domain.error';
+import { DomainException } from '../../../domain/error/domain.exception';
 
 describe('Notification Entity', () => {
   const validProps = {
@@ -22,16 +22,16 @@ describe('Notification Entity', () => {
   });
 
   it('should throw if userId is empty', () => {
-    expect(() => new Notification({ ...validProps, userId: '' })).toThrow(DomainError);
+    expect(() => new Notification({ ...validProps, userId: '' })).toThrow(DomainException);
   });
   it('should throw if type is empty', () => {
-    expect(() => new Notification({ ...validProps, type: '' as any })).toThrow(DomainError);
+    expect(() => new Notification({ ...validProps, type: '' as any })).toThrow(DomainException);
   });
   it('should throw if message is empty', () => {
-    expect(() => new Notification({ ...validProps, message: '' })).toThrow(DomainError);
+    expect(() => new Notification({ ...validProps, message: '' })).toThrow(DomainException);
   });
   it('should throw if sentAt is missing', () => {
-    expect(() => new Notification({ ...validProps, sentAt: undefined as any })).toThrow(DomainError);
+    expect(() => new Notification({ ...validProps, sentAt: undefined as any })).toThrow(DomainException);
   });
 
   it('should mark as read', () => {

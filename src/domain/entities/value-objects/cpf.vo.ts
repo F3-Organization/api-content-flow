@@ -1,11 +1,11 @@
-import { DomainError } from "@/domain/error";
+import { DomainException } from "@/domain/error";
 
 export class CPF {
   private readonly value: string;
 
   constructor(value: string) {
     if (!CPF.isValid(value)) {
-      throw new DomainError("CPF inválido");
+      throw new DomainException("CPF inválido");
     }
     this.value = CPF.clean(value);
   }

@@ -1,4 +1,4 @@
-import { DomainError } from "@/domain/error";
+import { DomainException } from "@/domain/error";
 
 export type NotificationType = "reminder" | "suggestion";
 
@@ -42,9 +42,9 @@ export class Notification {
   }
 
   private validateProps(props: NotificationProps) {
-    if (!props.userId) throw new DomainError("UserId is required");
-    if (!props.type) throw new DomainError("Type is required");
-    if (!props.message) throw new DomainError("Message is required");
-    if (!props.sentAt) throw new DomainError("SentAt is required");
+    if (!props.userId) throw new DomainException("UserId is required");
+    if (!props.type) throw new DomainException("Type is required");
+    if (!props.message) throw new DomainException("Message is required");
+    if (!props.sentAt) throw new DomainException("SentAt is required");
   }
 }

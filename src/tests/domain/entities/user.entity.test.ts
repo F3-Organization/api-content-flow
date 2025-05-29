@@ -1,6 +1,6 @@
 import { CPF, Email, UserRole, userRoleEnum } from "@/domain/entities/value-objects";
 import { User } from "../../../domain/entities/user.entity";
-import { DomainError } from "@/domain/error";
+import { DomainException } from "@/domain/error";
 
 describe("User Entity", () => {
   const validProps = {
@@ -46,7 +46,7 @@ describe("User Entity", () => {
 
   it("should throw error if email is empty", () => {
     expect(() => new User({ ...validProps, email: new Email("") })).toThrow(
-      DomainError
+      DomainException
     );
   });
 
@@ -93,6 +93,6 @@ describe("User Entity", () => {
   it("should throw error for invalid CPF", () => {
     expect(
       () => new User({ ...invalidCPFProps, cpf: new CPF("12345678901") })
-    ).toThrow(DomainError);
+    ).toThrow(DomainException);
   });
 });

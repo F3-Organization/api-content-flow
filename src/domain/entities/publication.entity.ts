@@ -1,4 +1,4 @@
-import { DomainError } from "@/domain/error";
+import { DomainException } from "@/domain/error";
 
 export type PublicationStatus = "scheduled" | "published" | "failed";
 
@@ -73,10 +73,10 @@ export class Publication {
   }
 
   private validateProps(props: PublicationProps) {
-    if (!props.userId) throw new DomainError("UserId is required");
-    if (!props.contentId) throw new DomainError("ContentId is required");
-    if (!props.platform) throw new DomainError("Platform is required");
-    if (!props.scheduledAt) throw new DomainError("ScheduledAt is required");
-    if (!props.status) throw new DomainError("Status is required");
+    if (!props.userId) throw new DomainException("UserId is required");
+    if (!props.contentId) throw new DomainException("ContentId is required");
+    if (!props.platform) throw new DomainException("Platform is required");
+    if (!props.scheduledAt) throw new DomainException("ScheduledAt is required");
+    if (!props.status) throw new DomainException("Status is required");
   }
 }

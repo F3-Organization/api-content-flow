@@ -1,4 +1,4 @@
-import { DomainError } from "@/domain/error/index";
+import { DomainException } from "@/domain/error/index";
 
 export type month = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
@@ -28,7 +28,7 @@ export class EditorialCalendar {
     return this.props.month;
   }
   set month(value: number) {
-    if (value < 1 || value > 12) throw new DomainError("Month must be 1-12");
+    if (value < 1 || value > 12) throw new DomainException("Month must be 1-12");
     this.props.month = value as month;
     this.touch();
   }
@@ -36,7 +36,7 @@ export class EditorialCalendar {
     return this.props.year;
   }
   set year(value: number) {
-    if (value < 2000) throw new DomainError("Year is required");
+    if (value < 2000) throw new DomainException("Year is required");
     this.props.year = value;
     this.touch();
   }
@@ -52,9 +52,9 @@ export class EditorialCalendar {
   }
 
   private validateProps(props: EditorialCalendarProps) {
-    if (!props.userId) throw new DomainError("UserId is required");
+    if (!props.userId) throw new DomainException("UserId is required");
     if (props.month < 1 || props.month > 12)
-      throw new DomainError("Month must be 1-12");
-    if (props.year < 2000) throw new DomainError("Year is required");
+      throw new DomainException("Month must be 1-12");
+    if (props.year < 2000) throw new DomainException("Year is required");
   }
 }

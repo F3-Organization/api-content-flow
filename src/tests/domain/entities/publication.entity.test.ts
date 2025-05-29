@@ -1,5 +1,5 @@
 import { Publication, PublicationStatus } from '../../../domain/entities/publication.entity';
-import { DomainError } from '../../../domain/error/domain.error';
+import { DomainException } from '../../../domain/error/domain.exception';
 
 describe('Publication Entity', () => {
   const validProps = {
@@ -23,19 +23,19 @@ describe('Publication Entity', () => {
   });
 
   it('should throw if userId is empty', () => {
-    expect(() => new Publication({ ...validProps, userId: '' })).toThrow(DomainError);
+    expect(() => new Publication({ ...validProps, userId: '' })).toThrow(DomainException);
   });
   it('should throw if contentId is empty', () => {
-    expect(() => new Publication({ ...validProps, contentId: '' })).toThrow(DomainError);
+    expect(() => new Publication({ ...validProps, contentId: '' })).toThrow(DomainException);
   });
   it('should throw if platform is empty', () => {
-    expect(() => new Publication({ ...validProps, platform: '' })).toThrow(DomainError);
+    expect(() => new Publication({ ...validProps, platform: '' })).toThrow(DomainException);
   });
   it('should throw if scheduledAt is missing', () => {
-    expect(() => new Publication({ ...validProps, scheduledAt: undefined as any })).toThrow(DomainError);
+    expect(() => new Publication({ ...validProps, scheduledAt: undefined as any })).toThrow(DomainException);
   });
   it('should throw if status is missing', () => {
-    expect(() => new Publication({ ...validProps, status: undefined as any })).toThrow(DomainError);
+    expect(() => new Publication({ ...validProps, status: undefined as any })).toThrow(DomainException);
   });
 
   it('should update status and updatedAt', async () => {

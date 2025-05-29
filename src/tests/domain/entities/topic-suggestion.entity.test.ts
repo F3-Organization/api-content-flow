@@ -1,5 +1,5 @@
 import { TopicSuggestion } from '../../../domain/entities/topic-suggestion.entity';
-import { DomainError } from '../../../domain/error/domain.error';
+import { DomainException } from '../../../domain/error/domain.exception';
 
 describe('TopicSuggestion Entity', () => {
   const validProps = {
@@ -20,12 +20,12 @@ describe('TopicSuggestion Entity', () => {
   });
 
   it('should throw if userId is empty', () => {
-    expect(() => new TopicSuggestion({ ...validProps, userId: '' })).toThrow(DomainError);
+    expect(() => new TopicSuggestion({ ...validProps, userId: '' })).toThrow(DomainException);
   });
   it('should throw if topic is empty', () => {
-    expect(() => new TopicSuggestion({ ...validProps, topic: '' })).toThrow(DomainError);
+    expect(() => new TopicSuggestion({ ...validProps, topic: '' })).toThrow(DomainException);
   });
   it('should throw if source is empty', () => {
-    expect(() => new TopicSuggestion({ ...validProps, source: '' })).toThrow(DomainError);
+    expect(() => new TopicSuggestion({ ...validProps, source: '' })).toThrow(DomainException);
   });
 });

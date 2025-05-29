@@ -1,5 +1,5 @@
 import { Metric } from '../../../domain/entities/metric.entity';
-import { DomainError } from '../../../domain/error/domain.error';
+import { DomainException } from '../../../domain/error/domain.exception';
 
 describe('Metric Entity', () => {
   const validProps = {
@@ -25,22 +25,22 @@ describe('Metric Entity', () => {
   });
 
   it('should throw if userId is empty', () => {
-    expect(() => new Metric({ ...validProps, userId: '' })).toThrow(DomainError);
+    expect(() => new Metric({ ...validProps, userId: '' })).toThrow(DomainException);
   });
   it('should throw if contentId is empty', () => {
-    expect(() => new Metric({ ...validProps, contentId: '' })).toThrow(DomainError);
+    expect(() => new Metric({ ...validProps, contentId: '' })).toThrow(DomainException);
   });
   it('should throw if views is negative', () => {
-    expect(() => new Metric({ ...validProps, views: -1 })).toThrow(DomainError);
+    expect(() => new Metric({ ...validProps, views: -1 })).toThrow(DomainException);
   });
   it('should throw if likes is negative', () => {
-    expect(() => new Metric({ ...validProps, likes: -1 })).toThrow(DomainError);
+    expect(() => new Metric({ ...validProps, likes: -1 })).toThrow(DomainException);
   });
   it('should throw if comments is negative', () => {
-    expect(() => new Metric({ ...validProps, comments: -1 })).toThrow(DomainError);
+    expect(() => new Metric({ ...validProps, comments: -1 })).toThrow(DomainException);
   });
   it('should throw if shares is negative', () => {
-    expect(() => new Metric({ ...validProps, shares: -1 })).toThrow(DomainError);
+    expect(() => new Metric({ ...validProps, shares: -1 })).toThrow(DomainException);
   });
 
   it('should update views, likes, comments, shares', () => {
@@ -57,9 +57,9 @@ describe('Metric Entity', () => {
 
   it('should throw if setting negative values', () => {
     const metric = new Metric(validProps);
-    expect(() => (metric.views = -1)).toThrow(DomainError);
-    expect(() => (metric.likes = -1)).toThrow(DomainError);
-    expect(() => (metric.comments = -1)).toThrow(DomainError);
-    expect(() => (metric.shares = -1)).toThrow(DomainError);
+    expect(() => (metric.views = -1)).toThrow(DomainException);
+    expect(() => (metric.likes = -1)).toThrow(DomainException);
+    expect(() => (metric.comments = -1)).toThrow(DomainException);
+    expect(() => (metric.shares = -1)).toThrow(DomainException);
   });
 });

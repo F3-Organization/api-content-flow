@@ -1,4 +1,4 @@
-import { DomainError } from "@/domain/error";
+import { DomainException } from "@/domain/error";
 
 export interface TopicSuggestionProps {
   id: string;
@@ -33,8 +33,8 @@ export class TopicSuggestion {
   }
 
   private validateProps(props: TopicSuggestionProps) {
-    if (!props.userId) throw new DomainError("UserId is required");
-    if (!props.topic) throw new DomainError("Topic is required");
-    if (!props.source) throw new DomainError("Source is required");
+    if (!props.userId) throw new DomainException("UserId is required");
+    if (!props.topic) throw new DomainException("Topic is required");
+    if (!props.source) throw new DomainException("Source is required");
   }
 }

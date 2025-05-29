@@ -1,4 +1,4 @@
-import { DomainError } from "@/domain/error/index";
+import { DomainException } from "@/domain/error/index";
 import { CPF, Email, UserRole, userRoleEnum } from "@/domain/entities/value-objects";
 
 export interface UserProps {
@@ -29,7 +29,7 @@ export class User {
     return this.props.name;
   }
   set setName(value: string) {
-    if (!value) throw new DomainError("Name is required");
+    if (!value) throw new DomainException("Name is required");
     this.props.name = value;
     this.touch();
   }
@@ -37,7 +37,7 @@ export class User {
     return this.props.email;
   }
   set setEmail(value: string) {
-    if (!value) throw new DomainError("Email is required");
+    if (!value) throw new DomainException("Email is required");
     this.props.email = new Email(value);
     this.touch();
   }
@@ -95,10 +95,10 @@ export class User {
   }
 
   private validateProps(props: UserProps) {
-    if (!props.name) throw new DomainError("Name is required");
-    if (!props.email) throw new DomainError("Email is required");
-    if (!props.cpf) throw new DomainError("CPF is required");
+    if (!props.name) throw new DomainException("Name is required");
+    if (!props.email) throw new DomainException("Email is required");
+    if (!props.cpf) throw new DomainException("CPF is required");
     if (!(props.cpf instanceof CPF))
-      throw new DomainError("CPF must be a valid CPF value object");
+      throw new DomainException("CPF must be a valid CPF value object");
   }
 }

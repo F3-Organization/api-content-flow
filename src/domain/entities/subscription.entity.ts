@@ -1,4 +1,4 @@
-import { DomainError } from '@/domain/error';
+import { DomainException } from '@/domain/error';
 
 export type SubscriptionStatus = "active" | "inactive" | "canceled" | "expired";
 
@@ -17,8 +17,8 @@ export class Subscription {
   private props: SubscriptionProps;
 
   constructor(props: SubscriptionProps) {
-    if (!props.userId) throw new DomainError("UserId is required");
-    if (!props.plan) throw new DomainError("Plan is required");
+    if (!props.userId) throw new DomainException("UserId is required");
+    if (!props.plan) throw new DomainException("Plan is required");
     this.props = { ...props };
   }
 
@@ -32,7 +32,7 @@ export class Subscription {
     return this.props.plan;
   }
   set plan(value: string) {
-    if (!value) throw new DomainError("Plan is required");
+    if (!value) throw new DomainException("Plan is required");
     this.props.plan = value;
     this.touch();
   }

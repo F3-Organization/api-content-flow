@@ -1,4 +1,4 @@
-import { DomainError } from "@/domain/error";
+import { DomainException } from "@/domain/error";
 
 export interface TeamProps {
   id: string;
@@ -12,8 +12,8 @@ export class Team {
   private props: TeamProps;
 
   constructor(props: TeamProps) {
-    if (!props.ownerId) throw new DomainError("OwnerId is required");
-    if (!props.name) throw new DomainError("Name is required");
+    if (!props.ownerId) throw new DomainException("OwnerId is required");
+    if (!props.name) throw new DomainException("Name is required");
     this.props = { ...props };
   }
 
@@ -27,7 +27,7 @@ export class Team {
     return this.props.name;
   }
   set name(value: string) {
-    if (!value) throw new DomainError("Name is required");
+    if (!value) throw new DomainException("Name is required");
     this.props.name = value;
     this.touch();
   }

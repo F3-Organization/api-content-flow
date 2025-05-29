@@ -1,5 +1,5 @@
 import { Team } from '../../../domain/entities/team.entity';
-import { DomainError } from '../../../domain/error/domain.error';
+import { DomainException } from '../../../domain/error/domain.exception';
 
 describe('Team Entity', () => {
   const validProps = {
@@ -18,10 +18,10 @@ describe('Team Entity', () => {
   });
 
   it('should throw if ownerId is empty', () => {
-    expect(() => new Team({ ...validProps, ownerId: '' })).toThrow(DomainError);
+    expect(() => new Team({ ...validProps, ownerId: '' })).toThrow(DomainException);
   });
   it('should throw if name is empty', () => {
-    expect(() => new Team({ ...validProps, name: '' })).toThrow(DomainError);
+    expect(() => new Team({ ...validProps, name: '' })).toThrow(DomainException);
   });
 
   it('should update name and updatedAt', async () => {

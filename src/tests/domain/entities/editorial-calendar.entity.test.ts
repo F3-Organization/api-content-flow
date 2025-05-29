@@ -1,5 +1,5 @@
 import { EditorialCalendar, month } from '@/domain/entities/editorial-calendar.entity';
-import { DomainError } from '@/domain/error/domain.error';
+import { DomainException } from '@/domain/error/domain.exception';
 
 describe('EditorialCalendar Entity', () => {
   const validProps = {
@@ -20,14 +20,14 @@ describe('EditorialCalendar Entity', () => {
   });
 
   it('should throw if userId is empty', () => {
-    expect(() => new EditorialCalendar({ ...validProps, userId: '' })).toThrow(DomainError);
+    expect(() => new EditorialCalendar({ ...validProps, userId: '' })).toThrow(DomainException);
   });
   it('should throw if month is invalid', () => {
-    expect(() => new EditorialCalendar({ ...validProps, month: 0 as month})).toThrow(DomainError);
-    expect(() => new EditorialCalendar({ ...validProps, month: 13 as month})).toThrow(DomainError);
+    expect(() => new EditorialCalendar({ ...validProps, month: 0 as month})).toThrow(DomainException);
+    expect(() => new EditorialCalendar({ ...validProps, month: 13 as month})).toThrow(DomainException);
   });
   it('should throw if year is invalid', () => {
-    expect(() => new EditorialCalendar({ ...validProps, year: 1999 })).toThrow(DomainError);
+    expect(() => new EditorialCalendar({ ...validProps, year: 1999 })).toThrow(DomainException);
   });
 
   it('should update month and updatedAt', async () => {

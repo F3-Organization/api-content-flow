@@ -1,5 +1,5 @@
 import { Integration, IntegrationType } from '../../../domain/entities/integration.entity';
-import { DomainError } from '../../../domain/error/domain.error';
+import { DomainException } from '../../../domain/error/domain.exception';
 
 describe('Integration Entity', () => {
   const validProps = {
@@ -22,13 +22,13 @@ describe('Integration Entity', () => {
   });
 
   it('should throw if userId is empty', () => {
-    expect(() => new Integration({ ...validProps, userId: '' })).toThrow(DomainError);
+    expect(() => new Integration({ ...validProps, userId: '' })).toThrow(DomainException);
   });
   it('should throw if type is empty', () => {
-    expect(() => new Integration({ ...validProps, type: '' as any })).toThrow(DomainError);
+    expect(() => new Integration({ ...validProps, type: '' as any })).toThrow(DomainException);
   });
   it('should throw if accessToken is empty', () => {
-    expect(() => new Integration({ ...validProps, accessToken: '' })).toThrow(DomainError);
+    expect(() => new Integration({ ...validProps, accessToken: '' })).toThrow(DomainException);
   });
 
   it('should update accessToken and updatedAt', async () => {

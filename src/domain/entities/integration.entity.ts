@@ -1,4 +1,4 @@
-import { DomainError } from "@/domain/error";
+import { DomainException } from "@/domain/error";
 
 export type IntegrationType =
   | "wordpress"
@@ -38,7 +38,7 @@ export class Integration {
     return this.props.accessToken;
   }
   set accessToken(value: string) {
-    if (!value) throw new DomainError("AccessToken is required");
+    if (!value) throw new DomainException("AccessToken is required");
     this.props.accessToken = value;
     this.touch();
   }
@@ -69,8 +69,8 @@ export class Integration {
     this.props.updatedAt = new Date();
   }
   private validateProps(props: IntegrationProps) {
-    if (!props.userId) throw new DomainError("UserId is required");
-    if (!props.type) throw new DomainError("Type is required");
-    if (!props.accessToken) throw new DomainError("AccessToken is required");
+    if (!props.userId) throw new DomainException("UserId is required");
+    if (!props.type) throw new DomainException("Type is required");
+    if (!props.accessToken) throw new DomainException("AccessToken is required");
   }
 }

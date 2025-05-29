@@ -1,4 +1,4 @@
-import { DomainError } from "@/domain/error";
+import { DomainException } from "@/domain/error";
 
 export interface MetricProps {
   id: string;
@@ -32,28 +32,28 @@ export class Metric {
     return this.props.views;
   }
   set views(value: number) {
-    if (value < 0) throw new DomainError("Views must be >= 0");
+    if (value < 0) throw new DomainException("Views must be >= 0");
     this.props.views = value;
   }
   get likes() {
     return this.props.likes;
   }
   set likes(value: number) {
-    if (value < 0) throw new DomainError("Likes must be >= 0");
+    if (value < 0) throw new DomainException("Likes must be >= 0");
     this.props.likes = value;
   }
   get comments() {
     return this.props.comments;
   }
   set comments(value: number) {
-    if (value < 0) throw new DomainError("Comments must be >= 0");
+    if (value < 0) throw new DomainException("Comments must be >= 0");
     this.props.comments = value;
   }
   get shares() {
     return this.props.shares;
   }
   set shares(value: number) {
-    if (value < 0) throw new DomainError("Shares must be >= 0");
+    if (value < 0) throw new DomainException("Shares must be >= 0");
     this.props.shares = value;
   }
   get collectedAt() {
@@ -61,11 +61,11 @@ export class Metric {
   }
 
   private validateProps(props: MetricProps): void {
-    if (!props.userId) throw new DomainError("UserId is required");
-    if (!props.contentId) throw new DomainError("ContentId is required");
-    if (props.views < 0) throw new DomainError("Views must be >= 0");
-    if (props.likes < 0) throw new DomainError("Likes must be >= 0");
-    if (props.comments < 0) throw new DomainError("Comments must be >= 0");
-    if (props.shares < 0) throw new DomainError("Shares must be >= 0");
+    if (!props.userId) throw new DomainException("UserId is required");
+    if (!props.contentId) throw new DomainException("ContentId is required");
+    if (props.views < 0) throw new DomainException("Views must be >= 0");
+    if (props.likes < 0) throw new DomainException("Likes must be >= 0");
+    if (props.comments < 0) throw new DomainException("Comments must be >= 0");
+    if (props.shares < 0) throw new DomainException("Shares must be >= 0");
   }
 }

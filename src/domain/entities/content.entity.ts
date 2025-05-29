@@ -1,4 +1,4 @@
-import { DomainError } from "@/domain/error";
+import { DomainException } from "@/domain/error";
 
 export type ContentFormat = "blog" | "social" | "email";
 
@@ -31,7 +31,7 @@ export class Content {
     return this.props.title;
   }
   set title(value: string) {
-    if (!value) throw new DomainError("Title is required");
+    if (!value) throw new DomainException("Title is required");
     this.props.title = value;
     this.touch();
   }
@@ -39,7 +39,7 @@ export class Content {
     return this.props.body;
   }
   set body(value: string) {
-    if (!value) throw new DomainError("Body is required");
+    if (!value) throw new DomainException("Body is required");
     this.props.body = value;
     this.touch();
   }
@@ -47,7 +47,7 @@ export class Content {
     return this.props.format;
   }
   set format(value: ContentFormat) {
-    if (!value) throw new DomainError("Format is required");
+    if (!value) throw new DomainException("Format is required");
     this.props.format = value;
     this.touch();
   }
@@ -70,9 +70,9 @@ export class Content {
   }
 
   private validateProps(props: ContentProps) {
-    if (!props.userId) throw new DomainError("UserId is required");
-    if (!props.title) throw new DomainError("Title is required");
-    if (!props.body) throw new DomainError("Body is required");
-    if (!props.format) throw new DomainError("Format is required");
+    if (!props.userId) throw new DomainException("UserId is required");
+    if (!props.title) throw new DomainException("Title is required");
+    if (!props.body) throw new DomainException("Body is required");
+    if (!props.format) throw new DomainException("Format is required");
   }
 }

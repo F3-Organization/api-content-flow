@@ -1,4 +1,4 @@
-import { DomainError } from "@/domain/error";
+import { DomainException } from "@/domain/error";
 
 export type TeamMemberRole = "owner" | "admin" | "member";
 
@@ -33,7 +33,7 @@ export class TeamMember {
     return this.props.role;
   }
   set role(value: TeamMemberRole) {
-    if (!value) throw new DomainError("Role is required");
+    if (!value) throw new DomainException("Role is required");
     this.props.role = value;
   }
   get invitedAt() {
@@ -53,8 +53,8 @@ export class TeamMember {
   }
 
   private validateProps(props: TeamMemberProps) {
-    if (!props.teamId) throw new DomainError("TeamId is required");
-    if (!props.userId) throw new DomainError("UserId is required");
-    if (!props.role) throw new DomainError("Role is required");
+    if (!props.teamId) throw new DomainException("TeamId is required");
+    if (!props.userId) throw new DomainException("UserId is required");
+    if (!props.role) throw new DomainException("Role is required");
   }
 }

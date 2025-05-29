@@ -36,13 +36,7 @@ export class CreateExpress {
     return this.app;
   }
 
-  private setPort() {
-    this.getApp().listen(env.api_port, () => {
-      console.log(`INFO - Server is running on ${env.api_url}`);
-    });
-  }
-
-  private getRoutes() {
+  getRoutes() {
     this.getApp()._router.stack.forEach((route: any) => {
       if (route.route) {
         console.log(
@@ -57,6 +51,12 @@ export class CreateExpress {
           }
         });
       }
+    });
+  }
+
+  private setPort() {
+    this.getApp().listen(env.api_port, () => {
+      console.log(`INFO - Server is running on ${env.api_url}`);
     });
   }
 

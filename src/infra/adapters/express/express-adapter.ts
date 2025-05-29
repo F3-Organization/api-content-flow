@@ -25,7 +25,7 @@ export class ExpressAdapter implements IExpressAdapter {
         this.handleControllerResponse(result, res);
       } catch (err) {
         const error = err;
-        this.expressHandlerError(err, res);
+        this.expressHandlerError(error, res);
       }
     };
 

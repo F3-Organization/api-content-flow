@@ -11,4 +11,6 @@ export const env = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
   },
+  api_url: process.env.API_URL,
+  api_port: Number(process.env.API_PORT),
 };

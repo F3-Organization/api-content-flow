@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import { ExpressAdapter } from "./express-adapter";
 import { ExpressAdapterNamespace } from "./interfaces/express-adapter-interface";
+import { env } from "@/config/env";
 
 export interface RouteConfig {
   method: ExpressAdapterNamespace.method;
@@ -15,6 +16,7 @@ export class CreateExpress {
   constructor(private readonly app: Application) {
     this.expressAdapter = new ExpressAdapter(this.app);
     this.setMiddlewares();
+    this.setPort();
   }
 
   async on(config: RouteConfig): Promise<void> {
@@ -32,6 +34,30 @@ export class CreateExpress {
 
   getApp(): Application {
     return this.app;
+  }
+
+  private setPort() {
+    this.getApp().listen(env.api_port, () => {
+      console.log(`INFO - Server is running on ${env.api_url}`);
+    });
+  }
+
+  private getRoutes() {
+    this.getApp()._router.stack.forEach((route: any) => {
+      if (route.route) {
+        console.log(
+          `Route: ${route.route.path}, Method: ${route.route.methods}`
+        );
+      } else if (route.name === "router") {
+        route.handle.forEach((handler: any) => {
+          if (handler.route) {
+            console.log(
+              `Route: ${handler.route.path}, Method: ${handler.route.methods}`
+            );
+          }
+        });
+      }
+    });
   }
 
   private async setMiddlewares(): Promise<void> {

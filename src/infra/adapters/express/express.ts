@@ -2,15 +2,9 @@ import express, { Application } from "express";
 import { ExpressAdapter } from "./express-adapter";
 import { ExpressAdapterNamespace } from "./interfaces/express-adapter.interface";
 import { env } from "@/config/env";
+import { ICreateExpress, RouteConfig } from "./interfaces/express.interface";
 
-export interface RouteConfig {
-  method: ExpressAdapterNamespace.method;
-  url: string;
-  controller: ExpressAdapterNamespace.controller;
-  middlewares?: ExpressAdapterNamespace.middleware[];
-}
-
-export class CreateExpress {
+export class CreateExpress implements ICreateExpress {
   private expressAdapter: ExpressAdapter;
 
   constructor(private readonly app: Application) {
@@ -34,24 +28,6 @@ export class CreateExpress {
 
   getApp(): Application {
     return this.app;
-  }
-
-  getRoutes() {
-    this.getApp()._router.stack.forEach((route: any) => {
-      if (route.route) {
-        console.log(
-          `Route: ${route.route.path}, Method: ${route.route.methods}`
-        );
-      } else if (route.name === "router") {
-        route.handle.forEach((handler: any) => {
-          if (handler.route) {
-            console.log(
-              `Route: ${handler.route.path}, Method: ${handler.route.methods}`
-            );
-          }
-        });
-      }
-    });
   }
 
   private setPort() {

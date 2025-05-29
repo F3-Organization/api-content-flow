@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 import { ExpressAdapter } from "./express-adapter";
-import { ExpressAdapterNamespace } from "./interfaces/express-adapter-interface";
+import { ExpressAdapterNamespace } from "./interfaces/express-adapter.interface";
 import { env } from "@/config/env";
 
 export interface RouteConfig {

@@ -3,7 +3,7 @@ import {
   ExpressAdapterNamespace,
   IExpressAdapter,
   IResponse,
-} from "./interfaces/express-adapter-interface";
+} from "./interfaces/express-adapter.interface";
 
 export class ExpressAdapter implements IExpressAdapter {
   private app: Application;

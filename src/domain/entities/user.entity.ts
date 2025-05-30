@@ -10,7 +10,6 @@ export interface UserProps {
   emailVerified: boolean;
   role: UserRole;
   avatar?: string;
-  createdAt: Date;
   updatedAt: Date;
 }
 
@@ -82,9 +81,6 @@ export class User {
   }
   set setAvatar(value: string) {
     this.props.avatar = value;
-  }
-  get createdAt() {
-    return this.props.createdAt;
   }
   get updatedAt() {
     return this.props.updatedAt;

@@ -3,14 +3,17 @@ dotenv.config();
 
 export const env = {
   time_zone: process.env.TZ,
-  client: process.env.DB,
-  connection: {
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT),
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+  database: {
+    client: process.env.DB,
+    connection: {
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    },
   },
   api_url: process.env.API_URL,
   api_port: Number(process.env.API_PORT),
+  secret: process.env.JWT_SECRET
 };

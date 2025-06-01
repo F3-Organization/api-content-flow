@@ -20,6 +20,7 @@ describe("User Entity", () => {
     id: "user-invalid",
     name: "Test User",
     email: new Email("test@example.com"),
+    cpf: new CPF("03257820240"),
     isActive: true,
     emailVerified: false,
     role: new UserRole(userRoleEnum.admin),
@@ -35,7 +36,7 @@ describe("User Entity", () => {
     expect(user.getEmail).toBe(validProps.email);
     expect(user.getIsActive).toBe(true);
     expect(user.getEmailVerified).toBe(false);
-    expect(user.getRoleValue).toBe("member");
+    expect(user.getRole.getRoleValue).toBe("member");
   });
 
   it("should throw error if name is empty", () => {
@@ -53,20 +54,20 @@ describe("User Entity", () => {
 
   it("should update name and updatedAt", async () => {
     const user = new User(validProps);
-    const oldUpdatedAt = user.updatedAt;
+    const oldUpdatedAt = user.getUpdatedAt;
     await new Promise((r) => setTimeout(r, 2));
     user.setName = "New Name";
     expect(user.getName).toBe("New Name");
-    expect(user.updatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
+    expect(user.getUpdatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
   });
 
   it("should update email and updatedAt", async () => {
     const user = new User(validProps);
-    const oldUpdatedAt = user.updatedAt;
+    const oldUpdatedAt = user.getUpdatedAt;
     await new Promise((r) => setTimeout(r, 2));
     user.setEmail = "new@example.com";
     expect(user.getEmail.getValue).toBe("new@example.com");
-    expect(user.updatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
+    expect(user.getUpdatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
   });
 
 
@@ -87,7 +88,7 @@ describe("User Entity", () => {
   it("should update role", () => {
     const user = new User(validProps);
     user.setRole = userRoleEnum.admin;
-    expect(user.getRoleValue).toBe("admin");
+    expect(user.getRole.getRoleValue).toBe("admin");
   });
 
   it("should throw error for invalid CPF", () => {

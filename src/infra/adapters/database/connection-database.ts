@@ -49,7 +49,9 @@ export class ConnectionDatabase implements IConnectionDatabase {
 
   async raw<T = any>(params: rawType): Promise<T[]> {
     return this.transaction<T[]>(async (trx) => {
-      const result = await trx.raw(params.sql, params.params);
+      let result;
+      if (params.params) result = await trx.raw(params.sql, params.params);
+      else result = await trx.raw(params.sql);
       return result as T[];
     });
   }

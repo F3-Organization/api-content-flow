@@ -4,9 +4,9 @@ export interface AuthenticationProps {
   id: string;
   userId: string;
   provider: AuthProvider;
-  passwordHash?: string;
-  accessToken?: string;
-  refreshToken?: string;
+  passwordHash: string;
+  accessToken: string;
+  refreshToken: string;
   createdAt: Date;
   updatedAt: Date;
 }

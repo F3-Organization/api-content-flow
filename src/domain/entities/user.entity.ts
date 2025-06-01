@@ -5,7 +5,7 @@ export interface UserProps {
   id: string;
   name: string;
   email: Email;
-  cpf: CPF;
+  cpf?: CPF;
   isActive: boolean;
   emailVerified: boolean;
   role: UserRole;
@@ -22,7 +22,7 @@ export class User {
   }
 
   get getId() {
-    return this.props.id;
+    return this.props.id!;
   }
   get getName() {
     return this.props.name;
@@ -40,7 +40,7 @@ export class User {
     this.props.email = new Email(value);
     this.touch();
   }
-  get setCpf() {
+  get getCpf() {
     return this.props.cpf;
   }
 
@@ -66,11 +66,8 @@ export class User {
     this.props.emailVerified = true;
     this.touch();
   }
-  get getRoleValue() {
-    return this.props.role.getRoleValue;
-  }
   get getRole() {
-    return this.props.role.getRole;
+    return this.props.role;
   }
   set setRole(value: userRoleEnum) {
     this.props.role = new UserRole(value);
@@ -82,7 +79,7 @@ export class User {
   set setAvatar(value: string) {
     this.props.avatar = value;
   }
-  get updatedAt() {
+  get getUpdatedAt() {
     return this.props.updatedAt;
   }
 

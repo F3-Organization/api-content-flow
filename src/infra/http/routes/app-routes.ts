@@ -1,9 +1,12 @@
 import { CreateExpress } from "@/infra/adapters/express/express";
 import { Route } from "./interfaces/route.interface";
+import { UserRoutes } from "./user-routes";
 
 export class AppRoutes implements Route {
   constructor(private http: CreateExpress) {
     this.setup();
   }
-  setup(): void {}
+  async setup(): Promise<void> {
+    new UserRoutes(this.http);
+  }
 }

@@ -16,7 +16,7 @@ export type queryType = {
   offset?: number;
   limit?: number;
 };
-export type rawType = { sql: string; params: Record<string, any> };
+export type rawType = { sql: string; params?: Record<string, any> };
 
 export type insertType = {
   table: string;

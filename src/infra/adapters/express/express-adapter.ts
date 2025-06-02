@@ -48,7 +48,7 @@ export class ExpressAdapter implements IExpressAdapter {
   }
 
   private handleControllerResponse(result: IResponse, res: any): void {
-    const { statusCode = 200, data, message, success = true, error } = result;
+    const { statusCode = HttpStatus.OK, data, message, success = true, error } = result;
 
     const response: any = { success };
 

@@ -5,6 +5,7 @@ import {
   IResponse,
 } from "./interfaces/express-adapter.interface";
 import { DomainException } from "@/domain/error";
+import { HttpStatus } from "@/infra/http/protocols.enum";
 
 export class ExpressAdapter implements IExpressAdapter {
   private app: Application;
@@ -36,7 +37,7 @@ export class ExpressAdapter implements IExpressAdapter {
 
   private expressHandlerError(error: any, res: any) {
     res
-      .status(error.statusCode || 500)
+      .status(error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR)
       .json({ message: error.message || "Internal Server Error" });
   }
 

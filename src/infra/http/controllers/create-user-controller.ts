@@ -22,7 +22,7 @@ export class CreateUserController implements IController {
     } catch (err) {
       const error = err as DomainException;
       return {
-        statusCode: error.statusCode,
+        statusCode: error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR,
         message: error.message,
         success: false,
       };

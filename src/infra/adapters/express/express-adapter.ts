@@ -4,6 +4,7 @@ import {
   IExpressAdapter,
   IResponse,
 } from "./interfaces/express-adapter.interface";
+import { DomainException } from "@/domain/error";
 
 export class ExpressAdapter implements IExpressAdapter {
   private app: Application;
@@ -24,7 +25,7 @@ export class ExpressAdapter implements IExpressAdapter {
         const result = await controller(req);
         this.handleControllerResponse(result, res);
       } catch (err) {
-        const error = err;
+        const error = err as DomainException;
         this.expressHandlerError(error, res);
       }
     };
@@ -35,7 +36,7 @@ export class ExpressAdapter implements IExpressAdapter {
 
   private expressHandlerError(error: any, res: any) {
     res
-      .status(error.status || 500)
+      .status(error.statusCode || 500)
       .json({ message: error.message || "Internal Server Error" });
   }
 

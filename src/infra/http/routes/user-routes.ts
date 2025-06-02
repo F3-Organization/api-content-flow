@@ -13,7 +13,7 @@ export class UserRoutes implements Route {
   async setup(): Promise<void> {
     await this.http.on({
       method: "post",
-      url: "/create-user",
+      url: this.basePath + "/create-user",
       controller: async (req: any) => {
         return await this.createUserController.execute(req);
       },

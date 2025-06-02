@@ -1,7 +1,7 @@
 import { IRepositoryFactory } from "@/application/factories";
 import { IUseCase } from "../intefaces/usecase.interface";
 import { IUserRepository } from "@/application/repositories";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import {
   Authentication,
   AuthProvider,
@@ -16,46 +16,42 @@ import {
   generatePasswordHash,
   generateRefreshToken,
 } from "@/infra/services";
+import { HttpStatus } from "@/infra/http/protocols.enum";
+import { DomainException } from "@/domain/error";
 
 export class CreateUserUseCase implements IUseCase {
   private userRepository: IUserRepository;
   constructor(private repositoryFactory: IRepositoryFactory) {
     this.userRepository = this.repositoryFactory.createUserRepository();
   }
-  async execute(input: {
-    user: ICreateUserNamespace.CreateUser;
-    auth: ICreateUserNamespace.CreateAuth;
-  }): Promise<any> {
-    const { user, authentication } = await this.buildUser(
-      input.user,
-      input.auth
-    );
+  async execute(input: ICreateUserNamespace.Input): Promise<any> {
+    const { user, authentication } = await this.buildUser(input);
     const { userData, authData } = this.buildInput(user, authentication);
-
+    const users = await this.userRepository.getByEmail(input.email);
+    if (users) {
+      throw new DomainException("User already exists", HttpStatus.BAD_REQUEST);
+    }
     await this.userRepository.createUser(userData, authData);
   }
 
-  private async buildUser(
-    inputUser: ICreateUserNamespace.CreateUser,
-    inputAuth: ICreateUserNamespace.CreateAuth
-  ) {
+  private async buildUser(input: ICreateUserNamespace.Input) {
     const user = new User({
       id: uuidv4(),
-      name: inputUser.name,
-      email: new Email(inputUser.email),
-      cpf: new CPF(inputUser.cpf),
-      isActive: inputUser.isActive,
-      emailVerified: inputUser.emailVerified,
-      role: new UserRole(inputUser.role),
-      avatar: inputUser.avatar,
+      name: input.name,
+      email: new Email(input.email),
+      cpf: input.cpf ? new CPF(input.cpf) : null,
+      isActive: input.isActive || false,
+      emailVerified: input.emailVerified || false,
+      role: new UserRole(input.role),
+      avatar: input.avatar,
       updatedAt: new Date(),
     });
 
     const authentication = new Authentication({
       id: uuidv4(),
       userId: user.getId,
-      provider: inputAuth.provider as AuthProvider,
-      passwordHash: await generatePasswordHash(inputAuth.passwordHash),
+      provider: input.provider as AuthProvider,
+      passwordHash: await generatePasswordHash(input.password),
       accessToken: await generateAccessToken(user.getId),
       refreshToken: await generateRefreshToken(user.getId),
       createdAt: new Date(),

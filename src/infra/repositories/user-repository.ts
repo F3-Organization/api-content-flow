@@ -8,6 +8,7 @@ export class UserRepository implements IUserRepository {
   constructor(private connection: ConnectionDatabase) {
     this.userDAODatabase = new UserDAODatabase(this.connection);
   }
+
   async createUser(
     user: IUserRepositoryNamespace.CreateUser,
     auth: IUserRepositoryNamespace.CreateAuth
@@ -18,6 +19,11 @@ export class UserRepository implements IUserRepository {
       formattedAuth
     );
     return result;
+  }
+
+  async getByEmail(email: string): Promise<any> {
+    const result = await this.userDAODatabase.getByEmail(email);
+    return result
   }
 
   private formatToDatabase(
@@ -37,7 +43,7 @@ export class UserRepository implements IUserRepository {
     };
     const formattedAuth = {
       id: auth.id,
-      userId: auth.userId,
+      user_id: auth.userId,
       provider: auth.provider,
       password_hash: auth.passwordHash,
       access_token: auth.accessToken,

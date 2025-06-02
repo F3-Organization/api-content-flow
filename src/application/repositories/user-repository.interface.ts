@@ -30,4 +30,5 @@ export interface IUserRepository {
     user: IUserRepositoryNamespace.CreateUser,
     auth: IUserRepositoryNamespace.CreateAuth
   ): Promise<void>;
+  getByEmail(email: string): Promise<any>;
 }

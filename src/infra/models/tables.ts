@@ -1,6 +1,6 @@
 export namespace Table {
-  export const User = "content-flow.users";
-  export const Authentication = "content-flow.authentications"
+  export const User = "users";
+  export const Authentication = "authentications";
 }
 
 export namespace Models {
@@ -11,7 +11,7 @@ export namespace Models {
 export interface UserModel {
   id?: string;
   name: string;
-  cpf: string;
+  cpf?: string;
   is_active: boolean;
   email_verified: boolean;
   role: string;
@@ -20,11 +20,11 @@ export interface UserModel {
 }
 
 export interface AuthenticationModel {
-  id?: string,
-  user_id?: string,
-  provider?: string
-  password_hash: string,
-  refresh_token?: string,
-  created_at?: Date,
-  updated_at?: Date
+  id?: string;
+  user_id?: string;
+  provider?: string;
+  password_hash: string;
+  refresh_token?: string;
+  created_at?: Date;
+  updated_at?: Date;
 }

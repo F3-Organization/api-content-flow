@@ -1,11 +1,17 @@
 import { DomainException } from "@/domain/error/index";
-import { CPF, Email, UserRole, userRoleEnum } from "@/domain/entities/value-objects";
+import {
+  CPF,
+  Email,
+  UserRole,
+  userRoleEnum,
+} from "@/domain/entities/value-objects";
+import { HttpStatus } from "@/infra/http/protocols.enum";
 
 export interface UserProps {
   id: string;
   name: string;
   email: Email;
-  cpf?: CPF;
+  cpf?: CPF | null;
   isActive: boolean;
   emailVerified: boolean;
   role: UserRole;
@@ -88,10 +94,9 @@ export class User {
   }
 
   private validateProps(props: UserProps) {
-    if (!props.name) throw new DomainException("Name is required");
-    if (!props.email) throw new DomainException("Email is required");
-    if (!props.cpf) throw new DomainException("CPF is required");
-    if (!(props.cpf instanceof CPF))
-      throw new DomainException("CPF must be a valid CPF value object");
+    if (!props.name)
+      throw new DomainException("Name is required", HttpStatus.BAD_REQUEST);
+    if (!props.email)
+      throw new DomainException("Email is required", HttpStatus.BAD_REQUEST);
   }
 }

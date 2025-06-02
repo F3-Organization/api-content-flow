@@ -1,6 +1,8 @@
 import { IResponse } from "@/infra/adapters/express/interfaces/express-adapter.interface";
 import { IController } from "./interfaces/controller.interface";
 import { CreateUserUseCase, IRepositoryFactory, IUseCase } from "@/application";
+import { HttpStatus } from "../protocols.enum";
+import { DomainException } from "@/domain/error";
 
 export class CreateUserController implements IController {
   private createUser: IUseCase;
@@ -12,15 +14,16 @@ export class CreateUserController implements IController {
       const params = this.getParams(req);
       await this.createUser.execute(params);
       const res: IResponse = {
-        statusCode: 200,
+        statusCode: HttpStatus.CREATED,
         message: "User created successfully",
         success: true,
       };
       return res;
-    } catch (error) {
+    } catch (err) {
+      const error = err as DomainException;
       return {
-        statusCode: 500,
-        message: "An unexpected error occurred",
+        statusCode: error.statusCode,
+        message: error.message,
         success: false,
       };
     }
@@ -31,8 +34,8 @@ export class CreateUserController implements IController {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
+      role: req.body.role,
       provider: req.body.provider,
-      cpf: req.body.cpf,
     };
   }
 }

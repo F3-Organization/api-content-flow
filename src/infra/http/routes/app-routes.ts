@@ -7,6 +7,7 @@ export class AppRoutes implements Route {
     this.setup();
   }
   async setup(): Promise<void> {
-    new UserRoutes(this.http);
+    const basePath = "/api";
+    new UserRoutes(this.http, basePath);
   }
 }

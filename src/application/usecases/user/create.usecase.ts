@@ -11,11 +11,7 @@ import {
   UserRole,
 } from "@/domain/entities";
 import { ICreateUserNamespace } from "./interfaces/create-user.usecase.interface";
-import {
-  generateAccessToken,
-  generatePasswordHash,
-  generateRefreshToken,
-} from "@/infra/services";
+import { generatePasswordHash, generateToken } from "@/infra/services";
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { DomainException } from "@/domain/error";
 
@@ -52,8 +48,8 @@ export class CreateUserUseCase implements IUseCase {
       userId: user.getId,
       provider: input.provider as AuthProvider,
       passwordHash: await generatePasswordHash(input.password),
-      accessToken: await generateAccessToken(user.getId),
-      refreshToken: await generateRefreshToken(user.getId),
+      accessToken: await generateToken(user.getId),
+      refreshToken: await generateToken(user.getId),
       createdAt: new Date(),
       updatedAt: new Date(),
     });

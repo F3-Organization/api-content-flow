@@ -30,6 +30,12 @@ export class Authentication {
   set setPasswordHash(password: string) {
     this.props.passwordHash = password;
   }
+  set setAccessToken(token: string) {
+    this.props.accessToken = token;
+  }
+  set setRefreshToken(token: string) {
+    this.props.refreshToken = token;
+  }
   get getPasswordHash() {
     return this.props.passwordHash;
   }

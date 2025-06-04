@@ -1,5 +1,5 @@
 import { IRepositoryFactory } from "@/application/factories";
-import { IUseCase } from "../intefaces/usecase.interface";
+import { IUseCase } from "../usecase.interface";
 import { IUserRepository } from "@/application/repositories";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -48,8 +48,19 @@ export class CreateUserUseCase implements IUseCase {
       userId: user.getId,
       provider: input.provider as AuthProvider,
       passwordHash: await generatePasswordHash(input.password),
-      accessToken: await generateToken(user.getId),
-      refreshToken: await generateToken(user.getId),
+      accessToken: await generateToken({
+        userId: user.getId,
+        email: user.getEmail.getValue,
+        role: user.getRole.getRoleValue,
+      }),
+      refreshToken: await generateToken(
+        {
+          userId: user.getId,
+          email: user.getEmail.getValue,
+          role: user.getRole.getRoleValue,
+        },
+        "30d"
+      ),
       createdAt: new Date(),
       updatedAt: new Date(),
     });

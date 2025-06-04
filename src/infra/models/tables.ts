@@ -9,22 +9,24 @@ export namespace Models {
 }
 
 export interface UserModel {
-  id?: string;
+  id: string;
   name: string;
+  email: string;
   cpf?: string;
   is_active: boolean;
   email_verified: boolean;
   role: string;
   avatar?: string;
-  updated_at?: Date;
+  updated_at: Date;
 }
 
 export interface AuthenticationModel {
-  id?: string;
-  user_id?: string;
-  provider?: string;
+  id: string;
+  user_id: string;
+  provider: string;
   password_hash: string;
-  refresh_token?: string;
-  created_at?: Date;
-  updated_at?: Date;
+  access_token: string;
+  refresh_token: string;
+  created_at: Date;
+  updated_at: Date;
 }

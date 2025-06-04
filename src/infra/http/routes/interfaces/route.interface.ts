@@ -1,3 +1,3 @@
-export interface Route {
+export interface IRoute {
   setup(): Promise<void>;
 }

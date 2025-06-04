@@ -1,7 +1,8 @@
 import { IUserRepository, IUserRepositoryNamespace } from "@/application";
 import { UserDAODatabase } from "../dao/user-dao-database";
 import { ConnectionDatabase } from "../adapters/database/connection-database";
-import { UserRole } from "@/domain/entities";
+import { CPF, Email, User, UserRole, userRoleEnum } from "@/domain/entities";
+import { Models } from "../models/tables";
 
 export class UserRepository implements IUserRepository {
   private userDAODatabase: UserDAODatabase;
@@ -23,7 +24,8 @@ export class UserRepository implements IUserRepository {
 
   async getByEmail(email: string): Promise<any> {
     const result = await this.userDAODatabase.getByEmail(email);
-    return result
+    const output = this.buildEntry(result);
+    return output;
   }
 
   private formatToDatabase(
@@ -53,5 +55,19 @@ export class UserRepository implements IUserRepository {
     };
 
     return { formattedUser, formattedAuth };
+  }
+
+  private buildEntry(input: Models.User): User {
+    return new User({
+      id: input.id,
+      name: input.name,
+      email: new Email(input.email),
+      cpf: input.cpf ? new CPF(input.cpf) : undefined,
+      isActive: input.is_active,
+      emailVerified: input.email_verified,
+      role: new UserRole(userRoleEnum[input.role as keyof typeof userRoleEnum]),
+      avatar: input.avatar,
+      updatedAt: input.updated_at,
+    });
   }
 }

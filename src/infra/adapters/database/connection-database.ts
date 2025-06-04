@@ -4,6 +4,7 @@ import {
   insertType,
   queryType,
   rawType,
+  updateType,
 } from "./interfaces/connection-database.interface";
 
 export class ConnectionDatabase implements IConnectionDatabase {
@@ -62,6 +63,14 @@ export class ConnectionDatabase implements IConnectionDatabase {
         .insert(params.data)
         .returning("*");
       return result as T;
+    });
+  }
+
+  async update<T = any>(params: updateType<T>): Promise<void> {
+    await this.connection.update<T>({
+      table: params.table,
+      data: params.data,
+      where: params.where,
     });
   }
 }

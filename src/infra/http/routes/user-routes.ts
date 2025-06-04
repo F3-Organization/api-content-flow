@@ -1,9 +1,9 @@
 import { CreateExpress } from "@/infra/adapters/express/express";
-import { Route } from "./interfaces/route.interface";
+import { IRoute } from "./interfaces/route.interface";
 import { Factory } from "@/infra/factories/factory";
 import { CreateUserController } from "../controllers/create-user-controller";
 
-export class UserRoutes implements Route {
+export class UserRoutes implements IRoute {
   private createUserController: CreateUserController;
   constructor(private http: CreateExpress, private readonly basePath: string) {
     this.createUserController =

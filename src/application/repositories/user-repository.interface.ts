@@ -1,4 +1,4 @@
-import { AuthProvider, userRoleEnum } from "@/domain/entities";
+import { AuthProvider, User, userRoleEnum } from "@/domain/entities";
 
 export namespace IUserRepositoryNamespace {
   export interface CreateUser {
@@ -10,7 +10,7 @@ export namespace IUserRepositoryNamespace {
     emailVerified: boolean;
     role: userRoleEnum;
     avatar?: string;
-    updatedAt?: Date;
+    updatedAt: Date;
   }
 
   export interface CreateAuth {
@@ -30,5 +30,5 @@ export interface IUserRepository {
     user: IUserRepositoryNamespace.CreateUser,
     auth: IUserRepositoryNamespace.CreateAuth
   ): Promise<void>;
-  getByEmail(email: string): Promise<any>;
+  getByEmail(email: string): Promise<User>;
 }

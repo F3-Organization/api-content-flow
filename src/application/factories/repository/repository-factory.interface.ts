@@ -1,5 +1,6 @@
-import { IUserRepository } from "@/application/repositories";
+import { IAuthRepository, IUserRepository } from "@/application/repositories";
 
 export interface IRepositoryFactory {
   createUserRepository(): IUserRepository;
+  createAuthRepository(): IAuthRepository;
 }

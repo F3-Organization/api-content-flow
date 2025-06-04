@@ -5,7 +5,7 @@ import { AppRoutes } from "./http/routes/app-routes";
 function CreateServer() {
   const app = express();
   const expressAdapter = new CreateExpress(app);
-  new AppRoutes(expressAdapter)
+  new AppRoutes(expressAdapter);
 }
 
 CreateServer();

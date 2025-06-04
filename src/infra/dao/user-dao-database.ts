@@ -1,12 +1,12 @@
 import { UserDAO } from "@/application";
-import { ConnectionDatabase } from "../adapters/database/connection-database";
 import { Models, Table } from "../models/tables";
+import { IConnectionDatabase } from "../adapters/database/interfaces/connection-database.interface";
 
 export class UserDAODatabase implements UserDAO {
-  constructor(private readonly connection: ConnectionDatabase) {}
+  constructor(private readonly connection: IConnectionDatabase) {}
 
-  async getByEmail(email: string): Promise<any> {
-    const result: any = await this.connection.query<Models.User>({
+  async getByEmail(email: string): Promise<Models.User[]> {
+    const result = await this.connection.query<Models.User>({
       table: Table.User,
       where: { email: email },
     });

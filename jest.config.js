@@ -8,6 +8,7 @@ const config = {
   clearMocks: true,
   collectCoverage: false,
   coverageDirectory: "coverage",
+  testMatch: ["**/src/tests/**/*.test.ts"],
   collectCoverageFrom: ["src/**/*.{js,ts}"],
   coverageProvider: "v8",
   preset: "ts-jest",

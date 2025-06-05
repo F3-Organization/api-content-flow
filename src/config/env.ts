@@ -18,8 +18,9 @@ export const env = {
   secret: process.env.JWT_SECRET,
   messageBroker: {
     host: process.env.RABBITMQ_HOST,
+    port: Number(process.env.RABBITMQ_PORT),
     user: process.env.RABBITMQ_USER,
-    port: Number(process.env.RABBITMQ_PASS),
+    pass: process.env.RABBITMQ_PASS
   },
   smtp: {
     host: process.env.SMTP_HOST,

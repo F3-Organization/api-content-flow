@@ -36,7 +36,6 @@ describe("Create User Use Case", () => {
   });
 
   it("should return an error if user creation fails", async () => {
-    await useCase.execute(input);
     await expect(useCase.execute(input)).rejects.toThrow(
       new DomainException("User already exists", HttpStatus.BAD_REQUEST)
     );

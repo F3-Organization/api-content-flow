@@ -6,6 +6,7 @@ export interface IConnectionDatabase {
   raw<T = any>(params: rawType): Promise<T[]>;
   insert<T = any>(params: insertType): Promise<T>;
   update<T = any>(params: updateType<T>): Promise<void>;
+  getInstance(): Knex;
 }
 
 export type queryType = {

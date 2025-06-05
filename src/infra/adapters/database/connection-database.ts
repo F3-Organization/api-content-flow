@@ -10,6 +10,10 @@ import {
 export class ConnectionDatabase implements IConnectionDatabase {
   constructor(private readonly connection: knex.Knex) {}
 
+  getInstance(): knex.Knex {
+    return this.connection;
+  }
+
   async transaction<T>(
     callback: (trx: knex.Knex.Transaction) => Promise<T>
   ): Promise<T> {

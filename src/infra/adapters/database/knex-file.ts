@@ -1,5 +1,5 @@
-import { Knex, knex } from "knex";
-import { env } from "@/config/env";
+import { Knex } from "knex";
+import { env } from "../../../config/env";
 
 export const config: Knex.Config = {
   client: env.database.client,

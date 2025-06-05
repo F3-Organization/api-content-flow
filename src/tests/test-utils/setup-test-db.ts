@@ -1,9 +1,9 @@
-import { env } from "@/config/env";
 import { GenericContainer, StartedTestContainer } from "testcontainers";
 import path from "path";
 import fs from "fs/promises";
-import { ConnectionDatabase } from "@/infra/adapters/database/connection-database";
-import { KnexConnection } from "@/infra/adapters/database/connection";
+import { ConnectionDatabase } from "../../infra/adapters/database/connection-database";
+import { KnexConnection } from "../../infra/adapters/database/connection";
+import { env } from "../../config/env";
 
 let container: StartedTestContainer;
 let knexConnection: KnexConnection;

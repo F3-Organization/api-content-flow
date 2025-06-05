@@ -15,11 +15,7 @@ export class UserRepository implements IUserRepository {
     auth: IUserRepositoryNamespace.CreateAuth
   ): Promise<void> {
     const { formattedUser, formattedAuth } = this.formatToDatabase(user, auth);
-    const result = await this.userDAODatabase.createUser(
-      formattedUser,
-      formattedAuth
-    );
-    return result;
+    await this.userDAODatabase.createUser(formattedUser, formattedAuth);
   }
 
   async getByEmail(email: string): Promise<any> {
@@ -58,7 +54,7 @@ export class UserRepository implements IUserRepository {
   }
 
   private buildEntry(input: Models.User): User | undefined {
-    if (!input) return
+    if (!input) return;
     return new User({
       id: input.id,
       name: input.name,

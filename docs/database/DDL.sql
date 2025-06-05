@@ -2,7 +2,7 @@ CREATE TABLE users (
     id UUID PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    cpf VARCHAR(14) NOT NULL UNIQUE,
+    cpf VARCHAR(14) NULL UNIQUE,
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     email_verified BOOLEAN NOT NULL DEFAULT FALSE,
     role VARCHAR(10) NOT NULL CHECK (role IN ('admin', 'member')),

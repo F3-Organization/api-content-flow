@@ -57,7 +57,8 @@ export class UserRepository implements IUserRepository {
     return { formattedUser, formattedAuth };
   }
 
-  private buildEntry(input: Models.User): User {
+  private buildEntry(input: Models.User): User | undefined {
+    if (!input) return
     return new User({
       id: input.id,
       name: input.name,

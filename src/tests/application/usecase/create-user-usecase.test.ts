@@ -12,13 +12,13 @@ import {
 let factory: IFactory;
 let useCase: IUseCase;
 
-beforeEach(async () => {
+beforeAll(async () => {
   await startTestDB();
   factory = makeFactory(connection);
   useCase = new CreateUserUseCase(factory.repositoryFactory);
 });
 
-afterEach(async () => {
+afterAll(async () => {
   await stopTestDB();
 });
 

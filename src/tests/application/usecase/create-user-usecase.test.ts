@@ -1,3 +1,4 @@
+jest.setTimeout(2000)
 import { CreateUserUseCase, IFactory, IUseCase } from "@/application";
 import { DomainException } from "@/domain/error";
 import { makeFactory } from "@/infra/factories/factory";

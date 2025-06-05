@@ -15,6 +15,17 @@ services:
     depends_on:
       - database
 
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: contentflow-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+
+
   database:
     image: postgres:latest
     container_name: contentflow-db

@@ -15,5 +15,16 @@ export const env = {
   },
   api_url: process.env.API_URL,
   api_port: Number(process.env.API_PORT),
-  secret: process.env.JWT_SECRET
+  secret: process.env.JWT_SECRET,
+  messageBroker: {
+    host: process.env.RABBITMQ_HOST,
+    user: process.env.RABBITMQ_USER,
+    port: Number(process.env.RABBITMQ_PASS),
+  },
+  smtp: {
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    user: process.env.SMTP_USER,
+    password: process.env.SMTP_PASS,
+  }
 };

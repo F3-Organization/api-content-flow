@@ -44,7 +44,6 @@ export class UserRepository implements IUserRepository {
       user_id: auth.userId,
       provider: auth.provider,
       password_hash: auth.passwordHash,
-      access_token: auth.accessToken,
       refresh_token: auth.refreshToken,
       created_at: auth.createdAt,
       updated_at: auth.updatedAt,

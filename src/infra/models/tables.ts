@@ -25,7 +25,6 @@ export interface AuthenticationModel {
   user_id: string;
   provider: string;
   password_hash: string;
-  access_token: string;
   refresh_token: string;
   created_at: Date;
   updated_at: Date;

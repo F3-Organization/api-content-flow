@@ -5,7 +5,6 @@ export interface AuthenticationProps {
   userId: string;
   provider: AuthProvider;
   passwordHash: string;
-  accessToken: string;
   refreshToken: string;
   createdAt: Date;
   updatedAt: Date;
@@ -30,17 +29,11 @@ export class Authentication {
   set setPasswordHash(password: string) {
     this.props.passwordHash = password;
   }
-  set setAccessToken(token: string) {
-    this.props.accessToken = token;
-  }
   set setRefreshToken(token: string) {
     this.props.refreshToken = token;
   }
   get getPasswordHash() {
     return this.props.passwordHash;
-  }
-  get getAccessToken() {
-    return this.props.accessToken;
   }
   get getRefreshToken() {
     return this.props.refreshToken;

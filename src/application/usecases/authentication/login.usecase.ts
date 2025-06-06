@@ -27,33 +27,14 @@ export class LoginUseCase implements IUseCase {
     if (!passwordMatch) {
       throw new DomainException("Invalid password", HttpStatus.UNAUTHORIZED);
     }
-    await this.validateTokens(auth, user);
+    const accessToken = generateToken({
+      userId: user.getId,
+      email: user.getEmail,
+      role: user.getRole
+    }, "1h")
     return {
-      accessToken: auth.getAccessToken,
-      refreshToken: auth.getRefreshToken,
-    };
-  }
-
-  private async validateTokens(auth: Authentication, user: User) {
-    const isTokenAccessValid = verifyToken(auth.getAccessToken);
-    const isTokenRefreshValid = verifyToken(auth.getRefreshToken);
-    if (!isTokenAccessValid) {
-      if (!isTokenRefreshValid) {
-        auth.setRefreshToken = generateToken(
-          {
-            userId: user.getId,
-            email: user.getEmail.getValue,
-            role: user.getRole.getRoleValue,
-          },
-          "30d"
-        );
-      }
-      auth.setAccessToken = generateToken({
-        userId: user.getId,
-        email: user.getEmail.getValue,
-        role: user.getRole.getRoleValue,
-      });
-      await this.authRepository.update(auth);
+      accessToken: accessToken,
+      refreshToken: auth.getRefreshToken
     }
   }
 }

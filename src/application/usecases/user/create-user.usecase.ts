@@ -48,11 +48,6 @@ export class CreateUserUseCase implements IUseCase {
       userId: user.getId,
       provider: input.provider as AuthProvider,
       passwordHash: await generatePasswordHash(input.password),
-      accessToken: await generateToken({
-        userId: user.getId,
-        email: user.getEmail.getValue,
-        role: user.getRole.getRoleValue,
-      }),
       refreshToken: await generateToken(
         {
           userId: user.getId,
@@ -85,7 +80,6 @@ export class CreateUserUseCase implements IUseCase {
       userId: authentication.getUserId,
       provider: authentication.getProvider,
       passwordHash: authentication.getPasswordHash,
-      accessToken: authentication.getAccessToken,
       refreshToken: authentication.getRefreshToken,
       createdAt: authentication.createdAt,
       updatedAt: authentication.updatedAt,

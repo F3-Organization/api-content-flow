@@ -18,7 +18,6 @@ export namespace IUserRepositoryNamespace {
     userId: string;
     provider: AuthProvider;
     passwordHash: string;
-    accessToken: string;
     refreshToken: string;
     createdAt: Date;
     updatedAt: Date;

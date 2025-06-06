@@ -1,13 +1,14 @@
+import { env } from "@/config/env";
 import { NodemailerAdapter } from "../adapters/nodemailer/nodemailer-adapter";
 import { RabbitMQAdapter } from "../adapters/rabbitmq/rabbitmq-adapter";
 
 const rabbitMQ = new RabbitMQAdapter(process.env.RABBITMQ_URL!);
 const nodemailerAdapter = new NodemailerAdapter({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
+  host: env.messageBroker.host,
+  port: Number(env.messageBroker.port),
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    user: env.messageBroker.user,
+    pass: env.messageBroker.pass,
   },
 });
 

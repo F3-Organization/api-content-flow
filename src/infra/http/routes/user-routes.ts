@@ -1,6 +1,6 @@
 import { CreateExpress } from "@/infra/adapters/express/express";
 import { IRoute } from "./interfaces/route.interface";
-import { CreateUserController } from "../controllers/create-user-controller";
+import { CreateUserController } from "../controllers/create-user.controller";
 import { IFactory } from "@/application";
 
 export class UserRoutes implements IRoute {

@@ -15,7 +15,6 @@ CREATE TABLE authentications (
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     provider VARCHAR(20) NOT NULL CHECK (provider IN ('local', 'google', 'github')),
     password_hash VARCHAR(255),
-    access_token TEXT,
     refresh_token TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

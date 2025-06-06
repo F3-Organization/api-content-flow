@@ -7,8 +7,7 @@ import { env } from "@/config/env";
 import { makeFactory } from "./factories/factory";
 
 function CreateServer() {
-  const app = express();
-  const expressAdapter = new CreateExpress(app);
+  const expressAdapter = new CreateExpress();
   const kenx = new KnexConnection(env.database);
   const connection = new ConnectionDatabase(kenx.knexInstance);
   const factory = makeFactory(connection);

@@ -35,7 +35,7 @@ export class ExpressAdapter implements IExpressAdapter {
     else routerMethod(url, expressHandler);
   }
 
-  private expressHandlerError(error: any, res: any) {
+  private expressHandlerError(error: DomainException | any, res: any) {
     res
       .status(error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR)
       .json({ message: error.message || "Internal Server Error" });

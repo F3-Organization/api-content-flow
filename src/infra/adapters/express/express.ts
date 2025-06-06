@@ -6,8 +6,10 @@ import { ICreateExpress, RouteConfig } from "./interfaces/express.interface";
 
 export class CreateExpress implements ICreateExpress {
   private expressAdapter: ExpressAdapter;
+  private app: Application;
 
-  constructor(private readonly app: Application) {
+  constructor() {
+    this.app = express()
     this.expressAdapter = new ExpressAdapter(this.app);
     this.setMiddlewares();
     this.setPort();

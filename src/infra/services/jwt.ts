@@ -1,12 +1,28 @@
 import jwt from "jsonwebtoken";
 import { env } from "@/config/env";
 import type { StringValue } from "ms";
+import { User } from "@/domain/entities";
 
-export function generateToken(payload: Object, expiresIn?: StringValue) {
+export interface TokenPayload {
+  userId: string;
+  email: string;
+  role: string;
+}
+
+export function generateToken(user: User, expiresIn?: StringValue) {
+  const payload = buildPayload(user);
   return jwt.sign(payload, env.secret!, {
     algorithm: "HS256",
     expiresIn: expiresIn || "1d",
   });
+}
+
+function buildPayload(user: User): TokenPayload {
+  return {
+    userId: user.getId,
+    email: user.getEmail.getValue,
+    role: user.getRole.getRoleValue
+  }
 }
 
 export function verifyToken(token: string) {
@@ -16,4 +32,9 @@ export function verifyToken(token: string) {
   } catch (err) {
     return false;
   }
+}
+
+export function decodeToken(token: string): TokenPayload  {
+  const decoded = jwt.decode(token, { complete: true })
+  return decoded?.payload as TokenPayload;
 }

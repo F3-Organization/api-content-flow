@@ -48,14 +48,7 @@ export class CreateUserUseCase implements IUseCase {
       userId: user.getId,
       provider: input.provider as AuthProvider,
       passwordHash: await generatePasswordHash(input.password),
-      refreshToken: await generateToken(
-        {
-          userId: user.getId,
-          email: user.getEmail.getValue,
-          role: user.getRole.getRoleValue,
-        },
-        "30d"
-      ),
+      refreshToken: await generateToken(user, "30d"),
       createdAt: new Date(),
       updatedAt: new Date(),
     });

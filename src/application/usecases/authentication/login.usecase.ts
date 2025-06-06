@@ -28,25 +28,17 @@ export class LoginUseCase implements IUseCase {
       throw new DomainException("Invalid password", HttpStatus.UNAUTHORIZED);
     }
     const { accessToken, refreshToken } = this.setTokens(user);
-    auth.setRefreshToken = refreshToken
-    await this.authRepository.update(auth)
+    auth.setRefreshToken = refreshToken;
+    await this.authRepository.update(auth);
     return {
       accessToken: accessToken,
-      refreshToken: refreshToken
-    }
+      refreshToken: refreshToken,
+    };
   }
 
   private setTokens(user: User) {
-    const accessToken = generateToken({
-      userId: user.getId,
-      email: user.getEmail,
-      role: user.getRole
-    }, "1h")
-    const refreshToken = generateToken({
-      userId: user.getId,
-      email: user.getEmail,
-      role: user.getRole
-    })
-    return { accessToken, refreshToken }
+    const accessToken = generateToken(user, "1h");
+    const refreshToken = generateToken(user, "30d");
+    return { accessToken, refreshToken };
   }
 }

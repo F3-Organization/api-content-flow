@@ -4,8 +4,8 @@ import { IAuthRepository, IUserRepository } from "@/application/repositories";
 import { AuthenticationNamespace } from "./interfaces/authentication.interface";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
-import { comparePassword, generateToken, verifyToken } from "@/infra/services";
-import { Authentication, User } from "@/domain/entities";
+import { comparePassword, generateToken } from "@/infra/services";
+import { User } from "@/domain/entities";
 
 export class LoginUseCase implements IUseCase {
   private userRepository: IUserRepository;
@@ -27,14 +27,26 @@ export class LoginUseCase implements IUseCase {
     if (!passwordMatch) {
       throw new DomainException("Invalid password", HttpStatus.UNAUTHORIZED);
     }
+    const { accessToken, refreshToken } = this.setTokens(user);
+    auth.setRefreshToken = refreshToken
+    await this.authRepository.update(auth)
+    return {
+      accessToken: accessToken,
+      refreshToken: refreshToken
+    }
+  }
+
+  private setTokens(user: User) {
     const accessToken = generateToken({
       userId: user.getId,
       email: user.getEmail,
       role: user.getRole
     }, "1h")
-    return {
-      accessToken: accessToken,
-      refreshToken: auth.getRefreshToken
-    }
+    const refreshToken = generateToken({
+      userId: user.getId,
+      email: user.getEmail,
+      role: user.getRole
+    })
+    return { accessToken, refreshToken }
   }
 }

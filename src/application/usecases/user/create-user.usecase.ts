@@ -1,5 +1,5 @@
 import { IRepositoryFactory } from "@/application/factories";
-import { IUseCase } from "../usecase.interface";
+import { IUseCase } from "../interfaces/usecase.interface";
 import { IUserRepository } from "@/application/repositories";
 import { v4 as uuidv4 } from "uuid";
 import {

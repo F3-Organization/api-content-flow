@@ -8,7 +8,6 @@ import { RefreshAccessTokenNamespace } from "./interfaces";
 import { decodeToken, generateToken, verifyToken } from "@/infra/services";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
-import { AuthRepository } from "@/infra";
 import { User } from "@/domain/entities";
 
 export class RefreshAccessTokenUseCase implements IUseCase {

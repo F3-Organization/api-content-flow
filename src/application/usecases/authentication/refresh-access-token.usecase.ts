@@ -35,7 +35,7 @@ export class RefreshAccessTokenUseCase implements IUseCase {
       throw new DomainException("User not found", HttpStatus.NOT_FOUND);
     }
     const auth = await this.authRepository.getByUserId(decodedToken.userId);
-    const { newAccessToken, newRefreshToken } = this.updateTokens(user);
+    const { newAccessToken, newRefreshToken } = this.getTokens(user);
     auth.setRefreshToken = newRefreshToken;
     await this.authRepository.update(auth);
     return {
@@ -44,7 +44,7 @@ export class RefreshAccessTokenUseCase implements IUseCase {
     };
   }
 
-  private updateTokens(user: User) {
+  private getTokens(user: User) {
     const newAccessToken = generateToken(user, "1d");
     const newRefreshToken = generateToken(user, "30d");
     return { newAccessToken, newRefreshToken };

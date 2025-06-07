@@ -87,6 +87,7 @@ CREATE TABLE plan (
     id UUID PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     price DECIMAL(10,2) NOT NULL,
+    trial_days INTEGER NOT NULL DEFAULT 7,
     description TEXT,
     features JSONB, --- utilizado para armazenar os recursos do plano, ex: limite de usuários, limit de requisições etc
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -100,7 +101,8 @@ CREATE TABLE subscription (
     status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'inactive', 'canceled', 'expired')),
     renewal_date TIMESTAMP NOT NULL,
     auto_renew BOOLEAN NOT NULL DEFAULT FALSE,
-    trial_period TIMESTAMP NULL,
+    trial_start TIMESTAMP,
+    trial_end TIMESTAMP,
     is_trail BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

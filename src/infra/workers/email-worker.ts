@@ -6,6 +6,8 @@ const rabbitMQ = new RabbitMQAdapter(process.env.RABBITMQ_URL!);
 const nodemailerAdapter = new NodemailerAdapter({
   host: env.messageBroker.host,
   port: Number(env.messageBroker.port),
+  secure: true,
+  service: "gmail",
   auth: {
     user: env.messageBroker.user,
     pass: env.messageBroker.pass,

@@ -1,15 +1,27 @@
 import nodemailer from "nodemailer";
 import { NodemailerAdapterInterface } from "./interfaces/nodemailer-adapter.interface";
 
+export namespace NodemailerAdapterNamespace {
+  export interface Config {
+    host?: string;
+    port: number;
+    secure: boolean;
+    service: string,
+    auth: {
+      user?: string;
+      pass?: string;
+    };
+  }
+}
 
 export class NodemailerAdapter implements NodemailerAdapterInterface {
   private transporter;
 
-  constructor(config: any) {
+  constructor(config: NodemailerAdapterNamespace.Config) {
     this.transporter = nodemailer.createTransport(config);
   }
 
-sendMail(options: {
+  sendMail(options: {
     to: string;
     subject: string;
     text?: string;

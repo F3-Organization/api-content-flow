@@ -83,13 +83,25 @@ CREATE TABLE publication (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE plan (
+    id UUID PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    price DECIMAL(10,2) NOT NULL,
+    description TEXT,
+    features JSONB, --- utilizado para armazenar os recursos do plano, ex: limite de usuários, limit de requisições etc
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE subscription (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    plan VARCHAR(100) NOT NULL,
+    plan_id UUID NOT NULL REFERENCES plan(id),
     status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'inactive', 'canceled', 'expired')),
     renewal_date TIMESTAMP NOT NULL,
     auto_renew BOOLEAN NOT NULL DEFAULT FALSE,
+    trial_period TIMESTAMP NULL,
+    is_trail BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

@@ -71,10 +71,8 @@ export class ConnectionDatabase implements IConnectionDatabase {
   }
 
   async update<T = any>(params: updateType<T>): Promise<void> {
-    await this.connection.update<T>({
-      table: params.table,
-      data: params.data,
-      where: params.where,
+    await this.transaction(async (trx) => {
+      await trx(params.table).update(params.data).where(params.where);
     });
   }
 }

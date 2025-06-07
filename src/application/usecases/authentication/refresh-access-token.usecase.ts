@@ -29,7 +29,7 @@ export class RefreshAccessTokenUseCase implements IUseCase {
         HttpStatus.UNAUTHORIZED
       );
     }
-    const decodedToken = decodeToken(refreshToken);
+    const decodedToken  = decodeToken(refreshToken);
     const user = await this.userRepository.getByEmail(decodedToken.email);
     if (!user) {
       throw new DomainException("User not found", HttpStatus.NOT_FOUND);

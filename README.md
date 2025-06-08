@@ -19,7 +19,7 @@ Clone o projeto para a sua máquina local:
 ```bash
 git clone https://github.com/ImFelipeOliveira/content-flow.git
 ```
-_Nota: O comando `cd api-content-flow` assume que este é o diretório raiz do projeto da API após o clone. Ajuste se a estrutura do seu repositório for diferente._
+_Nota: O comando `api-content-flow` assume que este é o diretório raiz do projeto da API após o clone. Ajuste se a estrutura do seu repositório for diferente._
 
 ### 2. Instalar o nvm (Node Version Manager)
 O nvm permite gerenciar múltiplas versões do Node.js. Se ainda não o tiver, instale-o:

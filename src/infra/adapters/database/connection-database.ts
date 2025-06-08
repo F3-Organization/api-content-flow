@@ -15,7 +15,7 @@ export class ConnectionDatabase implements IConnectionDatabase {
   }
 
   async transaction<T>(
-    callback: (trx: knex.Knex.Transaction) => Promise<T>
+    callback: (trx: knex.Knex.Transaction) => Promise<T>,
   ): Promise<T> {
     return this.connection.transaction<T>(async (trx) => {
       return callback(trx);

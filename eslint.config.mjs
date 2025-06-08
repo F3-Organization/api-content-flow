@@ -1,14 +1,12 @@
 import js from "@eslint/js";
+import prettier from "eslint-config-prettier/flat";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-  {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
-    plugins: { js },
-    extends: ["js/recommended"],
-  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
     languageOptions: {
@@ -19,11 +17,9 @@ export default defineConfig([
         project: "./tsconfig.json",
       },
     },
-  },
-  tseslint.configs({
     rules: {
       "no-explicit-any": "off",
     },
-    ...tseslint.configs.recommended,
-  }),
+  },
+  prettier
 ]);

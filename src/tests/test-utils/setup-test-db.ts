@@ -19,7 +19,7 @@ export async function startTestDB() {
     .start();
 
   const config = {
-    client: env.database.client,
+    client: env.database.client || "pg",
     connection: {
       host: container.getHost(),
       port: container.getMappedPort(5432),

@@ -16,9 +16,9 @@ export default defineConfig([
         sourceType: "module",
         project: "./tsconfig.json",
       },
-    },
-    rules: {
-      "no-explicit-any": "off",
+      rules: {
+        "no-explicit-any": "off"
+      }
     },
   },
   prettier

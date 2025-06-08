@@ -1,9 +1,14 @@
-import { LoginUseCase, IFactory, IUseCase, CreateUserUseCase } from "@/application";
+import {
+  LoginUseCase,
+  IFactory,
+  IUseCase,
+  CreateUserUseCase,
+} from "@/application";
 import { makeFactory } from "@/infra/factories/factory";
 import {
-    startTestDB,
-    connection,
-    stopTestDB,
+  startTestDB,
+  connection,
+  stopTestDB,
 } from "@/tests/test-utils/setup-test-db";
 import { createUserMocks } from "@/tests/infra/mocks/create-user-mocks";
 import { DomainException } from "@/domain/error";
@@ -13,43 +18,46 @@ let factory: IFactory;
 let createUserUseCase: IUseCase;
 let loginUseCase: IUseCase;
 beforeAll(async () => {
-    await startTestDB();
-    factory = makeFactory(connection);
-    createUserUseCase = new CreateUserUseCase(factory.repositoryFactory);
-    loginUseCase = new LoginUseCase(factory.repositoryFactory);
-});
+  await startTestDB();
+  factory = makeFactory(connection);
+  createUserUseCase = new CreateUserUseCase(factory.repositoryFactory);
+  loginUseCase = new LoginUseCase(factory.repositoryFactory);
+}, 30000);
 
 afterAll(async () => {
-    await stopTestDB();
+  await stopTestDB();
 });
 
-
-describe('Authentication Use Case', () => {
-    it('should perform authentication correctly', async () => {
-        await createUserUseCase.execute(createUserMocks.validUser);
-        const output = await loginUseCase.execute({ 
-            email: createUserMocks.validUser.email, 
-            password: createUserMocks.validUser.password 
-        })
-        expect(output.accessToken).toBeDefined()
-        expect(output.refreshToken).toBeDefined()
+describe("Authentication Use Case", () => {
+  it("should perform authentication correctly", async () => {
+    await createUserUseCase.execute(createUserMocks.validUser);
+    const output = await loginUseCase.execute({
+      email: createUserMocks.validUser.email,
+      password: createUserMocks.validUser.password,
     });
+    expect(output.accessToken).toBeDefined();
+    expect(output.refreshToken).toBeDefined();
+  });
 
-    it("Should return an error if user not found", async () => {
-        await expect(loginUseCase.execute({ 
-            email: createUserMocks.invalidUser.email,
-            password: createUserMocks.invalidUser.password
-        })).rejects.toThrow(
-            new DomainException("User not found", HttpStatus.NOT_FOUND)
-        )
-    })
+  it("Should return an error if user not found", async () => {
+    await expect(
+      loginUseCase.execute({
+        email: createUserMocks.invalidUser.email,
+        password: createUserMocks.invalidUser.password,
+      }),
+    ).rejects.toThrow(
+      new DomainException("User not found", HttpStatus.NOT_FOUND),
+    );
+  });
 
-    it("Should return an error if password is incorrect", async () => {
-        await expect(loginUseCase.execute({ 
-            email: createUserMocks.validUser.email,
-            password: createUserMocks.invalidUser.password
-        })).rejects.toThrow(
-            new DomainException("Invalid password", HttpStatus.UNAUTHORIZED)
-        )
-    })
+  it("Should return an error if password is incorrect", async () => {
+    await expect(
+      loginUseCase.execute({
+        email: createUserMocks.validUser.email,
+        password: createUserMocks.invalidUser.password,
+      }),
+    ).rejects.toThrow(
+      new DomainException("Invalid password", HttpStatus.UNAUTHORIZED),
+    );
+  });
 });

@@ -35,7 +35,7 @@ beforeAll(async () => {
   user = await userRepository.getByEmail(createUserMocks.validUser.email);
   auth = await authRepository.getByUserId(user.getId);
   useCase = new RefreshAccessTokenUseCase(factory.repositoryFactory);
-});
+}, 30000);
 
 afterAll(async () => {
   await stopTestDB();
@@ -58,9 +58,9 @@ describe("Refresh Token Use Case", () => {
     await expect(
       useCase.execute({
         refreshToken: "invalid_token",
-      })
+      }),
     ).rejects.toThrow(
-      new DomainException("Invalid refresh token", HttpStatus.UNAUTHORIZED)
+      new DomainException("Invalid refresh token", HttpStatus.UNAUTHORIZED),
     );
   });
 });

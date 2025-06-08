@@ -15,7 +15,7 @@ beforeAll(async () => {
   await startTestDB();
   factory = makeFactory(connection);
   useCase = new CreateUserUseCase(factory.repositoryFactory);
-});
+}, 30000);
 
 afterAll(async () => {
   await stopTestDB();
@@ -36,7 +36,7 @@ describe("Create User Use Case", () => {
 
   it("should return an error if user creation fails", async () => {
     await expect(useCase.execute(input)).rejects.toThrow(
-      new DomainException("User already exists", HttpStatus.BAD_REQUEST)
+      new DomainException("User already exists", HttpStatus.BAD_REQUEST),
     );
   });
 });

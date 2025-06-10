@@ -1,4 +1,4 @@
-import { Application, IRouterMatcher } from "express";
+import { Application, IRouterMatcher, Router } from "express";
 import {
   ExpressAdapterNamespace,
   IExpressAdapter,
@@ -9,8 +9,11 @@ import { HttpStatus } from "@/infra/http/protocols.enum";
 
 export class ExpressAdapter implements IExpressAdapter {
   private app: Application;
+  private routes: Router;
   constructor(app: Application) {
     this.app = app;
+    this.routes = Router();
+    this.setBaseRoute();
   }
 
   async handlerRequest(
@@ -48,7 +51,13 @@ export class ExpressAdapter implements IExpressAdapter {
   }
 
   private handleControllerResponse(result: IResponse, res: any): void {
-    const { statusCode = HttpStatus.OK, data, message, success = true, error } = result;
+    const {
+      statusCode = HttpStatus.OK,
+      data,
+      message,
+      success = true,
+      error,
+    } = result;
 
     const response: any = { success };
 
@@ -82,5 +91,9 @@ export class ExpressAdapter implements IExpressAdapter {
     }
 
     return routerMethod;
+  }
+
+  private setBaseRoute() {
+    this.app.use("/api", this.routes);
   }
 }

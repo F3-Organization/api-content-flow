@@ -9,8 +9,7 @@ export class AppRoutes implements IRoute {
     this.setup();
   }
   async setup(): Promise<void> {
-    const basePath = "/api";
-    new UserRoutes(this.http, this.factory, basePath);
-    new AuthRoutes(this.http, this.factory, basePath);
+    new UserRoutes(this.http, this.factory);
+    new AuthRoutes(this.http, this.factory);
   }
 }

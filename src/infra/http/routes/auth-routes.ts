@@ -9,7 +9,6 @@ export class AuthRoutes implements IRoute {
   constructor(
     private http: CreateExpress,
     private factory: IFactory,
-    private readonly BasePath: string
   ) {
     this.createLoginController =
       this.factory.controllerFactory.createLoginController();
@@ -20,7 +19,7 @@ export class AuthRoutes implements IRoute {
   async setup(): Promise<void> {
     await this.http.on({
       method: "post",
-      url: this.BasePath + "/login",
+      url: "/login",
       controller: async (req: any) => {
         return await this.createLoginController.execute(req);
       },
@@ -28,7 +27,7 @@ export class AuthRoutes implements IRoute {
 
     await this.http.on({
       method: "post",
-      url: this.BasePath + "/refresh-access-token",
+      url: "/refresh-access-token",
       controller: async (req: any) => {
         return await this.createRefreshAccessTokenController.execute(req);
       },

@@ -1,10 +1,17 @@
-import { IFactory } from "@/application/factories/factory.interface";
-import { UserRepository } from "../repositories/user-repository";
-import { ConnectionDatabase } from "../adapters/database/connection-database";
-import { CreateUserController } from "../http/controllers/create-user.controller";
-import { AuthRepository } from "../repositories";
-import { LoginController } from "../http/controllers/login.controller";
-import { RefreshAccessTokenController } from "../http";
+import {
+  AuthRepository,
+  GetPlansController,
+  PlanRepository,
+  UserRepository,
+} from "@/infra";
+import {
+  ConnectionDatabase,
+  CreateUserController,
+  LoginController,
+  RefreshAccessTokenController,
+} from "@/infra";
+
+import { IFactory } from "@/application";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
   const Factory: IFactory = {
@@ -13,6 +20,7 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
     repositoryFactory: {
       createUserRepository: () => new UserRepository(connection),
       createAuthRepository: () => new AuthRepository(connection),
+      createPlanRepository: () => new PlanRepository(connection),
     },
 
     controllerFactory: {
@@ -22,6 +30,8 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
         new LoginController(Factory.repositoryFactory),
       createRefreshAccessTokenController: () =>
         new RefreshAccessTokenController(Factory.repositoryFactory),
+      createGetPlansController: () =>
+        new GetPlansController(Factory.repositoryFactory),
     },
   };
   return Factory;

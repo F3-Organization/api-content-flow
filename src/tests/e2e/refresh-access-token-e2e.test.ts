@@ -21,13 +21,22 @@ afterAll(async () => {
   await stopTestDB();
 });
 
-describe("Login End-to-End Tests", () => {
-  it("should successfully log in a user", async () => {
+describe("Refresh Access Token E2E Tests", () => {
+  it("should refresh access token successfully", async () => {
     await request(app).post("/api/register").send(createUserMocks.validUser);
-    const response = await request(app).post("/api/login").send({
+    const loginResponse = await request(app).post("/api/login").send({
       email: createUserMocks.validUser.email,
       password: createUserMocks.validUser.password,
     });
+    const response = await request(app)
+      .post("/api/refresh-access-token")
+      .send({ refreshToken: loginResponse.body.data.refreshToken });
     expect(response.status).toBe(HttpStatus.OK);
+    expect(response.body.data.accessToken).not.toBe(
+      loginResponse.body.data.accessToken,
+    );
+    expect(response.body.data.refreshToken).not.toEqual(
+      loginResponse.body.data.refreshToken,
+    );
   });
 });

@@ -21,13 +21,11 @@ afterAll(async () => {
   await stopTestDB();
 });
 
-describe("Login End-to-End Tests", () => {
-  it("should successfully log in a user", async () => {
-    await request(app).post("/api/register").send(createUserMocks.validUser);
-    const response = await request(app).post("/api/login").send({
-      email: createUserMocks.validUser.email,
-      password: createUserMocks.validUser.password,
-    });
-    expect(response.status).toBe(HttpStatus.OK);
+describe("User Registration E2E Tests", () => {
+  it("should register a user successfully", async () => {
+    const response = await request(app)
+        .post("/api/register")
+        .send(createUserMocks.validUser);
+    expect(response.status).toBe(HttpStatus.CREATED);
   });
 });

@@ -10,23 +10,15 @@ export class LoginController implements IController {
     this.login = new LoginUseCase(this.repositoryFactory);
   }
   async execute(req: any): Promise<IResponse> {
-    try {
-      const params = this.getParam(req);
-      await this.login.execute(params);
-      const res: IResponse = {
-        statusCode: HttpStatus.OK,
-        message: "Login successful",
-        success: true,
-      };
-      return res;
-    } catch (err) {
-      const error = err as DomainException;
-      return {
-        statusCode: error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR,
-        message: error.message,
-        success: false,
-      };
-    }
+    const params = this.getParam(req);
+    const output = await this.login.execute(params);
+    const res: IResponse = {
+      statusCode: HttpStatus.OK,
+      message: "Login successful",
+      data: output,
+      success: true,
+    };
+    return res;
   }
   private getParam(req: any) {
     return {

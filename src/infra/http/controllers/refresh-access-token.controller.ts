@@ -7,14 +7,13 @@ export class RefreshAccessTokenController implements IController {
   private refreshAccessTokenUseCase: RefreshAccessTokenUseCase;
   constructor(private repositoryFactory: IRepositoryFactory) {
     this.refreshAccessTokenUseCase = new RefreshAccessTokenUseCase(
-      this.repositoryFactory
+      this.repositoryFactory,
     );
   }
   async execute(req: any): Promise<IResponse> {
     try {
-      const output = await this.refreshAccessTokenUseCase.execute(
-        req.body.refreshToken
-      );
+      const input = { refreshToken: req.body.refreshToken };
+      const output = await this.refreshAccessTokenUseCase.execute(input);
       return {
         data: output,
         message: "Token refreshed successfully",

@@ -5,6 +5,7 @@ export interface ICreateExpress {
   on(config: RouteConfig): Promise<void>;
   use(middleware: ExpressAdapterNamespace.middleware): Promise<void>;
   getApp(): Application;
+  getServer(): any;
 }
 
 export interface RouteConfig {

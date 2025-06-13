@@ -10,15 +10,18 @@ import { HttpStatus } from "@/infra/http/protocols.enum";
 import { createUserMocks } from "../infra/mocks/create-user-mocks";
 
 let app: Application;
+let server: any;
 
 beforeAll(async () => {
   await startTestDB();
   const express = startTestHttp(connection);
   app = express.getApp();
+  server = express.getServer();
 });
 
 afterAll(async () => {
   await stopTestDB();
+  server.close();
 });
 
 describe("Refresh Access Token E2E Tests", () => {

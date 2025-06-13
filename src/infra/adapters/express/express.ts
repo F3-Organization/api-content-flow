@@ -7,11 +7,12 @@ import { ICreateExpress, RouteConfig } from "./interfaces/express.interface";
 export class CreateExpress implements ICreateExpress {
   private expressAdapter: ExpressAdapter;
   private app: Application;
+  server: any;
 
   constructor() {
     this.app = express();
     this.setMiddlewares();
-    this.setPort();
+    this.setServer();
     this.expressAdapter = new ExpressAdapter(this.app);
   }
 
@@ -32,8 +33,12 @@ export class CreateExpress implements ICreateExpress {
     return this.app;
   }
 
-  private setPort() {
-    this.getApp().listen(env.api_port, () => {
+  getServer() {
+    return this.server;
+  }
+
+  private setServer() {
+    this.server = this.getApp().listen(env.api_port, () => {
       console.log(`INFO - Server is running on ${env.api_url}`);
     });
   }

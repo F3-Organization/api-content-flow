@@ -16,13 +16,19 @@ export class LoginUseCase implements IUseCase {
   }
 
   async execute(input: AuthenticationNamespace.LoginInput): Promise<any> {
+    if (!input.email || !input.password) {
+      throw new DomainException(
+        "Email and password are required",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     const user = await this.userRepository.getByEmail(input.email);
     if (!user)
       throw new DomainException("User not found", HttpStatus.NOT_FOUND);
     const auth = await this.authRepository.getByUserId(user.getId);
     const passwordMatch = await comparePassword(
       input.password,
-      auth.getPasswordHash
+      auth.getPasswordHash,
     );
     if (!passwordMatch) {
       throw new DomainException("Invalid password", HttpStatus.UNAUTHORIZED);

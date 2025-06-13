@@ -49,9 +49,7 @@ describe("Refresh Token Use Case", () => {
     expect(output).toBeDefined();
     expect(output.accessToken).toBeDefined();
     expect(output.accessToken).toBeDefined();
-    expect(output.refreshToken).not.toEqual({
-      accessToken: auth.getRefreshToken,
-    });
+    expect(output.refreshToken).not.toEqual(auth.getRefreshToken);
   });
 
   it("shoul return an error if refresh token is invalid", async () => {

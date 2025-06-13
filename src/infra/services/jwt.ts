@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import jwt from "jsonwebtoken";
 import { env } from "@/config/env";
 import type { StringValue } from "ms";
@@ -7,6 +8,7 @@ export interface TokenPayload {
   userId: string;
   email: string;
   role: string;
+  jti: string;
 }
 
 export function generateToken(user: User, expiresIn?: StringValue) {
@@ -21,8 +23,9 @@ function buildPayload(user: User): TokenPayload {
   return {
     userId: user.getId,
     email: user.getEmail.getValue,
-    role: user.getRole.getRoleValue
-  }
+    role: user.getRole.getRoleValue,
+    jti: uuid(),
+  };
 }
 
 export function verifyToken(token: string) {
@@ -34,7 +37,7 @@ export function verifyToken(token: string) {
   }
 }
 
-export function decodeToken(token: string): TokenPayload  {
-  const decoded = jwt.decode(token, { complete: true })
+export function decodeToken(token: string): TokenPayload {
+  const decoded = jwt.decode(token, { complete: true });
   return decoded?.payload as TokenPayload;
 }

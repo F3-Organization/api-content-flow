@@ -1,4 +1,13 @@
-import { Application, IRouterMatcher } from "express";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+import path from "path";
+import {
+  Application,
+  IRouterMatcher,
+  Router,
+  Request,
+  Response,
+} from "express";
 import {
   ExpressAdapterNamespace,
   IExpressAdapter,
@@ -9,19 +18,23 @@ import { HttpStatus } from "@/infra/http/protocols.enum";
 
 export class ExpressAdapter implements IExpressAdapter {
   private app: Application;
+  private routes: Router;
   constructor(app: Application) {
     this.app = app;
+    this.routes = Router();
+    this.setBaseRoute();
+    this.setDocsRoute();
   }
 
   async handlerRequest(
     method: ExpressAdapterNamespace.method,
     url: ExpressAdapterNamespace.url,
     controller: ExpressAdapterNamespace.controller,
-    middlewares?: ExpressAdapterNamespace.middleware[]
+    middlewares?: ExpressAdapterNamespace.middleware[],
   ): Promise<void> {
     const routerMethod = this.methodsMapper(method);
 
-    const expressHandler = async (req: any, res: any) => {
+    const expressHandler = async (req: Request, res: Response) => {
       try {
         const result = await controller(req);
         this.handleControllerResponse(result, res);
@@ -38,17 +51,26 @@ export class ExpressAdapter implements IExpressAdapter {
   private expressHandlerError(error: DomainException | any, res: any) {
     res
       .status(error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: error.message || "Internal Server Error" });
+      .json({
+        success: false,
+        message: error.message || "Internal Server Error",
+      });
   }
 
   async middlewareHandler(
-    middleware: ExpressAdapterNamespace.middleware
+    middleware: ExpressAdapterNamespace.middleware,
   ): Promise<void> {
     this.app.use(middleware);
   }
 
   private handleControllerResponse(result: IResponse, res: any): void {
-    const { statusCode = HttpStatus.OK, data, message, success = true, error } = result;
+    const {
+      statusCode = HttpStatus.OK,
+      data,
+      message,
+      success = true,
+      error,
+    } = result;
 
     const response: any = { success };
 
@@ -63,16 +85,16 @@ export class ExpressAdapter implements IExpressAdapter {
   }
 
   private methodsMapper(
-    method: ExpressAdapterNamespace.method
+    method: ExpressAdapterNamespace.method,
   ): IRouterMatcher<any> {
     const methods = {
-      get: this.app.get.bind(this.app),
-      post: this.app.post.bind(this.app),
-      put: this.app.put.bind(this.app),
-      delete: this.app.delete.bind(this.app),
-      patch: this.app.patch.bind(this.app),
-      options: this.app.options.bind(this.app),
-      head: this.app.head.bind(this.app),
+      get: this.routes.get.bind(this.routes),
+      post: this.routes.post.bind(this.routes),
+      put: this.routes.put.bind(this.routes),
+      delete: this.routes.delete.bind(this.routes),
+      patch: this.routes.patch.bind(this.routes),
+      options: this.routes.options.bind(this.routes),
+      head: this.routes.head.bind(this.routes),
     };
 
     const routerMethod = methods[method as keyof typeof methods];
@@ -82,5 +104,20 @@ export class ExpressAdapter implements IExpressAdapter {
     }
 
     return routerMethod;
+  }
+
+  private setBaseRoute() {
+    this.app.use("/api", this.routes);
+  }
+
+  private setDocsRoute() {
+    const swaggerDocument = YAML.load(
+      path.join(__dirname, "../../../../swagger.yaml"),
+    );
+    this.app.use(
+      "/api/docs",
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerDocument),
+    );
   }
 }

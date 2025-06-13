@@ -7,12 +7,13 @@ import { ICreateExpress, RouteConfig } from "./interfaces/express.interface";
 export class CreateExpress implements ICreateExpress {
   private expressAdapter: ExpressAdapter;
   private app: Application;
+  server: any;
 
   constructor() {
-    this.app = express()
-    this.expressAdapter = new ExpressAdapter(this.app);
+    this.app = express();
     this.setMiddlewares();
-    this.setPort();
+    this.setServer();
+    this.expressAdapter = new ExpressAdapter(this.app);
   }
 
   async on(config: RouteConfig): Promise<void> {
@@ -20,7 +21,7 @@ export class CreateExpress implements ICreateExpress {
       config.method,
       config.url,
       config.controller,
-      config.middlewares
+      config.middlewares,
     );
   }
 
@@ -32,16 +33,18 @@ export class CreateExpress implements ICreateExpress {
     return this.app;
   }
 
-  private setPort() {
-    this.getApp().listen(env.api_port, () => {
+  getServer() {
+    return this.server;
+  }
+
+  private setServer() {
+    this.server = this.getApp().listen(env.api_port, () => {
       console.log(`INFO - Server is running on ${env.api_url}`);
     });
   }
 
   private async setMiddlewares(): Promise<void> {
-    await this.expressAdapter.middlewareHandler(express.json());
-    await this.expressAdapter.middlewareHandler(
-      express.urlencoded({ extended: true })
-    );
+    await this.app.use(express.json());
+    await this.app.use(express.urlencoded({ extended: true }));
   }
 }

@@ -10,23 +10,14 @@ export class CreateUserController implements IController {
     this.createUser = new CreateUserUseCase(this.repositoryFactory);
   }
   async execute(req: any): Promise<IResponse> {
-    try {
-      const params = this.getParams(req);
-      await this.createUser.execute(params);
-      const res: IResponse = {
-        statusCode: HttpStatus.CREATED,
-        message: "User created successfully",
-        success: true,
-      };
-      return res;
-    } catch (err) {
-      const error = err as DomainException;
-      return {
-        statusCode: error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR,
-        message: error.message,
-        success: false,
-      };
-    }
+    const params = this.getParams(req);
+    await this.createUser.execute(params);
+    const res: IResponse = {
+      statusCode: HttpStatus.CREATED,
+      message: "User created successfully",
+      success: true,
+    };
+    return res;
   }
 
   private getParams(req: any) {

@@ -19,17 +19,17 @@ export class RefreshAccessTokenUseCase implements IUseCase {
   }
 
   async execute(
-    input: RefreshAccessTokenNamespace.Input
+    input: RefreshAccessTokenNamespace.Input,
   ): Promise<RefreshAccessTokenNamespace.Output> {
     const { refreshToken } = input;
     const isRefreshTokenValid = verifyToken(refreshToken);
     if (!isRefreshTokenValid) {
       throw new DomainException(
         "Invalid refresh token",
-        HttpStatus.UNAUTHORIZED
+        HttpStatus.UNAUTHORIZED,
       );
     }
-    const decodedToken  = decodeToken(refreshToken);
+    const decodedToken = decodeToken(refreshToken);
     const user = await this.userRepository.getByEmail(decodedToken.email);
     if (!user) {
       throw new DomainException("User not found", HttpStatus.NOT_FOUND);

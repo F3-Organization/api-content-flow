@@ -8,7 +8,6 @@ export class UserRoutes implements IRoute {
   constructor(
     private http: CreateExpress,
     private factory: IFactory,
-    private readonly basePath: string
   ) {
     this.createUserController =
       this.factory.controllerFactory.createCreateUSerController();
@@ -17,7 +16,7 @@ export class UserRoutes implements IRoute {
   async setup(): Promise<void> {
     await this.http.on({
       method: "post",
-      url: this.basePath + "/create-user",
+      url: "/register",
       controller: async (req: any) => {
         return await this.createUserController.execute(req);
       },

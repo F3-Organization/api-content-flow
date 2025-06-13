@@ -7,6 +7,7 @@ export namespace Table {
 
 export namespace Models {
   export type User = UserModel;
+  export type Plan = PlanModel;
   export type Authentication = AuthenticationModel;
 }
 

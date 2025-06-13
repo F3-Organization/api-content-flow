@@ -16,7 +16,7 @@ export class UserRoutes implements IRoute {
   async setup(): Promise<void> {
     await this.http.on({
       method: "post",
-      url: "/create-user",
+      url: "/register",
       controller: async (req: any) => {
         return await this.createUserController.execute(req);
       },

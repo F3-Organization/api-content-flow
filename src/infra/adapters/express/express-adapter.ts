@@ -112,7 +112,7 @@ export class ExpressAdapter implements IExpressAdapter {
 
   private setDocsRoute() {
     const swaggerDocument = YAML.load(
-      path.join(__dirname, "../../../../swagger.yaml"),
+      path.join(__dirname, "../../../../swagger-bundled.yaml"),
     );
     this.app.use(
       "/api/docs",

@@ -3,14 +3,64 @@ info:
   title: Content Flow API
   version: 1.0.0
 servers:
-  - url: http://localhost:3000/api
+  - url: 'http://localhost:3000/api'
 tags:
   - name: Auth
     description: Autenticação
 paths:
   /register:
-    $ref: "./docs/swagger/authentication/register.yaml"
-
+    post:
+      tags:
+        - Auth
+      summary: Cria um novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: Test user
+                email:
+                  type: string
+                  default: Teste@example.com
+                password:
+                  type: string
+                role:
+                  type: integer
+                  default: 1
+                provider:
+                  type: string
+                  default: local
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+                    default: User created successfully
+          description: User created successfully
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    default: User already exists
+          description: User already exists
   /login:
     post:
       tags:
@@ -30,7 +80,7 @@ paths:
                   type: string
                   default: string
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
@@ -50,7 +100,7 @@ paths:
                       refreshToken:
                         type: string
           description: Login successful
-        "401":
+        '401':
           content:
             application/json:
               schema:
@@ -63,7 +113,7 @@ paths:
                     type: string
                     default: Invalid password
           description: Invalid password
-        "404":
+        '404':
           content:
             application/json:
               schema:
@@ -91,7 +141,7 @@ paths:
                 refreshToken:
                   type: string
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
@@ -111,7 +161,7 @@ paths:
                       refreshToken:
                         type: string
           description: Token refreshed successfully
-        "401":
+        '401':
           content:
             application/json:
               schema:

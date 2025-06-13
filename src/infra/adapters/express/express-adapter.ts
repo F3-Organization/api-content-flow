@@ -1,3 +1,6 @@
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+import path from "path";
 import {
   Application,
   IRouterMatcher,
@@ -20,6 +23,7 @@ export class ExpressAdapter implements IExpressAdapter {
     this.app = app;
     this.routes = Router();
     this.setBaseRoute();
+    this.setDocsRoute();
   }
 
   async handlerRequest(
@@ -47,7 +51,10 @@ export class ExpressAdapter implements IExpressAdapter {
   private expressHandlerError(error: DomainException | any, res: any) {
     res
       .status(error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: error.message || "Internal Server Error" });
+      .json({
+        success: false,
+        message: error.message || "Internal Server Error",
+      });
   }
 
   async middlewareHandler(
@@ -101,5 +108,16 @@ export class ExpressAdapter implements IExpressAdapter {
 
   private setBaseRoute() {
     this.app.use("/api", this.routes);
+  }
+
+  private setDocsRoute() {
+    const swaggerDocument = YAML.load(
+      path.join(__dirname, "../../../../swagger.yaml"),
+    );
+    this.app.use(
+      "/api/docs",
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerDocument),
+    );
   }
 }

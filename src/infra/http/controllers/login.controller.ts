@@ -9,6 +9,7 @@ export class LoginController implements IController {
   constructor(private repositoryFactory: IRepositoryFactory) {
     this.login = new LoginUseCase(this.repositoryFactory);
   }
+
   async execute(req: any): Promise<IResponse> {
     const params = this.getParam(req);
     const output = await this.login.execute(params);

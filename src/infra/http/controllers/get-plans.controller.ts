@@ -10,15 +10,10 @@ export class GetPlansController implements IController {
     this.useCase = new GetPlansUseCase(this.repositoryFactory);
   }
   async execute(req: any): Promise<IResponse> {
-    try {
-      const output = await this.useCase.execute();
-      return {
-        data: output,
-        success: true,
-      };
-    } catch (err) {
-      const error = err as DomainException;
-      return { success: false, error: error.message };
-    }
+    const output = await this.useCase.execute();
+    return {
+      data: output,
+      success: true,
+    };
   }
 }

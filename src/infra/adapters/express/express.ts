@@ -9,10 +9,10 @@ export class CreateExpress implements ICreateExpress {
   private app: Application;
 
   constructor() {
-    this.app = express()
-    this.expressAdapter = new ExpressAdapter(this.app);
+    this.app = express();
     this.setMiddlewares();
     this.setPort();
+    this.expressAdapter = new ExpressAdapter(this.app);
   }
 
   async on(config: RouteConfig): Promise<void> {
@@ -20,7 +20,7 @@ export class CreateExpress implements ICreateExpress {
       config.method,
       config.url,
       config.controller,
-      config.middlewares
+      config.middlewares,
     );
   }
 
@@ -39,9 +39,7 @@ export class CreateExpress implements ICreateExpress {
   }
 
   private async setMiddlewares(): Promise<void> {
-    await this.expressAdapter.middlewareHandler(express.json());
-    await this.expressAdapter.middlewareHandler(
-      express.urlencoded({ extended: true })
-    );
+    await this.app.use(express.json());
+    await this.app.use(express.urlencoded({ extended: true }));
   }
 }

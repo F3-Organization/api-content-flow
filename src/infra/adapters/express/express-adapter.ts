@@ -1,4 +1,10 @@
-import { Application, IRouterMatcher, Router } from "express";
+import {
+  Application,
+  IRouterMatcher,
+  Router,
+  Request,
+  Response,
+} from "express";
 import {
   ExpressAdapterNamespace,
   IExpressAdapter,
@@ -20,11 +26,11 @@ export class ExpressAdapter implements IExpressAdapter {
     method: ExpressAdapterNamespace.method,
     url: ExpressAdapterNamespace.url,
     controller: ExpressAdapterNamespace.controller,
-    middlewares?: ExpressAdapterNamespace.middleware[]
+    middlewares?: ExpressAdapterNamespace.middleware[],
   ): Promise<void> {
     const routerMethod = this.methodsMapper(method);
 
-    const expressHandler = async (req: any, res: any) => {
+    const expressHandler = async (req: Request, res: Response) => {
       try {
         const result = await controller(req);
         this.handleControllerResponse(result, res);
@@ -45,7 +51,7 @@ export class ExpressAdapter implements IExpressAdapter {
   }
 
   async middlewareHandler(
-    middleware: ExpressAdapterNamespace.middleware
+    middleware: ExpressAdapterNamespace.middleware,
   ): Promise<void> {
     this.app.use(middleware);
   }
@@ -72,16 +78,16 @@ export class ExpressAdapter implements IExpressAdapter {
   }
 
   private methodsMapper(
-    method: ExpressAdapterNamespace.method
+    method: ExpressAdapterNamespace.method,
   ): IRouterMatcher<any> {
     const methods = {
-      get: this.app.get.bind(this.app),
-      post: this.app.post.bind(this.app),
-      put: this.app.put.bind(this.app),
-      delete: this.app.delete.bind(this.app),
-      patch: this.app.patch.bind(this.app),
-      options: this.app.options.bind(this.app),
-      head: this.app.head.bind(this.app),
+      get: this.routes.get.bind(this.routes),
+      post: this.routes.post.bind(this.routes),
+      put: this.routes.put.bind(this.routes),
+      delete: this.routes.delete.bind(this.routes),
+      patch: this.routes.patch.bind(this.routes),
+      options: this.routes.options.bind(this.routes),
+      head: this.routes.head.bind(this.routes),
     };
 
     const routerMethod = methods[method as keyof typeof methods];

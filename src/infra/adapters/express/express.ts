@@ -39,7 +39,9 @@ export class CreateExpress implements ICreateExpress {
 
   private setServer() {
     this.server = this.getApp().listen(env.api_port, () => {
-      console.log(`INFO - Server is running on ${env.api_url}`);
+      console.log(
+        `INFO - Server is running on https://localhost:${env.api_port}`,
+      );
     });
   }
 

@@ -56,7 +56,7 @@ export interface SubscriptionModel {
   trial_end: Date | null;
   is_trial: boolean;
   created_at: Date;
-  end_date: Date;
+  updated_at: Date;
 }
 
 export interface PlanFeatures {

@@ -108,6 +108,28 @@ CREATE TABLE subscription (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE payments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL,
+    plan_id UUID NOT NULL,
+    subscription_id UUID,
+    amount NUMERIC(10,2) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    method VARCHAR(30) NOT NULL,
+    gateway_payment_id VARCHAR(100),
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    paid_at TIMESTAMP WITH TIME ZONE,
+    error_message TEXT,
+
+    CONSTRAINT fk_payments_user
+        FOREIGN KEY(user_id) REFERENCES users(id),
+    CONSTRAINT fk_payments_plan
+        FOREIGN KEY(plan_id) REFERENCES plans(id),
+    CONSTRAINT fk_payments_subscription
+        FOREIGN KEY(subscription_id) REFERENCES subscriptions(id)
+);
+
 CREATE TABLE team (
     id UUID PRIMARY KEY,
     owner_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,

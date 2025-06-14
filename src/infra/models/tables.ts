@@ -1,8 +1,8 @@
 export namespace Table {
-  export const User = "users";
-  export const Authentication = "authentications";
-  export const Plan = "plan";
-  export const Subscription = "subscription";
+  export const User = "content_flow.users";
+  export const Authentication = "content_flow.authentications";
+  export const Plan = "content_flow.plan";
+  export const Subscription = "content_flow.subscription";
 }
 
 export namespace Models {
@@ -59,7 +59,7 @@ export interface SubscriptionModel {
 export interface PlanFeatures {
   users: number;
   metrics: string[];
-  support: string[]
+  support: string[];
   integrations: string[];
   content_formats: string[];
   posts_per_month: string;

@@ -2,16 +2,10 @@ import { DomainException } from "@/domain/error";
 
 export type SubscriptionStatus = "active" | "inactive" | "canceled" | "expired";
 
-export enum PlanEnum {
-  "BASIC" = 1,
-  "STANDARD" = 2,
-  "PREMIUM" = 3,
-}
-
 export interface SubscriptionProps {
   id: string;
   userId: string;
-  planId: PlanEnum;
+  planId: string;
   status: SubscriptionStatus;
   renewalDate: Date;
   autoRenew: boolean;
@@ -39,7 +33,7 @@ export class Subscription {
   get planId() {
     return this.props.planId;
   }
-  set planId(value: PlanEnum) {
+  set planId(value: string) {
     if (!value) throw new DomainException("Plan is required");
     this.props.planId = value;
     this.touch();

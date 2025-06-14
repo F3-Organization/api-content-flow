@@ -1,5 +1,4 @@
 import {
-  PlanEnum,
   Subscription,
   SubscriptionProps,
   SubscriptionStatus,
@@ -9,7 +8,7 @@ describe("Subscription Entity", () => {
   const validProps: SubscriptionProps = {
     id: "sub-1",
     userId: "user-1",
-    planId: PlanEnum.BASIC,
+    planId: "id-1",
     status: "active" as SubscriptionStatus,
     renewalDate: new Date(),
     autoRenew: true,
@@ -37,8 +36,8 @@ describe("Subscription Entity", () => {
     const sub = new Subscription(validProps);
     const oldUpdatedAt = sub.updatedAt;
     await new Promise((r) => setTimeout(r, 2));
-    sub.planId = PlanEnum.PREMIUM;
-    expect(sub.planId).toBe(PlanEnum.PREMIUM);
+    sub.planId = "id-2"
+    expect(sub.planId).toBe("id-2");
     expect(sub.updatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
   });
 

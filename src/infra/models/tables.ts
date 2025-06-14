@@ -9,6 +9,7 @@ export namespace Models {
   export type User = UserModel;
   export type Plan = PlanModel;
   export type Authentication = AuthenticationModel;
+  export type Subscription = SubscriptionModel;
 }
 
 export interface UserModel {
@@ -50,7 +51,9 @@ export interface SubscriptionModel {
   plan_id: string;
   status: string;
   renewal_date: Date;
-  trial_period: Date | null;
+  auto_renew: boolean;
+  trial_start: Date | null;
+  trial_end: Date | null;
   is_trial: boolean;
   created_at: Date;
   end_date: Date;

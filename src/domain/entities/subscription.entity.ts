@@ -1,14 +1,23 @@
-import { DomainException } from '@/domain/error';
+import { DomainException } from "@/domain/error";
 
 export type SubscriptionStatus = "active" | "inactive" | "canceled" | "expired";
+
+export enum PlanEnum {
+  "BASIC" = 1,
+  "STANDARD" = 2,
+  "PREMIUM" = 3,
+}
 
 export interface SubscriptionProps {
   id: string;
   userId: string;
-  plan: string;
+  planId: PlanEnum;
   status: SubscriptionStatus;
   renewalDate: Date;
   autoRenew: boolean;
+  trialStart?: Date;
+  trialEnd?: Date;
+  isTrial: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -17,8 +26,7 @@ export class Subscription {
   private props: SubscriptionProps;
 
   constructor(props: SubscriptionProps) {
-    if (!props.userId) throw new DomainException("UserId is required");
-    if (!props.plan) throw new DomainException("Plan is required");
+    this.validateProps(props);
     this.props = { ...props };
   }
 
@@ -28,12 +36,12 @@ export class Subscription {
   get userId() {
     return this.props.userId;
   }
-  get plan() {
-    return this.props.plan;
+  get planId() {
+    return this.props.planId;
   }
-  set plan(value: string) {
+  set planId(value: PlanEnum) {
     if (!value) throw new DomainException("Plan is required");
-    this.props.plan = value;
+    this.props.planId = value;
     this.touch();
   }
   get status() {
@@ -79,5 +87,20 @@ export class Subscription {
 
   private touch() {
     this.props.updatedAt = new Date();
+  }
+
+  private validateProps(props: SubscriptionProps) {
+    if (!props.userId) {
+      throw new DomainException("UserId is required");
+    }
+    if (!props.planId) {
+      throw new DomainException("PlanId is required");
+    }
+    this.validateDates(props);
+  }
+
+  private validateDates(props: SubscriptionProps) {
+    if (!props.renewalDate)
+      throw new DomainException("Renewal date is required.");
   }
 }

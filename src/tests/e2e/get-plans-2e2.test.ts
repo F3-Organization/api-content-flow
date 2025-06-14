@@ -1,4 +1,3 @@
-import request from "supertest";
 import {
   startTestDB,
   connection,
@@ -6,6 +5,7 @@ import {
 } from "../test-utils/setup-test-db";
 import { startTestHttp } from "../test-utils/setup-test-http";
 import { Application } from "express";
+import request from "supertest";
 
 let app: Application;
 let server: any;

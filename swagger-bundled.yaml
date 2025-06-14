@@ -209,14 +209,21 @@ paths:
                             type: number
                           metrics:
                             type: array
+                            default: []
+                          support:
+                            type: array
+                            default: []
                           integrations:
                             type: array
+                            default: []
                           contentFormats:
                             type: array
+                            default: []
                           postsPerMonth:
                             type: string
                           editorialCalendar:
                             type: array
+                            default: []
                   createdAt:
                     type: string
                   updatedAt:

@@ -11,6 +11,7 @@ export interface PlanProps {
 export interface PlanFeatures {
   users: number;
   metrics: string[];
+  support: string[];
   integrations: string[];
   contentFormats: string[];
   postsPerMonth: string;

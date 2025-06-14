@@ -24,6 +24,7 @@ export class PlanRepository implements IPlanRepository {
       features: {
         users: entity.features.users,
         metrics: entity.features.metrics,
+        support: entity.features.support,
         integrations: entity.features.integrations,
         contentFormats: entity.features.content_formats,
         postsPerMonth: entity.features.posts_per_month,

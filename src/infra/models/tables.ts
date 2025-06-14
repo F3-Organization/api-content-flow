@@ -59,6 +59,7 @@ export interface SubscriptionModel {
 export interface PlanFeatures {
   users: number;
   metrics: string[];
+  support: string[]
   integrations: string[];
   content_formats: string[];
   posts_per_month: string;

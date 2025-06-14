@@ -125,9 +125,9 @@ CREATE TABLE payments (
     CONSTRAINT fk_payments_user
         FOREIGN KEY(user_id) REFERENCES users(id),
     CONSTRAINT fk_payments_plan
-        FOREIGN KEY(plan_id) REFERENCES plans(id),
+        FOREIGN KEY(plan_id) REFERENCES plan(id),
     CONSTRAINT fk_payments_subscription
-        FOREIGN KEY(subscription_id) REFERENCES subscriptions(id)
+        FOREIGN KEY(subscription_id) REFERENCES subscription(id)
 );
 
 CREATE TABLE team (

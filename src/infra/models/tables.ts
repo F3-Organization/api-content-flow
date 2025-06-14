@@ -37,8 +37,9 @@ export interface PlanModel {
   id: string;
   name: string;
   price: number;
+  trial_days: number;
   description: string;
-  features: Object; // Definir estrutura
+  features: PlanFeatures;
   created_at: Date;
   updated_at: Date;
 }
@@ -53,4 +54,13 @@ export interface SubscriptionModel {
   is_trial: boolean;
   created_at: Date;
   end_date: Date;
+}
+
+export interface PlanFeatures {
+  users: number;
+  metrics: string[];
+  integrations: string[];
+  content_formats: string[];
+  posts_per_month: string;
+  editorial_calendar: string[];
 }

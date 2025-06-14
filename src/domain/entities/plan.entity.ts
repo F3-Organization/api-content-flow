@@ -3,9 +3,18 @@ export interface PlanProps {
   name: string;
   price: number;
   description: string;
-  features: Object;
+  features: PlanFeatures;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface PlanFeatures {
+  users: number;
+  metrics: string[];
+  integrations: string[];
+  contentFormats: string[];
+  postsPerMonth: string;
+  editorialCalendar: string[];
 }
 
 export class Plan {
@@ -69,13 +78,23 @@ export class Plan {
     }
   }
 
-  private validateFeatures(features: Object) {
+  private validateFeatures(features: PlanFeatures) {
     if (
       typeof features !== "object" ||
       features === null ||
       Array.isArray(features)
     ) {
       throw new Error("Features deve ser um objeto.");
+    }
+    if (
+      !features.users ||
+      !features.metrics ||
+      !features.integrations ||
+      !features.contentFormats ||
+      !features.postsPerMonth ||
+      !features.editorialCalendar
+    ) {
+      throw new Error("Todos os campos de features devem estar preenchidos.");
     }
   }
 

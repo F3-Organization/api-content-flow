@@ -146,3 +146,62 @@ CREATE TABLE team_member_permission (
     permission_id UUID NOT NULL REFERENCES permission(id) ON DELETE CASCADE,
     PRIMARY KEY (team_member_id, permission_id)
 );
+
+
+INSERT INTO plan (
+  id, name, price, trial_days, description, features, created_at, updated_at
+) VALUES
+  (
+    gen_random_uuid(),
+    'Básico',
+    49.00,
+    7,
+    'Plano básico para quem está começando.',
+    '{
+      "posts_per_month": "Até 5",
+      "content_formats": ["Blog", "Redes Sociais"],
+      "editorial_calendar": ["Mensal"],
+      "metrics": ["Básicas"],
+      "integrations": [],
+      "support": ["E-mail"],
+      "users": 1
+    }',
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Padrão',
+    99.00,
+    7,
+    'Plano padrão para equipes pequenas.',
+    '{
+      "posts_per_month": "Até 20",
+      "content_formats": ["Blog", "Redes Sociais", "E-mail"],
+      "editorial_calendar": ["Mensal", "Semanal"],
+      "metrics": ["Avançadas"],
+      "integrations": ["WordPress", "Redes Sociais"],
+      "support": ["E-mail", "Chat"],
+      "users": 3
+    }',
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Premium',
+    249.00,
+    7,
+    'Plano premium para grandes equipes e demandas ilimitadas.',
+    '{
+      "posts_per_month": "Ilimitados",
+      "content_formats": ["Todos"],
+      "editorial_calendar": ["Mensal", "Semanal", "Diário"],
+      "metrics": ["Avançadas", "ROI"],
+      "integrations": ["Todas"],
+      "support": ["E-mail", "Chat", "Telefone"],
+      "users": "Ilimitados"
+    }',
+    NOW(),
+    NOW()
+  );

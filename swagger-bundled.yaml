@@ -221,3 +221,4 @@ paths:
                     type: string
                   updatedAt:
                     type: string
+          description: Retrieve all available plans

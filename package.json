@@ -7,7 +7,8 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "up-dev-build": "docker compose -f docker-compose-dev.yaml up --build",
-    "up-dev": "docker compose -f docker-compose-dev.yaml up"
+    "up-dev": "docker compose -f docker-compose-dev.yaml up",
+    "update-swagger": "npx swagger-cli bundle swagger.yaml -o swagger-bundled.yaml --type yaml"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,scss,md,yaml,yml}": "prettier --write"

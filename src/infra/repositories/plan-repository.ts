@@ -12,16 +12,23 @@ export class PlanRepository implements IPlanRepository {
   async getPlans(): Promise<Plan[]> {
     const data = await this.planDAO.getAll();
     const output = Promise.all(data.map((p) => this.buildEntry(p)));
-    return output
+    return output;
   }
 
   private buildEntry(entity: Models.Plan) {
     return new Plan({
       id: entity.id,
       name: entity.name,
-      price: entity.price,
+      price: Number(entity.price),
       description: entity.description,
-      features: entity.features,
+      features: {
+        users: entity.features.users,
+        metrics: entity.features.metrics,
+        integrations: entity.features.integrations,
+        contentFormats: entity.features.content_formats,
+        postsPerMonth: entity.features.posts_per_month,
+        editorialCalendar: entity.features.editorial_calendar,
+      },
       createdAt: entity.created_at,
       updatedAt: entity.updated_at,
     });

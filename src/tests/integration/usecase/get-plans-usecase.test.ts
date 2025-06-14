@@ -23,6 +23,7 @@ afterAll(async () => {
 describe("Get Plans Use Case", () => {
   it("should retrieve plans successfully", async () => {
     const output = await useCase.execute();
-    console.log(output);
+    expect(output).toBeInstanceOf(Array);
+    expect(output.length).toEqual(3)
   });
 });

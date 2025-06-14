@@ -1,7 +1,7 @@
 import { IResponse } from "@/infra/adapters/express/interfaces/express-adapter.interface";
-import { IController } from "./interfaces/controller.interface";
+import { IController } from "../interfaces/controller.interface";
 import { CreateUserUseCase, IRepositoryFactory, IUseCase } from "@/application";
-import { HttpStatus } from "../protocols.enum";
+import { HttpStatus } from "../../protocols.enum";
 import { DomainException } from "@/domain/error";
 
 export class CreateUserController implements IController {

@@ -1,8 +1,8 @@
 import { IResponse } from "@/infra/adapters/express/interfaces/express-adapter.interface";
-import { IController } from "./interfaces/controller.interface";
+import { IController } from "../interfaces/controller.interface";
 import { IRepositoryFactory, IUseCase, LoginUseCase } from "@/application";
 import { DomainException } from "@/domain/error";
-import { HttpStatus } from "../protocols.enum";
+import { HttpStatus } from "../../protocols.enum";
 
 export class LoginController implements IController {
   private login: IUseCase;

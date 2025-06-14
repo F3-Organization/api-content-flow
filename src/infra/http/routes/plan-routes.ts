@@ -11,6 +11,7 @@ export class PlanRoutes implements IRoute {
   ) {
     this.createGetPlansController =
       this.factory.controllerFactory.createGetPlansController();
+    this.setup();
   }
   async setup(): Promise<void> {
     await this.http.on({

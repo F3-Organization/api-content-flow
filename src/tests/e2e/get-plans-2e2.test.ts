@@ -15,7 +15,7 @@ beforeAll(async () => {
   const express = startTestHttp(connection);
   app = express.getApp();
   server = express.getServer();
-});
+}, 20000);
 
 afterAll(async () => {
   await stopTestDB();

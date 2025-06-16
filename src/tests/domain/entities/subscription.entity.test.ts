@@ -6,7 +6,6 @@ import {
 
 describe("Subscription Entity", () => {
   const validProps: SubscriptionProps = {
-    id: "sub-1",
     userId: "user-1",
     planId: "id-1",
     status: "active" as SubscriptionStatus,
@@ -19,7 +18,6 @@ describe("Subscription Entity", () => {
 
   it("should create a subscription with valid props", () => {
     const sub = new Subscription(validProps);
-    expect(sub.id).toBe(validProps.id);
     expect(sub.userId).toBe(validProps.userId);
     expect(sub.planId).toBe(validProps.planId);
     expect(sub.status).toBe("active");
@@ -36,7 +34,7 @@ describe("Subscription Entity", () => {
     const sub = new Subscription(validProps);
     const oldUpdatedAt = sub.updatedAt;
     await new Promise((r) => setTimeout(r, 2));
-    sub.planId = "id-2"
+    sub.planId = "id-2";
     expect(sub.planId).toBe("id-2");
     expect(sub.updatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
   });

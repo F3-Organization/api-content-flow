@@ -6,6 +6,7 @@ import {
 
 describe("Subscription Entity", () => {
   const validProps: SubscriptionProps = {
+    id: "sub-1",
     userId: "user-1",
     planId: "id-1",
     status: "active" as SubscriptionStatus,

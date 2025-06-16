@@ -1,4 +1,3 @@
-import request from "supertest";
 import {
   startTestDB,
   connection,
@@ -6,8 +5,7 @@ import {
 } from "../test-utils/setup-test-db";
 import { startTestHttp } from "../test-utils/setup-test-http";
 import { Application } from "express";
-import { HttpStatus } from "@/infra/http/protocols.enum";
-import { createUserMocks } from "../infra/mocks/create-user-mocks";
+import request from "supertest";
 
 let app: Application;
 let server: any;
@@ -24,11 +22,12 @@ afterAll(async () => {
   server.close();
 });
 
-describe("User Registration E2E Tests", () => {
-  it("should register a user successfully", async () => {
-    const response = await request(app)
-      .post("/api/register")
-      .send(createUserMocks.validUser);
-    expect(response.status).toBe(HttpStatus.CREATED);
+describe("Get Plans End-to-End Tests", () => {
+  it("should retrieve plans successfully", async () => {
+    const response = await request(app).get("/api/plans");
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("data");
+    expect(response.body.data).toBeDefined();
+    expect(response.body.success).toBeTruthy();
   });
 });

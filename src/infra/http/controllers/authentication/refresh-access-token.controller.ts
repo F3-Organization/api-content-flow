@@ -1,7 +1,6 @@
 import { IResponse } from "@/infra/adapters/express/interfaces/express-adapter.interface";
-import { IController } from "./interfaces/controller.interface";
 import { IRepositoryFactory, RefreshAccessTokenUseCase } from "@/application";
-import { DomainException } from "@/domain/error";
+import { IController } from "@/infra";
 
 export class RefreshAccessTokenController implements IController {
   private refreshAccessTokenUseCase: RefreshAccessTokenUseCase;

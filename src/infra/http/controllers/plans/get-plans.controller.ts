@@ -1,5 +1,5 @@
 import { IResponse } from "@/infra/adapters/express/interfaces/express-adapter.interface";
-import { IController } from "./interfaces";
+import { IController } from "../interfaces";
 import { IFactory, IRepositoryFactory } from "@/application";
 import GetPlansUseCase from "@/application/usecases/plan/get-plans.usecase";
 import { DomainException } from "@/domain/error";

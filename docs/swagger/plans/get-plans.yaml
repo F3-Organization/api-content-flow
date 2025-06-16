@@ -1,0 +1,52 @@
+get:
+  tags:
+    - Plans
+  summary: Retrieve all available plans
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: true
+              data:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  price:
+                    type: number
+                  description:
+                    type: number
+                  features:
+                    type: object
+                    properties:
+                      users:
+                        type: number
+                      metrics:
+                        type: array
+                        default: []
+                      support:
+                        type: array
+                        default: []
+                      integrations:
+                        type: array
+                        default: []
+                      contentFormats:
+                        type: array
+                        default: []
+                      postsPerMonth:
+                        type: string
+                      editorialCalendar:
+                        type: array
+                        default: []
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+      description: Retrieve all available plans

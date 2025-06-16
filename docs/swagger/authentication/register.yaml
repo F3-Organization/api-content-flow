@@ -1,0 +1,52 @@
+post:
+  tags:
+    - Auth
+  summary: Cria um novo usuário
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              default: "Test user"
+            email:
+              type: string
+              default: "Teste@example.com"
+            password:
+              type: string
+            role:
+              type: integer
+              default: 1
+            provider:
+              type: string
+              default: "local"
+  responses:
+    "201":
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: true
+              message:
+                type: string
+                default: User created successfully
+      description: User created successfully
+    "400":
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: false
+              message:
+                type: string
+                default: User already exists
+      description: User already exists

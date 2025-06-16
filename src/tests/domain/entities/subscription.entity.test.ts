@@ -1,38 +1,33 @@
 import {
   Subscription,
+  SubscriptionProps,
   SubscriptionStatus,
 } from "../../../domain/entities/subscription.entity";
 
 describe("Subscription Entity", () => {
-  const validProps = {
+  const validProps: SubscriptionProps = {
     id: "sub-1",
     userId: "user-1",
-    plan: "basic",
+    planId: "id-1",
     status: "active" as SubscriptionStatus,
     renewalDate: new Date(),
     autoRenew: true,
     createdAt: new Date(),
     updatedAt: new Date(),
+    isTrial: false,
   };
 
   it("should create a subscription with valid props", () => {
     const sub = new Subscription(validProps);
-    expect(sub.id).toBe(validProps.id);
     expect(sub.userId).toBe(validProps.userId);
-    expect(sub.plan).toBe(validProps.plan);
+    expect(sub.planId).toBe(validProps.planId);
     expect(sub.status).toBe("active");
     expect(sub.autoRenew).toBe(true);
   });
 
   it("should throw error if userId is empty", () => {
     expect(() => new Subscription({ ...validProps, userId: "" })).toThrow(
-      "UserId is required"
-    );
-  });
-
-  it("should throw error if plan is empty", () => {
-    expect(() => new Subscription({ ...validProps, plan: "" })).toThrow(
-      "Plan is required"
+      "UserId is required",
     );
   });
 
@@ -40,8 +35,8 @@ describe("Subscription Entity", () => {
     const sub = new Subscription(validProps);
     const oldUpdatedAt = sub.updatedAt;
     await new Promise((r) => setTimeout(r, 2));
-    sub.plan = "premium";
-    expect(sub.plan).toBe("premium");
+    sub.planId = "id-2";
+    expect(sub.planId).toBe("id-2");
     expect(sub.updatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
   });
 

@@ -1,0 +1,47 @@
+post:
+  tags:
+    - Auth
+  summary: Refresh access token
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            refreshToken:
+              type: string
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: true
+              message:
+                type: string
+                default: Token refreshed successfully
+              data:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+      description: Token refreshed successfully
+    "401":
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: false
+              message:
+                type: string
+                default: Invalid refresh token
+      description: Invalid refresh token

@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JWT_SECRET: ${{ secrets.SECRET_KEY }}
+      STRIPE_SECRET: ${{ secrets.STRIPE_SECRET }}
+      STRIPE_PRICE_ID_BASIC: ${{ secrets.STRIPE_PRICE_ID_BASIC }}
       API_PORT: "3000"
     steps:
       - uses: actions/checkout@v4

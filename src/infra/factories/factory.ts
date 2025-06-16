@@ -11,7 +11,7 @@ import {
   RefreshAccessTokenController,
 } from "@/infra";
 
-import { IFactory } from "@/application";
+import { IFactory, ISubscriptionRepository } from "@/application";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
   const Factory: IFactory = {
@@ -21,6 +21,9 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
       createUserRepository: () => new UserRepository(connection),
       createAuthRepository: () => new AuthRepository(connection),
       createPlanRepository: () => new PlanRepository(connection),
+      createSubscriptionRepository: function (): ISubscriptionRepository {
+        throw new Error("Function not implemented.");
+      }
     },
 
     controllerFactory: {

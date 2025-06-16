@@ -1,0 +1,231 @@
+openapi: 3.0.4
+info:
+  title: Content Flow API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:3000/api'
+tags:
+  - name: Auth
+    description: Authentication related endpoints
+  - name: Plans
+    description: Endpoints related to plans
+paths:
+  /register:
+    post:
+      tags:
+        - Auth
+      summary: Cria um novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: Test user
+                email:
+                  type: string
+                  default: Teste@example.com
+                password:
+                  type: string
+                role:
+                  type: integer
+                  default: 1
+                provider:
+                  type: string
+                  default: local
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+                    default: User created successfully
+          description: User created successfully
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    default: User already exists
+          description: User already exists
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: Login do usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  default: Teste@example.com
+                password:
+                  type: string
+                  default: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+                    default: Login successful
+                  data:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                      refreshToken:
+                        type: string
+          description: Login successful
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    default: Invalid password
+          description: Invalid password
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    default: User not found
+          description: User not found
+  /refresh-access-token:
+    post:
+      tags:
+        - Auth
+      summary: Refresh access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+                    default: Token refreshed successfully
+                  data:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                      refreshToken:
+                        type: string
+          description: Token refreshed successfully
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    default: Invalid refresh token
+          description: Invalid refresh token
+  /plans:
+    get:
+      tags:
+        - Plans
+      summary: Retrieve all available plans
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      price:
+                        type: number
+                      description:
+                        type: number
+                      features:
+                        type: object
+                        properties:
+                          users:
+                            type: number
+                          metrics:
+                            type: array
+                            default: []
+                          support:
+                            type: array
+                            default: []
+                          integrations:
+                            type: array
+                            default: []
+                          contentFormats:
+                            type: array
+                            default: []
+                          postsPerMonth:
+                            type: string
+                          editorialCalendar:
+                            type: array
+                            default: []
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+          description: Retrieve all available plans

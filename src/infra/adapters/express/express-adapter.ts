@@ -49,12 +49,10 @@ export class ExpressAdapter implements IExpressAdapter {
   }
 
   private expressHandlerError(error: DomainException | any, res: any) {
-    res
-      .status(error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({
-        success: false,
-        message: error.message || "Internal Server Error",
-      });
+    res.status(error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: error.message || "Internal Server Error",
+    });
   }
 
   async middlewareHandler(
@@ -112,10 +110,10 @@ export class ExpressAdapter implements IExpressAdapter {
 
   private setDocsRoute() {
     const swaggerDocument = YAML.load(
-      path.join(__dirname, "../../../../swagger.yaml"),
+      path.join(__dirname, "../../../../swagger-bundled.yaml"),
     );
     this.app.use(
-      "/api/docs",
+      "/api/swagger-docs",
       swaggerUi.serve,
       swaggerUi.setup(swaggerDocument),
     );

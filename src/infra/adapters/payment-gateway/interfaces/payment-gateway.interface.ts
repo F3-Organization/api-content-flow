@@ -11,15 +11,14 @@ export namespace IPaymentGatewayInput {
 
   export interface CreateSubscription {
     customerId: string;
-    planId: string;
     priceId: string;
-    startDate?: Date;
     trialPeriodDays?: number;
+    paymentMethodId: string;
   }
 
   export interface SaveCard {
     customerId: string;
-    sourceId: string;
+    paymentMethodId: string;
   }
 }
 
@@ -33,5 +32,7 @@ export interface IPaymentGateway {
   ): Promise<{ subscriptionId?: string; clientSecret?: string }>;
   cancelSubscription(subscriptionId: string): Promise<void>;
   refund(paymentId: string): Promise<void>;
-  saveCard(input: IPaymentGatewayInput.SaveCard): Promise<void>;
+  saveCard(
+    input: IPaymentGatewayInput.SaveCard,
+  ): Promise<{ paymentMethodId: string }>;
 }

@@ -35,6 +35,10 @@ export class StripeAdapter implements IPaymentGateway {
         payment_method: input.paymentMethodId,
         confirm: true,
         description: input.description,
+        automatic_payment_methods: {
+          enabled: true,
+          allow_redirects: "never",
+        },
       });
       return {
         paymentId: paymentIntent.id,
@@ -55,11 +59,12 @@ export class StripeAdapter implements IPaymentGateway {
       const subscription = await this.stripe.subscriptions.create({
         customer: input.customerId,
         items: [{ price: input.priceId, quantity: 1 }],
+        default_payment_method: input.paymentMethodId,
         payment_settings: {
           payment_method_types: ["card"],
           save_default_payment_method: "on_subscription",
         },
-        expand: ["latest_invoice.payment_intent"],
+        expand: ["latest_invoice.confirmation_secret"],
         trial_period_days: input.trialPeriodDays,
       });
       const invoice = subscription.latest_invoice as Stripe.Invoice;
@@ -97,11 +102,20 @@ export class StripeAdapter implements IPaymentGateway {
     }
   }
 
-  async saveCard(input: any): Promise<void> {
+  async saveCard(
+    input: IPaymentGatewayInput.SaveCard,
+  ): Promise<{ paymentMethodId: string }> {
     try {
-      await this.stripe.paymentMethods.attach(input.paymentMethodId, {
-        customer: input.customerId,
+      const attached = await this.stripe.paymentMethods.attach(
+        input.paymentMethodId,
+        {
+          customer: input.customerId,
+        },
+      );
+      await this.stripe.customers.update(input.customerId, {
+        invoice_settings: { default_payment_method: attached.id },
       });
+      return { paymentMethodId: attached.id };
     } catch (err) {
       throw new DomainException(
         (err as Error).message,

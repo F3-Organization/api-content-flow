@@ -21,7 +21,7 @@ let factory: IFactory;
 let createUserUseCase: IUseCase;
 let userRepository: IUserRepository;
 let authRepository: IAuthRepository;
-let user: User;
+let user: User | undefined;
 let auth: Authentication;
 let useCase: RefreshAccessTokenUseCase;
 
@@ -33,7 +33,7 @@ beforeAll(async () => {
   createUserUseCase = new CreateUserUseCase(factory.repositoryFactory);
   await createUserUseCase.execute(createUserMocks.validUser);
   user = await userRepository.getByEmail(createUserMocks.validUser.email);
-  auth = await authRepository.getByUserId(user.getId);
+  auth = await authRepository.getByUserId(user!.getId);
   useCase = new RefreshAccessTokenUseCase(factory.repositoryFactory);
 }, 30000);
 

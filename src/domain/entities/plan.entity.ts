@@ -2,6 +2,7 @@ export interface PlanProps {
   id: string;
   name: string;
   price: number;
+  trialDays: number;
   description: string;
   features: PlanFeatures;
   createdAt: Date;
@@ -35,6 +36,10 @@ export class Plan {
 
   get getPrice() {
     return this.props.price;
+  }
+
+  get getTrialDays() {
+    return this.props.trialDays;
   }
 
   get getDescription() {

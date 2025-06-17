@@ -200,6 +200,8 @@ paths:
                         type: string
                       price:
                         type: number
+                      trialDays:
+                        type: number
                       description:
                         type: number
                       features:

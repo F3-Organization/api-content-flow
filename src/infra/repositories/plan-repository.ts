@@ -20,6 +20,7 @@ export class PlanRepository implements IPlanRepository {
       id: entity.id,
       name: entity.name,
       price: Number(entity.price),
+      trialDays: Number(entity.trial_days),
       description: entity.description,
       features: {
         users: entity.features.users,

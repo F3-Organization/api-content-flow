@@ -4,6 +4,7 @@ export class PlanDTO {
   id: string;
   name: string;
   price: number;
+  trialDays: number;
   description: string;
   features: Object;
   createdAt: Date;
@@ -12,6 +13,7 @@ export class PlanDTO {
     this.id = entity.getId;
     this.name = entity.getName;
     this.price = entity.getPrice;
+    this.trialDays = entity.getTrialDays;
     this.description = entity.getDescription;
     this.features = entity.getFeatures;
     this.createdAt = entity.getCreatedAt;

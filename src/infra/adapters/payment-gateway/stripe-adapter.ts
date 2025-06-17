@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import {
   IPaymentGateway,
   IPaymentGatewayInput,
+  IPaymentGatewayOutput,
 } from "./interfaces/payment-gateway.interface";
 import { env } from "@/config/env";
 import { User } from "@/domain/entities";
@@ -26,7 +27,7 @@ export class StripeAdapter implements IPaymentGateway {
 
   async charge(
     input: IPaymentGatewayInput.Charge,
-  ): Promise<{ paymentId?: string; clientSecret?: string | null }> {
+  ): Promise<IPaymentGatewayOutput.Charge> {
     try {
       const paymentIntent = await this.stripe.paymentIntents.create({
         customer: input.customerId,
@@ -54,12 +55,12 @@ export class StripeAdapter implements IPaymentGateway {
 
   async createSubscription(
     input: IPaymentGatewayInput.CreateSubscription,
-  ): Promise<{ subscriptionId?: string; clientSecret?: string }> {
+  ): Promise<IPaymentGatewayOutput.CreateSubscription> {
     try {
       const subscription = await this.stripe.subscriptions.create({
         customer: input.customerId,
         items: [{ price: input.priceId, quantity: 1 }],
-        default_payment_method: input.paymentMethodId,
+        default_payment_method: input.paymentMethod,
         payment_settings: {
           payment_method_types: ["card"],
           save_default_payment_method: "on_subscription",
@@ -104,7 +105,7 @@ export class StripeAdapter implements IPaymentGateway {
 
   async saveCard(
     input: IPaymentGatewayInput.SaveCard,
-  ): Promise<{ paymentMethodId: string }> {
+  ): Promise<IPaymentGatewayOutput.SaveCard> {
     try {
       const attached = await this.stripe.paymentMethods.attach(
         input.paymentMethodId,
@@ -115,7 +116,7 @@ export class StripeAdapter implements IPaymentGateway {
       await this.stripe.customers.update(input.customerId, {
         invoice_settings: { default_payment_method: attached.id },
       });
-      return { paymentMethodId: attached.id };
+      return { paymentMethod: attached.id };
     } catch (err) {
       throw new DomainException(
         (err as Error).message,

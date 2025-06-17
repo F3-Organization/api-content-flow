@@ -32,9 +32,7 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
       createUserRepository: () => new UserRepository(connection),
       createAuthRepository: () => new AuthRepository(connection),
       createPlanRepository: () => new PlanRepository(connection),
-      createSubscriptionRepository: function (): ISubscriptionRepository {
-        throw new Error("Function not implemented.");
-      }
+      createSubscriptionRepository: () => new SubscriptionRepository(connection)
     },
 
     controllerFactory: {

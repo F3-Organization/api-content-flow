@@ -1,6 +1,11 @@
 import { DomainException } from "@/domain/error";
 
-export type SubscriptionStatus = "active" | "inactive" | "canceled" | "expired";
+export type SubscriptionStatus =
+  | "active"
+  | "inactive"
+  | "canceled"
+  | "expired"
+  | "pending";
 
 export interface SubscriptionProps {
   id: string;
@@ -9,8 +14,8 @@ export interface SubscriptionProps {
   status: SubscriptionStatus;
   renewalDate: Date;
   autoRenew: boolean;
-  trialStart?: Date;
-  trialEnd?: Date;
+  trialStart: Date;
+  trialEnd: Date;
   isTrial: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -48,6 +53,24 @@ export class Subscription {
   get renewalDate() {
     return this.props.renewalDate;
   }
+  get trialStart(): Date {
+    return this.props.trialStart;
+  }
+  set trialStart(value: Date) {
+    this.props.trialStart = value;
+  }
+  get trialEnd(): Date {
+    return this.props.trialEnd;
+  }
+  set trialEnd(value: Date) {
+    this.props.trialEnd = value;
+  }
+  get isTrial(): boolean {
+    return this.props.isTrial;
+  }
+  set isTrial(value: boolean) {
+    this.props.isTrial = value;
+  }
   set renewalDate(value: Date) {
     this.props.renewalDate = value;
     this.touch();
@@ -65,9 +88,9 @@ export class Subscription {
   get updatedAt() {
     return this.props.updatedAt;
   }
-
   activate() {
     this.props.status = "active";
+    this.props.renewalDate = new Date();
     this.touch();
   }
   cancel() {
@@ -94,6 +117,11 @@ export class Subscription {
   }
 
   private validateDates(props: SubscriptionProps) {
+    if (props.trialStart > props.trialEnd) {
+      throw new DomainException(
+        "Trial start date cannot be after trial end date.",
+      );
+    }
     if (!props.renewalDate)
       throw new DomainException("Renewal date is required.");
   }

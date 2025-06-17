@@ -1,7 +1,4 @@
-import {
-  ISubscriptionRepository,
-  ISubscriptionRepositoryNamespace,
-} from "@/application";
+import { ISubscriptionRepository } from "@/application";
 import { Subscription, SubscriptionStatus } from "@/domain/entities";
 import { IConnectionDatabase } from "../adapters";
 import { SubscriptionDAODatabase } from "../dao";
@@ -12,11 +9,11 @@ export class SubscriptionRepository implements ISubscriptionRepository {
   constructor(private connection: IConnectionDatabase) {
     this.subscriptionDAO = new SubscriptionDAODatabase(this.connection);
   }
-  async save(input: ISubscriptionRepositoryNamespace.Input): Promise<void> {
+  async save(input: Subscription): Promise<void> {
     const formattedData = this.formatToDatabase(input);
     await this.subscriptionDAO.save(formattedData);
   }
-  async update(input: ISubscriptionRepositoryNamespace.Input): Promise<void> {
+  async update(input: Subscription): Promise<void> {
     const formattedData = this.formatToDatabase(input);
     await this.subscriptionDAO.update(formattedData);
   }
@@ -27,9 +24,7 @@ export class SubscriptionRepository implements ISubscriptionRepository {
     return data;
   }
 
-  private formatToDatabase(
-    input: ISubscriptionRepositoryNamespace.Input,
-  ): Models.Subscription {
+  private formatToDatabase(input: Subscription): Models.Subscription {
     return {
       id: input.id,
       user_id: input.userId,
@@ -53,6 +48,8 @@ export class SubscriptionRepository implements ISubscriptionRepository {
       status: output.status as SubscriptionStatus,
       renewalDate: output.renewal_date,
       autoRenew: output.auto_renew,
+      trialStart: output.trial_start,
+      trialEnd: output.trial_end,
       isTrial: output.is_trial,
       createdAt: output.created_at,
       updatedAt: output.updated_at,

@@ -52,8 +52,8 @@ export interface SubscriptionModel {
   status: string;
   renewal_date: Date;
   auto_renew: boolean;
-  trial_start: Date | null;
-  trial_end: Date | null;
+  trial_start: Date;
+  trial_end: Date;
   is_trial: boolean;
   created_at: Date;
   updated_at: Date;

@@ -3,6 +3,7 @@ export namespace Table {
   export const Authentication = "content_flow.authentications";
   export const Plan = "content_flow.plan";
   export const Subscription = "content_flow.subscription";
+  export const subscriptionStripeData = "content_flow.subscription_stripe_data";
 }
 
 export namespace Models {
@@ -10,6 +11,7 @@ export namespace Models {
   export type Plan = PlanModel;
   export type Authentication = AuthenticationModel;
   export type Subscription = SubscriptionModel;
+  export type SubscriptionStripeData = SubscriptionStripeDataModel;
 }
 
 export interface UserModel {
@@ -67,4 +69,18 @@ export interface PlanFeatures {
   content_formats: string[];
   posts_per_month: string;
   editorial_calendar: string[];
+}
+
+export interface SubscriptionStripeDataModel {
+  id: number;
+  subscription_id: string;
+  stripe_subscription_id: string;
+  stripe_customer_id: string;
+  stripe_price_id?: string;
+  stripe_invoice_id?: string;
+  stripe_status?: string;
+  cancellation_reason?: string;
+  last_stripe_event?: string;
+  created_at: Date;
+  updated_at: Date;
 }

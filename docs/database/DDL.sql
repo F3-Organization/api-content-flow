@@ -171,6 +171,19 @@ CREATE TABLE content_flow.team_member_permission (
     PRIMARY KEY (team_member_id, permission_id)
 );
 
+CREATE TABLE content_flow.subscription_stripe_data (
+    id SERIAL PRIMARY KEY,
+    subscription_id UUID NOT NULL REFERENCES content_flow.subscription(id),
+    stripe_subscription_id VARCHAR(255) NOT NULL,
+    stripe_customer_id VARCHAR(255) NOT NULL,
+    stripe_price_id VARCHAR(255),
+    stripe_invoice_id VARCHAR(255),
+    stripe_status VARCHAR(50),
+    cancellation_reason VARCHAR(255),
+    last_stripe_event VARCHAR(255),
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
 
 INSERT INTO content_flow.plan (
   id, name, price, trial_days, description, features, created_at, updated_at

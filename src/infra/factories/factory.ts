@@ -4,6 +4,7 @@ import {
   PlanRepository,
   StripeAdapter,
   UserRepository,
+  SubscriptionRepository
 } from "@/infra";
 import {
   ConnectionDatabase,

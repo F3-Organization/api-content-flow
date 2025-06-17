@@ -1,7 +1,7 @@
 import {
   IFactory,
   IUseCase,
-  CreateUserUseCase,
+  RegisterUserUseCase,
   IAuthRepository,
   IUserRepository,
   RefreshAccessTokenUseCase,
@@ -30,7 +30,7 @@ beforeAll(async () => {
   factory = makeFactory(connection);
   userRepository = factory.repositoryFactory.createUserRepository();
   authRepository = factory.repositoryFactory.createAuthRepository();
-  createUserUseCase = new CreateUserUseCase(factory.repositoryFactory);
+  createUserUseCase = new RegisterUserUseCase(factory.repositoryFactory);
   await createUserUseCase.execute(createUserMocks.validUser);
   user = await userRepository.getByEmail(createUserMocks.validUser.email);
   auth = await authRepository.getByUserId(user!.getId);

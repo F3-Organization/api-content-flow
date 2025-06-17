@@ -1,3 +1,4 @@
+import { DomainException } from "@/domain/error";
 import {
   Subscription,
   SubscriptionProps,
@@ -12,6 +13,22 @@ describe("Subscription Entity", () => {
     status: "active" as SubscriptionStatus,
     renewalDate: new Date(),
     autoRenew: true,
+    trialStart: new Date(),
+    trialEnd: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    isTrial: false,
+  };
+
+  const invalidProps: SubscriptionProps = {
+    id: "sub-1",
+    userId: "user-1",
+    planId: "id-1",
+    status: "active" as SubscriptionStatus,
+    renewalDate: new Date(),
+    autoRenew: true,
+    trialStart: new Date(),
+    trialEnd: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     createdAt: new Date(),
     updatedAt: new Date(),
     isTrial: false,
@@ -23,6 +40,17 @@ describe("Subscription Entity", () => {
     expect(sub.planId).toBe(validProps.planId);
     expect(sub.status).toBe("active");
     expect(sub.autoRenew).toBe(true);
+  });
+
+  it("should return an error if trialEnd is before trialStart", () => {
+    const invalidProps = {
+      ...validProps,
+      trialStart: new Date(),
+      trialEnd: new Date(Date.now() - 1000),
+    };
+    expect(() => new Subscription(invalidProps)).toThrow(
+      new DomainException("Trial start date cannot be after trial end date."),
+    );
   });
 
   it("should throw error if userId is empty", () => {

@@ -2,7 +2,7 @@ import {
   LoginUseCase,
   IFactory,
   IUseCase,
-  CreateUserUseCase,
+  RegisterUserUseCase,
 } from "@/application";
 import { makeFactory } from "@/infra/factories/factory";
 import {
@@ -20,7 +20,7 @@ let loginUseCase: IUseCase;
 beforeAll(async () => {
   await startTestDB();
   factory = makeFactory(connection);
-  createUserUseCase = new CreateUserUseCase(factory.repositoryFactory);
+  createUserUseCase = new RegisterUserUseCase(factory.repositoryFactory);
   loginUseCase = new LoginUseCase(factory.repositoryFactory);
 }, 30000);
 

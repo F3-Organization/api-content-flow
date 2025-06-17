@@ -1,4 +1,4 @@
-import { CreateUserUseCase, IFactory, IUseCase } from "@/application";
+import { RegisterUserUseCase, IFactory, IUseCase } from "@/application";
 import { DomainException } from "@/domain/error";
 import { makeFactory } from "@/infra/factories/factory";
 import { HttpStatus } from "@/infra/http/protocols.enum";
@@ -14,7 +14,7 @@ let useCase: IUseCase;
 beforeAll(async () => {
   await startTestDB();
   factory = makeFactory(connection);
-  useCase = new CreateUserUseCase(factory.repositoryFactory);
+  useCase = new RegisterUserUseCase(factory.repositoryFactory);
 }, 30000);
 
 afterAll(async () => {

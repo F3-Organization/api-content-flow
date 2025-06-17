@@ -52,7 +52,7 @@ describe("Stripe Adapter Integration Tests", () => {
     const subscription = await stripe.createSubscription({
       customerId: customerId,
       priceId: env.stripe.price_ids.basic!,
-      paymentMethodId: cardOutput.paymentMethodId,
+      paymentMethod: cardOutput.paymentMethod,
     });
     expect(subscription.subscriptionId).toBeDefined();
     expect(subscription.clientSecret).toBeDefined();
@@ -68,7 +68,7 @@ describe("Stripe Adapter Integration Tests", () => {
       stripe.createSubscription({
         customerId: customerId,
         priceId: env.stripe.price_ids.basic!,
-        paymentMethodId: "pm_card_visa",
+        paymentMethod: "pm_card_visa",
       }),
     ).rejects.toThrow();
   });
@@ -82,7 +82,7 @@ describe("Stripe Adapter Integration Tests", () => {
     const subscription = await stripe.createSubscription({
       customerId: customerId,
       priceId: env.stripe.price_ids.basic!,
-      paymentMethodId: cardOutput.paymentMethodId,
+      paymentMethod: cardOutput.paymentMethod,
     });
     await stripe.cancelSubscription(subscription.subscriptionId!);
   }, 20000);
@@ -96,7 +96,7 @@ describe("Stripe Adapter Integration Tests", () => {
     await stripe.createSubscription({
       customerId: customerId,
       priceId: env.stripe.price_ids.basic!,
-      paymentMethodId: cardOutput.paymentMethodId,
+      paymentMethod: cardOutput.paymentMethod,
     });
     await expect(stripe.cancelSubscription("sub_id_invalid")).rejects.toThrow();
   }, 20000);

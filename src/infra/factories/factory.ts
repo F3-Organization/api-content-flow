@@ -8,7 +8,7 @@ import {
 } from "@/infra";
 import {
   ConnectionDatabase,
-  CreateUserController,
+  RegisterUserController,
   LoginController,
   RefreshAccessTokenController,
 } from "@/infra";
@@ -37,8 +37,8 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
     },
 
     controllerFactory: {
-      createCreateUSerController: () =>
-        new CreateUserController(Factory.repositoryFactory),
+      createRegisterUSerController: () =>
+        new RegisterUserController(Factory.repositoryFactory),
       createLoginController: () =>
         new LoginController(Factory.repositoryFactory),
       createRefreshAccessTokenController: () =>

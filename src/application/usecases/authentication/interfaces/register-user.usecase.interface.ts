@@ -1,6 +1,6 @@
 import { AuthProvider, userRoleEnum } from "@/domain/entities";
 
-export namespace ICreateUserNamespace {
+export namespace IRegisterUserNamespace {
   export interface Input {
     name: string;
     email: string;

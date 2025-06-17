@@ -1,12 +1,12 @@
 import {
-  CreateUserController,
+  RegisterUserController,
   GetPlansController,
   LoginController,
   RefreshAccessTokenController,
 } from "@/infra/http";
 
 export interface IControllerFactory {
-  createCreateUSerController(): CreateUserController;
+  createRegisterUSerController(): RegisterUserController;
   createLoginController(): LoginController;
   createRefreshAccessTokenController(): RefreshAccessTokenController;
   createGetPlansController(): GetPlansController;

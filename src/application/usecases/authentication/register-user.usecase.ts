@@ -1,7 +1,7 @@
 import { IRepositoryFactory } from "@/application/factories";
 import { IUseCase } from "../interfaces/usecase.interface";
 import { IUserRepository } from "@/application/repositories";
-import { v4 as uuidv4 } from "uuid";
+import { v7 as uuidv7 } from "uuid";
 import {
   Authentication,
   AuthProvider,
@@ -10,17 +10,17 @@ import {
   User,
   UserRole,
 } from "@/domain/entities";
-import { ICreateUserNamespace } from "./interfaces/create-user.usecase.interface";
+import { IRegisterUserNamespace } from "./interfaces/register-user.usecase.interface";
 import { generatePasswordHash, generateToken } from "@/infra/services";
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { DomainException } from "@/domain/error";
 
-export class CreateUserUseCase implements IUseCase {
+export class RegisterUserUseCase implements IUseCase {
   private userRepository: IUserRepository;
   constructor(private repositoryFactory: IRepositoryFactory) {
     this.userRepository = this.repositoryFactory.createUserRepository();
   }
-  async execute(input: ICreateUserNamespace.Input): Promise<any> {
+  async execute(input: IRegisterUserNamespace.Input): Promise<any> {
     const { user, authentication } = await this.buildUser(input);
     const { userData, authData } = this.buildInput(user, authentication);
     const users = await this.userRepository.getByEmail(input.email);
@@ -30,9 +30,9 @@ export class CreateUserUseCase implements IUseCase {
     await this.userRepository.save(userData, authData);
   }
 
-  private async buildUser(input: ICreateUserNamespace.Input) {
+  private async buildUser(input: IRegisterUserNamespace.Input) {
     const user = new User({
-      id: uuidv4(),
+      id: uuidv7(),
       name: input.name,
       email: new Email(input.email),
       cpf: null,
@@ -44,7 +44,7 @@ export class CreateUserUseCase implements IUseCase {
     });
 
     const authentication = new Authentication({
-      id: uuidv4(),
+      id: uuidv7(),
       userId: user.getId,
       provider: input.provider as AuthProvider,
       passwordHash: await generatePasswordHash(input.password),

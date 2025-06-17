@@ -1,16 +1,16 @@
 import { CreateExpress } from "@/infra/adapters/express/express";
 import { IRoute } from "./interfaces/route.interface";
-import { CreateUserController } from "../controllers/authentication/create-user.controller";
+import { RegisterUserController } from "../controllers/authentication/create-user.controller";
 import { IFactory } from "@/application";
 
 export class UserRoutes implements IRoute {
-  private createUserController: CreateUserController;
+  private createUserController: RegisterUserController;
   constructor(
     private http: CreateExpress,
     private factory: IFactory,
   ) {
     this.createUserController =
-      this.factory.controllerFactory.createCreateUSerController();
+      this.factory.controllerFactory.createRegisterUSerController();
     this.setup();
   }
   async setup(): Promise<void> {

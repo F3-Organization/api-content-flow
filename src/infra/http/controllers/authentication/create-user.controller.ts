@@ -1,13 +1,13 @@
 import { IResponse } from "@/infra/adapters/express/interfaces/express-adapter.interface";
 import { IController } from "../interfaces/controller.interface";
-import { CreateUserUseCase, IRepositoryFactory, IUseCase } from "@/application";
+import { RegisterUserUseCase, IRepositoryFactory, IUseCase } from "@/application";
 import { HttpStatus } from "../../protocols.enum";
 import { DomainException } from "@/domain/error";
 
-export class CreateUserController implements IController {
+export class RegisterUserController implements IController {
   private createUser: IUseCase;
   constructor(private repositoryFactory: IRepositoryFactory) {
-    this.createUser = new CreateUserUseCase(this.repositoryFactory);
+    this.createUser = new RegisterUserUseCase(this.repositoryFactory);
   }
   async execute(req: any): Promise<IResponse> {
     const params = this.getParams(req);

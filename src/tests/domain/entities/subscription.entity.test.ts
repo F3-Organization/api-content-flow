@@ -20,20 +20,6 @@ describe("Subscription Entity", () => {
     isTrial: false,
   };
 
-  const invalidProps: SubscriptionProps = {
-    id: "sub-1",
-    userId: "user-1",
-    planId: "id-1",
-    status: "active" as SubscriptionStatus,
-    renewalDate: new Date(),
-    autoRenew: true,
-    trialStart: new Date(),
-    trialEnd: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    isTrial: false,
-  };
-
   it("should create a subscription with valid props", () => {
     const sub = new Subscription(validProps);
     expect(sub.userId).toBe(validProps.userId);

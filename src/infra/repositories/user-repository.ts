@@ -10,23 +10,27 @@ export class UserRepository implements IUserRepository {
     this.userDAODatabase = new UserDAODatabase(this.connection);
   }
 
-  async createUser(
+  async save(
     user: IUserRepositoryNamespace.CreateUser,
-    auth: IUserRepositoryNamespace.CreateAuth
+    auth: IUserRepositoryNamespace.CreateAuth,
   ): Promise<void> {
     const { formattedUser, formattedAuth } = this.formatToDatabase(user, auth);
-    await this.userDAODatabase.createUser(formattedUser, formattedAuth);
+    await this.userDAODatabase.save(formattedUser, formattedAuth);
   }
 
-  async getByEmail(email: string): Promise<any> {
+  async getById(id: string): Promise<User | undefined> {
+    const result = await this.userDAODatabase.getById(id);
+    return this.buildEntry(result);
+  }
+
+  async getByEmail(email: string): Promise<User | undefined> {
     const result = await this.userDAODatabase.getByEmail(email);
-    const output = this.buildEntry(result);
-    return output;
+    return this.buildEntry(result);
   }
 
   private formatToDatabase(
     user: IUserRepositoryNamespace.CreateUser,
-    auth: IUserRepositoryNamespace.CreateAuth
+    auth: IUserRepositoryNamespace.CreateAuth,
   ) {
     const formattedUser = {
       id: user.id,

@@ -27,7 +27,7 @@ export class CreateUserUseCase implements IUseCase {
     if (users) {
       throw new DomainException("User already exists", HttpStatus.BAD_REQUEST);
     }
-    await this.userRepository.createUser(userData, authData);
+    await this.userRepository.save(userData, authData);
   }
 
   private async buildUser(input: ICreateUserNamespace.Input) {

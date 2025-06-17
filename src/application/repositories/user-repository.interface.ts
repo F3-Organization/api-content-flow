@@ -25,9 +25,10 @@ export namespace IUserRepositoryNamespace {
 }
 
 export interface IUserRepository {
-  createUser(
+  save(
     user: IUserRepositoryNamespace.CreateUser,
-    auth: IUserRepositoryNamespace.CreateAuth
+    auth: IUserRepositoryNamespace.CreateAuth,
   ): Promise<void>;
-  getByEmail(email: string): Promise<User>;
+  getById(id: string): Promise<User | undefined>;
+  getByEmail(email: string): Promise<User | undefined>;
 }

@@ -1,4 +1,5 @@
 export interface IUserDAO {
-  createUser(user: any, auth: any): Promise<void>;
+  save(user: any, auth: any): Promise<void>;
+  getById(id: string): Promise<any>;
   getByEmail(email: string): Promise<any>;
 }

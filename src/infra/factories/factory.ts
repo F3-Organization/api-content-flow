@@ -15,7 +15,6 @@ import {
 } from "@/infra";
 
 import { IFactory } from "@/application";
-import { SubscriptionStripeDataRepository } from "../repositories/subscription-stripe-data-repository";
 import { PaymentGatewayService } from "../services";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {

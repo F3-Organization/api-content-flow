@@ -11,6 +11,7 @@ import { IPaymentGatewayService } from "@/infra/services";
 import { Plan, Subscription, User } from "@/domain/entities";
 import { v7 as uuid } from "uuid";
 import { env } from "@/config/env";
+import { IPaymentGatewayOutput } from "@/infra";
 
 export namespace CreateSubscriptionNamespace {
   export interface Input {
@@ -18,7 +19,7 @@ export namespace CreateSubscriptionNamespace {
     planId: string;
     priceId: string;
     paymentMethodId: string;
-    trialPeriodDays: number;
+    trialPeriodDays?: number;
   }
 }
 
@@ -38,7 +39,9 @@ export class CreateSubscription implements IUseCase {
     this.paymentGatewayService =
       this.serviceFactory.createPaymentGatewayService();
   }
-  async execute(input: CreateSubscriptionNamespace.Input): Promise<any> {
+  async execute(
+    input: CreateSubscriptionNamespace.Input,
+  ): Promise<IPaymentGatewayOutput.CreateSubscription> {
     const user = await this.userRepository.getById(input.userId);
     if (!user) {
       throw new DomainException("User not found", HttpStatus.NOT_FOUND);
@@ -47,14 +50,18 @@ export class CreateSubscription implements IUseCase {
     const subscription = await this.subscriptionRepository.getByUserId(
       user.getId,
     );
+    let newSubscription: Subscription;
     if (!subscription) {
-      const newSubscription = this.buildEntry(user, plan);
+      newSubscription = this.buildEntry(user, plan);
       await this.subscriptionRepository.save(newSubscription);
     } else {
       if (subscription.status === "active") {
-        throw new DomainException("Cannot update an active subscription.");
+        throw new DomainException(
+          "Cannot update an active subscription.",
+          HttpStatus.FORBIDDEN,
+        );
       }
-      subscription.activate();
+      if (subscription.status === "inactive") subscription.activate();
     }
     const stripeSubscritption =
       await this.paymentGatewayService.createSubscription({
@@ -89,7 +96,7 @@ export class CreateSubscription implements IUseCase {
       id: uuid(),
       userId: user.getId,
       planId: plan.getId,
-      status: "pending",
+      status: "active",
       renewalDate: new Date(),
       autoRenew: true,
       trialStart: new Date(),

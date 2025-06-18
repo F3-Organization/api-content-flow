@@ -23,7 +23,7 @@ export class SubscriptionDAODatabase implements SubscriptionDAO {
   async getByUserId(userId: string): Promise<Models.Subscription> {
     const [result] = await this.connection.query<Models.Subscription>({
       table: Table.Subscription,
-      where: { userId: userId },
+      where: { user_id: userId },
     });
     return result;
   }

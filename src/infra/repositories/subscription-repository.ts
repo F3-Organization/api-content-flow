@@ -18,7 +18,7 @@ export class SubscriptionRepository implements ISubscriptionRepository {
     await this.subscriptionDAO.update(formattedData);
   }
 
-  async getByUserId(userId: string): Promise<Subscription> {
+  async getByUserId(userId: string): Promise<Subscription | undefined> {
     const output = await this.subscriptionDAO.getByUserId(userId);
     const data = this.buildEntry(output);
     return data;
@@ -41,6 +41,7 @@ export class SubscriptionRepository implements ISubscriptionRepository {
   }
 
   private buildEntry(output: SubscriptionModel) {
+    if (!output) return;
     return new Subscription({
       id: output.id,
       userId: output.user_id,

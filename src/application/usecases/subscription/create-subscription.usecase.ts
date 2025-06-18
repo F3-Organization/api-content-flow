@@ -8,7 +8,12 @@ import {
   IUserRepository,
 } from "@/application";
 import { IPaymentGatewayService } from "@/infra/services";
-import { Plan, Subscription, User } from "@/domain/entities";
+import {
+  Plan,
+  Subscription,
+  SubscriptionStatus,
+  User,
+} from "@/domain/entities";
 import { v7 as uuid } from "uuid";
 import { env } from "@/config/env";
 import { IPaymentGatewayOutput } from "@/infra";
@@ -47,13 +52,12 @@ export class CreateSubscription implements IUseCase {
       throw new DomainException("User not found", HttpStatus.NOT_FOUND);
     }
     const plan = await this.getPlan(input.priceId);
-    const subscription = await this.subscriptionRepository.getByUserId(
+    let subscription = await this.subscriptionRepository.getByUserId(
       user.getId,
     );
-    let newSubscription: Subscription;
     if (!subscription) {
-      newSubscription = this.buildEntry(user, plan);
-      await this.subscriptionRepository.save(newSubscription);
+      subscription = this.buildEntry(user, plan);
+      await this.subscriptionRepository.save(subscription);
     } else {
       if (subscription.status === "active") {
         throw new DomainException(
@@ -71,18 +75,46 @@ export class CreateSubscription implements IUseCase {
         paymentMethodId: input.paymentMethodId,
         trialPeriodDays: input.trialPeriodDays,
       });
+    await this.updateSubscriptionProperties(
+      subscription,
+      stripeSubscritption.subscriptionId!,
+    );
+    await this.subscriptionRepository.update(subscription);
     return stripeSubscritption;
+  }
+
+  private async updateSubscriptionProperties(
+    subscription: Subscription,
+    stripeSubscritptionId: string,
+  ) {
+    const stripeSubscritption =
+      await this.paymentGatewayService.retrieveSubscription(
+        stripeSubscritptionId,
+      );
+
+    if (stripeSubscritption.trial_start)
+      subscription.trialStart = new Date(
+        stripeSubscritption.trial_start * 1000,
+      );
+    if (stripeSubscritption.trial_end)
+      subscription.trialEnd = new Date(stripeSubscritption.trial_end * 1000);
+    if (stripeSubscritption.status)
+      subscription.status = this.mapStripeStatusToDomain(
+        stripeSubscritption.status,
+      );
+    if (stripeSubscritption.ended_at)
+      subscription.renewalDate = new Date(stripeSubscritption.ended_at * 1000);
   }
 
   private async getPlan(priceId: string): Promise<Plan> {
     const plans = await this.planRepository.getPlans();
     switch (priceId) {
       case env.stripe.price_ids.basic:
-        return plans.find((plan) => plan.getName === "Básico")!;
+        return plans.find((plan) => plan.getName === env.plan_name.basic)!;
       case env.stripe.price_ids.standard:
-        return plans.find((plan) => plan.getName === "Padrão")!;
+        return plans.find((plan) => plan.getName === env.plan_name.standard)!;
       case env.stripe.price_ids.premium:
-        return plans.find((plan) => plan.getName === "Premium")!;
+        return plans.find((plan) => plan.getName === env.plan_name.premium)!;
       default:
         throw new DomainException(
           "Invalid priceId provided",
@@ -107,5 +139,26 @@ export class CreateSubscription implements IUseCase {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+  }
+
+  private mapStripeStatusToDomain(stripeStatus: string): SubscriptionStatus {
+    switch (stripeStatus) {
+      case "trialing":
+      case "active":
+        return "active";
+      case "canceled":
+        return "canceled";
+      case "incomplete":
+      case "incomplete_expired":
+      case "past_due":
+      case "unpaid":
+        return "pending";
+      case "paused":
+        return "inactive";
+      case "expired":
+        return "expired";
+      default:
+        return "pending";
+    }
   }
 }

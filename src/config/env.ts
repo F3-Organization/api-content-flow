@@ -36,4 +36,9 @@ export const env = {
       premium: process.env.STRIPE_PRICE_ID_PREMIUM,
     },
   },
+  plan_name: {
+    basic: process.env.PLAN_NAME_BASIC,
+    standard: process.env.PLAN_NAME_STANDARD,
+    premium: process.env.PLAN_NAME_PREMIUM,
+  },
 };

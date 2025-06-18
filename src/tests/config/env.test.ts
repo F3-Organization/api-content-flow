@@ -25,6 +25,9 @@ describe("Environment Configuration", () => {
       expect(typeof env.stripe.price_ids.basic).toBe("string");
       expect(typeof env.stripe.price_ids.standard).toBe("string");
       expect(typeof env.stripe.price_ids.premium).toBe("string");
+      expect(typeof env.plan_name.basic).toBe("string");
+      expect(typeof env.plan_name.standard).toBe("string");
+      expect(typeof env.plan_name.premium).toBe("string");
     },
   );
 });

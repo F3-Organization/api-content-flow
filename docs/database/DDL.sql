@@ -1,4 +1,4 @@
-CREATE SCHEMA content_flow AUTHORIZATION "postgres";;
+CREATE SCHEMA content_flow AUTHORIZATION "postgres";
 
 CREATE TABLE content_flow.users (
     id UUID PRIMARY KEY,
@@ -100,12 +100,12 @@ CREATE TABLE content_flow.subscription (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES content_flow.users(id) ON DELETE CASCADE,
     plan_id UUID NOT NULL REFERENCES content_flow.plan(id),
-    status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'inactive', 'canceled', 'expired')),
+    status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'inactive', 'canceled', 'expired', 'pending')),
     renewal_date TIMESTAMP NOT NULL,
     auto_renew BOOLEAN NOT NULL DEFAULT FALSE,
     trial_start TIMESTAMP,
     trial_end TIMESTAMP,
-    is_trail BOOLEAN NOT NULL DEFAULT FALSE,
+    is_trial BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

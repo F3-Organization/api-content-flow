@@ -6,7 +6,7 @@ import {
 import { startTestHttp } from "../test-utils/setup-test-http";
 import { Application } from "express";
 import { HttpStatus } from "@/infra/http/protocols.enum";
-import { createUserMocks } from "../infra/mocks/create-user-mocks";
+import { registerUserMock } from "../infra/mocks/create-user-mocks";
 import request from "supertest";
 
 
@@ -27,10 +27,10 @@ afterAll(async () => {
 
 describe("Login End-to-End Tests", () => {
   it("should successfully log in a user", async () => {
-    await request(app).post("/api/register").send(createUserMocks.validUser);
+    await request(app).post("/api/register").send(registerUserMock.validUser);
     const response = await request(app).post("/api/login").send({
-      email: createUserMocks.validUser.email,
-      password: createUserMocks.validUser.password,
+      email: registerUserMock.validUser.email,
+      password: registerUserMock.validUser.password,
     });
     expect(response.status).toBe(HttpStatus.OK);
   });

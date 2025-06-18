@@ -7,7 +7,7 @@ import {
 import { startTestHttp } from "../test-utils/setup-test-http";
 import { Application } from "express";
 import { HttpStatus } from "@/infra/http/protocols.enum";
-import { createUserMocks } from "../infra/mocks/create-user-mocks";
+import { registerUserMock } from "../infra/mocks/create-user-mocks";
 
 let app: Application;
 let server: any;
@@ -28,7 +28,7 @@ describe("User Registration E2E Tests", () => {
   it("should register a user successfully", async () => {
     const response = await request(app)
       .post("/api/register")
-      .send(createUserMocks.validUser);
+      .send(registerUserMock.validUser);
     expect(response.status).toBe(HttpStatus.CREATED);
   });
 });

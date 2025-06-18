@@ -1,8 +1,9 @@
 import {
   IAuthRepository,
   IPlanRepository,
-  ISubscriptionRepository,
   IUserRepository,
+  ISubscriptionRepository,
+  ISubscriptionStripeDataRepository,
 } from "@/application";
 
 export interface IRepositoryFactory {
@@ -10,4 +11,5 @@ export interface IRepositoryFactory {
   createAuthRepository(): IAuthRepository;
   createPlanRepository(): IPlanRepository;
   createSubscriptionRepository(): ISubscriptionRepository;
+  createSubscriptionStripeDataModelRepository(): ISubscriptionStripeDataRepository;
 }

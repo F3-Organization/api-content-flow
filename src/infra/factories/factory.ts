@@ -4,7 +4,8 @@ import {
   PlanRepository,
   StripeAdapter,
   UserRepository,
-  SubscriptionRepository
+  SubscriptionRepository,
+  SubscriptionStripeDataRepository,
 } from "@/infra";
 import {
   ConnectionDatabase,
@@ -13,7 +14,8 @@ import {
   RefreshAccessTokenController,
 } from "@/infra";
 
-import { IFactory, ISubscriptionRepository } from "@/application";
+import { IFactory } from "@/application";
+import { SubscriptionStripeDataRepository } from "../repositories/subscription-stripe-data-repository";
 import { PaymentGatewayService } from "../services";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
@@ -33,7 +35,10 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
       createUserRepository: () => new UserRepository(connection),
       createAuthRepository: () => new AuthRepository(connection),
       createPlanRepository: () => new PlanRepository(connection),
-      createSubscriptionRepository: () => new SubscriptionRepository(connection)
+      createSubscriptionRepository: () =>
+        new SubscriptionRepository(connection),
+      createSubscriptionStripeDataModelRepository: () =>
+        new SubscriptionStripeDataRepository(connection),
     },
 
     controllerFactory: {

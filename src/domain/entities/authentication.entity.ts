@@ -1,4 +1,4 @@
-export type AuthProvider = "local" | "google" | "github";
+export type AuthProvider = "local" | "google";
 
 export interface AuthenticationProps {
   id: string;

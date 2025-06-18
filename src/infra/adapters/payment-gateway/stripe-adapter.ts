@@ -124,4 +124,16 @@ export class StripeAdapter implements IPaymentGateway {
       );
     }
   }
+
+  async retrieveCustomer(
+    customerId: string,
+  ): Promise<Stripe.Customer | Stripe.DeletedCustomer> {
+    return await this.stripe.customers.retrieve(customerId);
+  }
+
+  async retrieveSubscription(
+    subscriptionId: string,
+  ): Promise<Stripe.Subscription> {
+    return await this.stripe.subscriptions.retrieve(subscriptionId);
+  }
 }

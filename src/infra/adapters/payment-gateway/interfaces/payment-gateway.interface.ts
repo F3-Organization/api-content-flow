@@ -1,4 +1,5 @@
 import { User } from "@/domain/entities";
+import Stripe from "stripe";
 
 export namespace IPaymentGatewayInput {
   export interface Charge {
@@ -50,4 +51,8 @@ export interface IPaymentGateway {
   saveCard(
     input: IPaymentGatewayInput.SaveCard,
   ): Promise<IPaymentGatewayOutput.SaveCard>;
+  retrieveCustomer(
+    customerId: string,
+  ): Promise<Stripe.Customer | Stripe.DeletedCustomer>;
+  retrieveSubscription(subscriptionId: string): Promise<Stripe.Subscription>;
 }

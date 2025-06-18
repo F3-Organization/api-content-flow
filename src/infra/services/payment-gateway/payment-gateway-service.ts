@@ -1,3 +1,4 @@
+import Stripe from "stripe";
 import {
   IPaymentGateway,
   IPaymentGatewayOutput,
@@ -26,5 +27,17 @@ export class PaymentGatewayService implements IPaymentGatewayService {
       paymentMethod: savedCard.paymentMethod,
     });
     return subscription;
+  }
+
+  async retrieveCustomer(
+    customerId: string,
+  ): Promise<Stripe.Customer | Stripe.DeletedCustomer> {
+    return this.stripeAdapter.retrieveCustomer(customerId);
+  }
+
+  async retrieveSubscription(
+    subscriptionId: string,
+  ): Promise<Stripe.Subscription> {
+    return this.stripeAdapter.retrieveSubscription(subscriptionId);
   }
 }

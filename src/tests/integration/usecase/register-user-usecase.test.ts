@@ -30,7 +30,7 @@ const input = {
 };
 
 describe("Create User Use Case", () => {
-  it("should create a user successfully", async () => {
+  it("should register an user successfully", async () => {
     await useCase.execute(input);
   });
 

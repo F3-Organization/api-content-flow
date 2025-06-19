@@ -33,6 +33,11 @@ export namespace IPaymentGatewayOutput {
     clientSecret?: string;
   }
 
+  export interface UpdateSubscription {
+    subscriptionId: string;
+    data: Stripe.Subscription;
+  }
+
   export interface SaveCard {
     paymentMethod: string;
   }
@@ -46,6 +51,10 @@ export interface IPaymentGateway {
   createSubscription(
     input: IPaymentGatewayInput.CreateSubscription,
   ): Promise<IPaymentGatewayOutput.CreateSubscription>;
+  updateSubscription(
+    subscriptionId: string,
+    data: Stripe.SubscriptionUpdateParams,
+  ): Promise<IPaymentGatewayOutput.UpdateSubscription>;
   cancelSubscription(subscriptionId: string): Promise<void>;
   refund(paymentId: string): Promise<void>;
   saveCard(

@@ -81,6 +81,27 @@ export class StripeAdapter implements IPaymentGateway {
     }
   }
 
+  async updateSubscription(
+    subscriptionId: string,
+    data: Stripe.SubscriptionUpdateParams,
+  ): Promise<IPaymentGatewayOutput.UpdateSubscription> {
+    try {
+      const subscription = await this.stripe.subscriptions.update(
+        subscriptionId,
+        data,
+      );
+      return {
+        subscriptionId: subscription.id,
+        data: subscription,
+      };
+    } catch (err) {
+      throw new DomainException(
+        (err as Error).message,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   async cancelSubscription(subscriptionId: string): Promise<void> {
     try {
       await this.stripe.subscriptions.cancel(subscriptionId);

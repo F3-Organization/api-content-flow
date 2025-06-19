@@ -71,13 +71,12 @@ export class CreateSubscriptionUseCase implements IUseCase {
       }
       if (subscription.status === "inactive") subscription.activate();
     }
-    const createInput = {
-      user: user,
-      planId: plan.getId,
-      priceId: input.priceId,
-      paymentMethodId: input.paymentMethodId,
-      trialPeriodDays: plan.getTrialDays,
-    };
+    const createInput = this.createIput(
+      user,
+      plan,
+      input,
+      subscription.hadTrial,
+    );
     const stripeSubscritption =
       await this.paymentGatewayService.createSubscription(
         createInput,
@@ -100,7 +99,7 @@ export class CreateSubscriptionUseCase implements IUseCase {
       await this.paymentGatewayService.retrieveSubscription(
         stripeSubscritptionId,
       );
-
+    console.log(stripeSubscritption.status);
     if (stripeSubscritption.trial_start)
       subscription.trialStart = new Date(
         stripeSubscritption.trial_start * 1000,
@@ -112,6 +111,7 @@ export class CreateSubscriptionUseCase implements IUseCase {
         stripeSubscritption.status,
       );
     if (stripeSubscritption.status === "trialing") subscription.isTrial = true;
+    if (stripeSubscritption.status === "trialing") subscription.hadTrial = true;
   }
 
   private async getPlan(priceId: string): Promise<Plan> {
@@ -142,6 +142,7 @@ export class CreateSubscriptionUseCase implements IUseCase {
         new Date().setDate(new Date().getDate() + plan.getTrialDays),
       ),
       isTrial: false,
+      hadTrial: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -166,5 +167,27 @@ export class CreateSubscriptionUseCase implements IUseCase {
       default:
         return "pending";
     }
+  }
+
+  private createIput(
+    user: User,
+    plan: Plan,
+    input: CreateSubscriptionNamespace.Input,
+    hadTrial: boolean,
+  ) {
+    if (!hadTrial)
+      return {
+        user: user,
+        planId: plan.getId,
+        priceId: input.priceId,
+        paymentMethodId: input.paymentMethodId,
+        trialPeriodDays: plan.getTrialDays,
+      };
+    return {
+      user: user,
+      planId: plan.getId,
+      priceId: input.priceId,
+      paymentMethodId: input.paymentMethodId,
+    };
   }
 }

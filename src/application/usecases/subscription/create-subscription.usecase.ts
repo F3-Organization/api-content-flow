@@ -99,7 +99,6 @@ export class CreateSubscriptionUseCase implements IUseCase {
       await this.paymentGatewayService.retrieveSubscription(
         stripeSubscritptionId,
       );
-    console.log(stripeSubscritption.status);
     if (stripeSubscritption.trial_start)
       subscription.trialStart = new Date(
         stripeSubscritption.trial_start * 1000,

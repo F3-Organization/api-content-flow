@@ -12,8 +12,6 @@ export interface SubscriptionProps {
   userId: string;
   planId: string;
   status: SubscriptionStatus;
-  renewalDate: Date;
-  autoRenew: boolean;
   trialStart: Date;
   trialEnd: Date;
   isTrial: boolean;
@@ -50,9 +48,6 @@ export class Subscription {
     this.props.status = value;
     this.touch();
   }
-  get renewalDate() {
-    return this.props.renewalDate;
-  }
   get trialStart(): Date {
     return this.props.trialStart;
   }
@@ -71,17 +66,6 @@ export class Subscription {
   set isTrial(value: boolean) {
     this.props.isTrial = value;
   }
-  set renewalDate(value: Date) {
-    this.props.renewalDate = value;
-    this.touch();
-  }
-  get autoRenew() {
-    return this.props.autoRenew;
-  }
-  set autoRenew(value: boolean) {
-    this.props.autoRenew = value;
-    this.touch();
-  }
   get createdAt() {
     return this.props.createdAt;
   }
@@ -90,7 +74,6 @@ export class Subscription {
   }
   activate() {
     this.props.status = "active";
-    this.props.renewalDate = new Date();
     this.touch();
   }
   cancel() {
@@ -122,7 +105,5 @@ export class Subscription {
         "Trial start date cannot be after trial end date.",
       );
     }
-    if (!props.renewalDate)
-      throw new DomainException("Renewal date is required.");
   }
 }

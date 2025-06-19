@@ -52,8 +52,6 @@ export interface SubscriptionModel {
   user_id: string;
   plan_id: string;
   status: string;
-  renewal_date: Date;
-  auto_renew: boolean;
   trial_start: Date;
   trial_end: Date;
   is_trial: boolean;
@@ -72,10 +70,11 @@ export interface PlanFeatures {
 }
 
 export interface SubscriptionStripeDataModel {
-  id: number;
+  id: string;
   subscription_id: string;
   stripe_subscription_id: string;
   stripe_customer_id: string;
+  stripe_payment_method_id: string;
   stripe_price_id?: string;
   stripe_invoice_id?: string;
   stripe_status?: string;

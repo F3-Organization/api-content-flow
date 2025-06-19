@@ -101,8 +101,6 @@ CREATE TABLE content_flow.subscription (
     user_id UUID NOT NULL REFERENCES content_flow.users(id) ON DELETE CASCADE,
     plan_id UUID NOT NULL REFERENCES content_flow.plan(id),
     status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'inactive', 'canceled', 'expired', 'pending')),
-    renewal_date TIMESTAMP NOT NULL,
-    auto_renew BOOLEAN NOT NULL DEFAULT FALSE,
     trial_start TIMESTAMP,
     trial_end TIMESTAMP,
     is_trial BOOLEAN NOT NULL DEFAULT FALSE,
@@ -172,10 +170,11 @@ CREATE TABLE content_flow.team_member_permission (
 );
 
 CREATE TABLE content_flow.subscription_stripe_data (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY,
     subscription_id UUID NOT NULL REFERENCES content_flow.subscription(id),
     stripe_subscription_id VARCHAR(255) NOT NULL,
     stripe_customer_id VARCHAR(255) NOT NULL,
+    stripe_payment_method_id VARCHAR(255),
     stripe_price_id VARCHAR(255),
     stripe_invoice_id VARCHAR(255),
     stripe_status VARCHAR(50),

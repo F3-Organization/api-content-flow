@@ -21,14 +21,13 @@ import { IPaymentGatewayOutput } from "@/infra";
 export namespace CreateSubscriptionNamespace {
   export interface Input {
     userId: string;
-    planId: string;
     priceId: string;
     paymentMethodId: string;
     trialPeriodDays?: number;
   }
 }
 
-export class CreateSubscription implements IUseCase {
+export class CreateSubscriptionUseCase implements IUseCase {
   private subscriptionRepository: ISubscriptionRepository;
   private userRepository: IUserRepository;
   private planRepository: IPlanRepository;
@@ -75,7 +74,7 @@ export class CreateSubscription implements IUseCase {
     }
     const createInput = {
       user: user,
-      planId: input.planId,
+      planId: plan.getId,
       priceId: input.priceId,
       paymentMethodId: input.paymentMethodId,
       trialPeriodDays: input.trialPeriodDays,

@@ -61,24 +61,35 @@ export class CreateSubscription implements IUseCase {
     } else {
       if (subscription.status === "active") {
         throw new DomainException(
-          "Cannot update an active subscription.",
+          "You already have an active subscription.",
+          HttpStatus.FORBIDDEN,
+        );
+      }
+      if (subscription.status === "pending") {
+        throw new DomainException(
+          "You have a pending subscription. Please wait for it to be processed.",
           HttpStatus.FORBIDDEN,
         );
       }
       if (subscription.status === "inactive") subscription.activate();
     }
+    const createInput = {
+      user: user,
+      planId: input.planId,
+      priceId: input.priceId,
+      paymentMethodId: input.paymentMethodId,
+      trialPeriodDays: input.trialPeriodDays,
+    };
     const stripeSubscritption =
-      await this.paymentGatewayService.createSubscription({
-        user: user,
-        planId: input.planId,
-        priceId: input.priceId,
-        paymentMethodId: input.paymentMethodId,
-        trialPeriodDays: input.trialPeriodDays,
-      });
-    await this.updateSubscriptionProperties(
-      subscription,
-      stripeSubscritption.subscriptionId!,
-    );
+      await this.paymentGatewayService.createSubscription(
+        createInput,
+        subscription.id,
+      );
+    if (stripeSubscritption)
+      await this.updateSubscriptionProperties(
+        subscription,
+        stripeSubscritption.subscriptionId!,
+      );
     await this.subscriptionRepository.update(subscription);
     return stripeSubscritption;
   }
@@ -102,8 +113,7 @@ export class CreateSubscription implements IUseCase {
       subscription.status = this.mapStripeStatusToDomain(
         stripeSubscritption.status,
       );
-    if (stripeSubscritption.ended_at)
-      subscription.renewalDate = new Date(stripeSubscritption.ended_at * 1000);
+    if (stripeSubscritption.status === "trialing") subscription.isTrial = true;
   }
 
   private async getPlan(priceId: string): Promise<Plan> {
@@ -128,14 +138,12 @@ export class CreateSubscription implements IUseCase {
       id: uuid(),
       userId: user.getId,
       planId: plan.getId,
-      status: "active",
-      renewalDate: new Date(),
-      autoRenew: true,
+      status: "pending",
       trialStart: new Date(),
       trialEnd: new Date(
         new Date().setDate(new Date().getDate() + plan.getTrialDays),
       ),
-      isTrial: true,
+      isTrial: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     });

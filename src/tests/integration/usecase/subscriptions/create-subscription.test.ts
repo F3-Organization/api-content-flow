@@ -79,7 +79,7 @@ describe("Create Subscription", () => {
     await useCase.execute(input);
     await expect(useCase.execute(input)).rejects.toThrow(
       new DomainException(
-        "Cannot update an active subscription.",
+        "You already have an active subscription.",
         HttpStatus.FORBIDDEN,
       ),
     );

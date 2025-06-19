@@ -1,9 +1,10 @@
 export namespace ISubscriptionStripeDataRepositoryNamespace {
-  export interface Output {
-    id: number;
+  export interface Data {
+    id: string;
     subscriptionId: string;
     stripeSubscriptionId: string;
     stripeCustomerId: string;
+    stripePaymentMethodId: string;
     stripePriceId?: string;
     stripeInvoiceId?: string;
     stripeStatus?: string;
@@ -15,12 +16,15 @@ export namespace ISubscriptionStripeDataRepositoryNamespace {
 }
 
 export interface ISubscriptionStripeDataRepository {
-  save(input: ISubscriptionStripeDataRepositoryNamespace.Output): Promise<void>;
-  getAll(): Promise<ISubscriptionStripeDataRepositoryNamespace.Output[]>;
+  save(input: ISubscriptionStripeDataRepositoryNamespace.Data): Promise<void>;
+  update(input: ISubscriptionStripeDataRepositoryNamespace.Data): Promise<void>;
+  getAll(): Promise<
+    (ISubscriptionStripeDataRepositoryNamespace.Data | undefined)[]
+  >;
   getById(
     id: string,
-  ): Promise<ISubscriptionStripeDataRepositoryNamespace.Output>;
+  ): Promise<ISubscriptionStripeDataRepositoryNamespace.Data | undefined>;
   getBySubscriptionId(
     subscriptionId: string,
-  ): Promise<ISubscriptionStripeDataRepositoryNamespace.Output>;
+  ): Promise<ISubscriptionStripeDataRepositoryNamespace.Data | undefined>;
 }

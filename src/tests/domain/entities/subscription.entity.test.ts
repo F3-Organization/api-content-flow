@@ -11,8 +11,6 @@ describe("Subscription Entity", () => {
     userId: "user-1",
     planId: "id-1",
     status: "active" as SubscriptionStatus,
-    renewalDate: new Date(),
-    autoRenew: true,
     trialStart: new Date(),
     trialEnd: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     createdAt: new Date(),
@@ -25,7 +23,6 @@ describe("Subscription Entity", () => {
     expect(sub.userId).toBe(validProps.userId);
     expect(sub.planId).toBe(validProps.planId);
     expect(sub.status).toBe("active");
-    expect(sub.autoRenew).toBe(true);
   });
 
   it("should return an error if trialEnd is before trialStart", () => {
@@ -60,25 +57,6 @@ describe("Subscription Entity", () => {
     await new Promise((r) => setTimeout(r, 2));
     sub.status = "canceled";
     expect(sub.status).toBe("canceled");
-    expect(sub.updatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
-  });
-
-  it("should update renewalDate and updatedAt", async () => {
-    const sub = new Subscription(validProps);
-    const oldUpdatedAt = sub.updatedAt;
-    const newDate = new Date(Date.now() + 100000);
-    await new Promise((r) => setTimeout(r, 2));
-    sub.renewalDate = newDate;
-    expect(sub.renewalDate).toBe(newDate);
-    expect(sub.updatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
-  });
-
-  it("should update autoRenew and updatedAt", async () => {
-    const sub = new Subscription(validProps);
-    const oldUpdatedAt = sub.updatedAt;
-    await new Promise((r) => setTimeout(r, 2));
-    sub.autoRenew = false;
-    expect(sub.autoRenew).toBe(false);
     expect(sub.updatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
   });
 

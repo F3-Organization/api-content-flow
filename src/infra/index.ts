@@ -3,3 +3,4 @@ export * from "./http";
 export * from "./models";
 export * from "./adapters";
 export * from "./repositories";
+export * from "./middlewares";

@@ -1,7 +1,10 @@
 import { IRoute } from "./interfaces/route.interface";
 import { IFactory } from "@/application";
-import { CreateSubscriptionController } from "@/infra";
-import { CreateExpress } from "@/infra/adapters/express/express";
+import {
+  CreateExpress,
+  authenticationMiddleware,
+  CreateSubscriptionController,
+} from "@/infra";
 
 export class SubscriptionRoutes implements IRoute {
   private createSubscriptionController: CreateSubscriptionController;
@@ -20,6 +23,7 @@ export class SubscriptionRoutes implements IRoute {
       controller: async (req: any) => {
         return await this.createSubscriptionController.execute(req);
       },
+      middlewares: [authenticationMiddleware],
     });
   }
 }

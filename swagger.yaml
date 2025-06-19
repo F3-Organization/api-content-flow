@@ -4,11 +4,22 @@ info:
   version: 1.0.0
 servers:
   - url: http://localhost:3000/api
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
 tags:
   - name: Auth
     description: Authentication related endpoints
   - name: Plans
     description: Endpoints related to plans
+  - name: Subscription
+    description: Endpoints related to subscriptions
 paths:
   /register:
     $ref: "./docs/swagger/authentication/register.yaml"
@@ -18,3 +29,5 @@ paths:
     $ref: "./docs/swagger/authentication/refresh-access-token.yaml"
   /plans:
     $ref: "./docs/swagger/plans/get-plans.yaml"
+  /subscriptions:
+    $ref: "./docs/swagger/subscription/create-subscription.yaml"

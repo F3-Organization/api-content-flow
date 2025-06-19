@@ -3,12 +3,22 @@ info:
   title: Content Flow API
   version: 1.0.0
 servers:
-  - url: 'http://localhost:3000/api'
+  - url: "http://localhost:3000/api"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
 tags:
   - name: Auth
     description: Authentication related endpoints
   - name: Plans
     description: Endpoints related to plans
+  - name: Subscription
+    description: Endpoints related to subscriptions
 paths:
   /register:
     post:
@@ -37,7 +47,7 @@ paths:
                   type: string
                   default: local
       responses:
-        '201':
+        "201":
           content:
             application/json:
               schema:
@@ -50,7 +60,7 @@ paths:
                     type: string
                     default: User created successfully
           description: User created successfully
-        '400':
+        "400":
           content:
             application/json:
               schema:
@@ -82,7 +92,7 @@ paths:
                   type: string
                   default: string
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
@@ -102,7 +112,7 @@ paths:
                       refreshToken:
                         type: string
           description: Login successful
-        '401':
+        "401":
           content:
             application/json:
               schema:
@@ -115,7 +125,7 @@ paths:
                     type: string
                     default: Invalid password
           description: Invalid password
-        '404':
+        "404":
           content:
             application/json:
               schema:
@@ -143,7 +153,7 @@ paths:
                 refreshToken:
                   type: string
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
@@ -163,7 +173,7 @@ paths:
                       refreshToken:
                         type: string
           description: Token refreshed successfully
-        '401':
+        "401":
           content:
             application/json:
               schema:
@@ -182,7 +192,7 @@ paths:
         - Plans
       summary: Retrieve all available plans
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
@@ -231,3 +241,134 @@ paths:
                   updatedAt:
                     type: string
           description: Retrieve all available plans
+  /subscriptions:
+    post:
+      tags:
+        - Subscription
+      summary: Create a new subscription
+      description: |
+        Creates a new subscription for a user with a specific plan and payment method.
+
+        **Behavior:**
+        - If the user has no subscription, a new one will be created with "pending" status
+        - If the user has an "inactive" subscription, it will be reactivated
+        - If the user has an "active" or "pending" subscription, it will return a 403 error
+        - The priceId must match one of the configured plans (basic, standard, premium)
+        - The subscription will be created in Stripe with a trial period based on the plan
+        - Returns subscriptionId and clientSecret for payment confirmation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - priceId
+                - paymentMethodId
+              properties:
+                userId:
+                  type: string
+                  description: ID of the user creating the subscription
+                  example: 01234567-89ab-cdef-0123-456789abcdef
+                priceId:
+                  type: string
+                  description: |
+                    Stripe price/plan ID. Must be one of the configured values:
+                    - basic: For basic plan
+                    - standard: For standard plan  
+                    - premium: For premium plan
+                  example: price_1234567890abcdef
+                paymentMethodId:
+                  type: string
+                  description: Stripe payment method ID (credit card)
+                  example: pm_card_visa
+      responses:
+        "201":
+          description: Subscription created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  data:
+                    type: object
+                    properties:
+                      subscriptionId:
+                        type: string
+                        description: ID of the subscription created in Stripe
+                        example: sub_1234567890abcdef
+                      clientSecret:
+                        type: string
+                        description: Client secret for payment confirmation (can be null)
+                        example: pi_1234567890abcdef_secret_1234567890abcdef
+                        nullable: true
+        "400":
+          description: Invalid priceId provided
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    example: Invalid priceId provided
+        "403":
+          description: User already has an active or pending subscription
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    enum:
+                      - You already have an active subscription.
+                      - You have a pending subscription. Please wait for it to be processed.
+                examples:
+                  active_subscription:
+                    summary: Active subscription
+                    value:
+                      success: false
+                      message: You already have an active subscription.
+                  pending_subscription:
+                    summary: Pending subscription
+                    value:
+                      success: false
+                      message: You have a pending subscription. Please wait for it to be processed.
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    example: User not found
+        "500":
+          description: Internal server error (Stripe or other service issues)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    description: Specific error message from the service
+                    example: Stripe service error

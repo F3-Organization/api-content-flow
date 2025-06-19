@@ -1,8 +1,7 @@
 import { IResponse } from "@/infra/adapters/express/interfaces/express-adapter.interface";
 import { IController } from "../interfaces";
-import { IFactory, IRepositoryFactory } from "@/application";
+import { IRepositoryFactory } from "@/application";
 import GetPlansUseCase from "@/application/usecases/plan/get-plans.usecase";
-import { DomainException } from "@/domain/error";
 
 export class GetPlansController implements IController {
   useCase: GetPlansUseCase;

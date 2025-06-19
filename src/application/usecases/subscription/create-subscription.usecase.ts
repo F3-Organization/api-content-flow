@@ -23,7 +23,6 @@ export namespace CreateSubscriptionNamespace {
     userId: string;
     priceId: string;
     paymentMethodId: string;
-    trialPeriodDays?: number;
   }
 }
 
@@ -77,7 +76,7 @@ export class CreateSubscriptionUseCase implements IUseCase {
       planId: plan.getId,
       priceId: input.priceId,
       paymentMethodId: input.paymentMethodId,
-      trialPeriodDays: input.trialPeriodDays,
+      trialPeriodDays: plan.getTrialDays,
     };
     const stripeSubscritption =
       await this.paymentGatewayService.createSubscription(

@@ -6,6 +6,7 @@ import {
   UserRepository,
   SubscriptionRepository,
   SubscriptionStripeDataRepository,
+  CreateSubscriptionController,
 } from "@/infra";
 import {
   ConnectionDatabase,
@@ -52,6 +53,11 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
         new RefreshAccessTokenController(Factory.repositoryFactory),
       createGetPlansController: () =>
         new GetPlansController(Factory.repositoryFactory),
+      createCreateSubscriptionController: () =>
+        new CreateSubscriptionController(
+          Factory.repositoryFactory,
+          Factory.serviceFactory,
+        ),
     },
   };
   return Factory;

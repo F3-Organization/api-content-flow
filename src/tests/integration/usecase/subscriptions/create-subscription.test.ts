@@ -56,7 +56,6 @@ describe("Create Subscription", () => {
       userId: user?.getId!,
       priceId: env.stripe.price_ids.basic!,
       paymentMethodId: "pm_card_visa",
-      trialPeriodDays: 7,
     };
     const output = await useCase.execute(input);
     expect(output.subscriptionId).toBeDefined();
@@ -68,7 +67,6 @@ describe("Create Subscription", () => {
       userId: user?.getId!,
       priceId: env.stripe.price_ids.basic!,
       paymentMethodId: "pm_card_visa",
-      trialPeriodDays: 7,
     };
     await useCase.execute(input);
     await expect(useCase.execute(input)).rejects.toThrow(

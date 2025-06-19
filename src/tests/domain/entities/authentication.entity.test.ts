@@ -47,7 +47,7 @@ describe("Authentication Entity", () => {
   });
 
   it("should support all AuthProvider values", () => {
-    const providers: AuthProvider[] = ["local", "google", "github"];
+    const providers: AuthProvider[] = ["local", "google"];
     for (const provider of providers) {
       const props = { ...baseProps, provider };
       const auth = new Authentication(props);

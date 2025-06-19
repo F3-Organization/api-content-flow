@@ -55,6 +55,7 @@ export interface SubscriptionModel {
   trial_start: Date;
   trial_end: Date;
   is_trial: boolean;
+  had_trial: boolean;
   created_at: Date;
   updated_at: Date;
 }

@@ -9,6 +9,7 @@ export class SubscriptionRepository implements ISubscriptionRepository {
   constructor(private connection: IConnectionDatabase) {
     this.subscriptionDAO = new SubscriptionDAODatabase(this.connection);
   }
+
   async save(input: Subscription): Promise<void> {
     const formattedData = this.formatToDatabase(input);
     await this.subscriptionDAO.save(formattedData);
@@ -16,6 +17,11 @@ export class SubscriptionRepository implements ISubscriptionRepository {
   async update(input: Subscription): Promise<void> {
     const formattedData = this.formatToDatabase(input);
     await this.subscriptionDAO.update(formattedData);
+  }
+
+  async getById(id: string): Promise<Subscription | undefined> {
+    const output = await this.subscriptionDAO.getById(id);
+    return this.buildEntry(output);
   }
 
   async getByUserId(userId: string): Promise<Subscription | undefined> {
@@ -33,6 +39,7 @@ export class SubscriptionRepository implements ISubscriptionRepository {
       trial_start: input.trialStart,
       trial_end: input.trialEnd,
       is_trial: input.isTrial,
+      had_trial: input.hadTrial,
       created_at: input.createdAt,
       updated_at: input.updatedAt,
     };
@@ -48,6 +55,7 @@ export class SubscriptionRepository implements ISubscriptionRepository {
       trialStart: output.trial_start,
       trialEnd: output.trial_end,
       isTrial: output.is_trial,
+      hadTrial: output.had_trial,
       createdAt: output.created_at,
       updatedAt: output.updated_at,
     });

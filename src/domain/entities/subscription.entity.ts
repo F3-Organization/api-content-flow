@@ -15,6 +15,7 @@ export interface SubscriptionProps {
   trialStart: Date;
   trialEnd: Date;
   isTrial: boolean;
+  hadTrial: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -65,6 +66,12 @@ export class Subscription {
   }
   set isTrial(value: boolean) {
     this.props.isTrial = value;
+  }
+  get hadTrial(): boolean {
+    return this.props.hadTrial;
+  }
+  set hadTrial(value: boolean) {
+    this.props.hadTrial = value;
   }
   get createdAt() {
     return this.props.createdAt;

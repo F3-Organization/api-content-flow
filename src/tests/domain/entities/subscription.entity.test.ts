@@ -16,6 +16,7 @@ describe("Subscription Entity", () => {
     createdAt: new Date(),
     updatedAt: new Date(),
     isTrial: false,
+    hadTrial: false,
   };
 
   it("should create a subscription with valid props", () => {

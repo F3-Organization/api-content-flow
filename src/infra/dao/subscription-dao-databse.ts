@@ -20,6 +20,14 @@ export class SubscriptionDAODatabase implements SubscriptionDAO {
     });
   }
 
+  async getById(id: string): Promise<Models.Subscription> {
+    const [result] = await this.connection.query<Models.Subscription>({
+      table: Table.Subscription,
+      where: { id: id },
+    });
+    return result;
+  }
+
   async getByUserId(userId: string): Promise<Models.Subscription> {
     const [result] = await this.connection.query<Models.Subscription>({
       table: Table.Subscription,

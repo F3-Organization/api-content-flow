@@ -104,6 +104,7 @@ CREATE TABLE content_flow.subscription (
     trial_start TIMESTAMP,
     trial_end TIMESTAMP,
     is_trial BOOLEAN NOT NULL DEFAULT FALSE,
+    had_trial BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

@@ -16,6 +16,9 @@ jobs:
       JWT_SECRET: ${{ secrets.SECRET_KEY }}
       STRIPE_SECRET: ${{ secrets.STRIPE_SECRET }}
       STRIPE_PRICE_ID_BASIC: ${{ secrets.STRIPE_PRICE_ID_BASIC }}
+      PLAN_NAME_BASIC: ${{ secrets.PLAN_NAME_BASIC }}
+      PLAN_NAME_STANDARD: ${{ secrets.PLAN_NAME_STANDARD }}
+      PLAN_NAME_PREMIUM: ${{ secrets.PLAN_NAME_PREMIUM }}
       API_PORT: "3000"
     steps:
       - uses: actions/checkout@v4

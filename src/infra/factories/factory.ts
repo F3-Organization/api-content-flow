@@ -27,7 +27,10 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
 
     serviceFactory: {
       createPaymentGatewayService: () =>
-        new PaymentGatewayService(Factory.adapters.createStripeAdapter()),
+        new PaymentGatewayService(
+          Factory.adapters.createStripeAdapter(),
+          Factory.repositoryFactory,
+        ),
     },
 
     repositoryFactory: {

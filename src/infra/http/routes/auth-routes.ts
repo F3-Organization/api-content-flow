@@ -1,11 +1,17 @@
 import { IRoute } from "./interfaces/route.interface";
 import { CreateExpress } from "@/infra/adapters/express/express";
 import { IFactory } from "@/application";
-import { LoginController, RefreshAccessTokenController } from "../controllers";
+import {
+  CreateGoogleOAuthUrlController,
+  CreateSubscriptionController,
+  LoginController,
+  RefreshAccessTokenController,
+} from "../controllers";
 
 export class AuthRoutes implements IRoute {
   private createLoginController: LoginController;
   private createRefreshAccessTokenController: RefreshAccessTokenController;
+  createGoogleOAuthUrlController: CreateGoogleOAuthUrlController;
   constructor(
     private http: CreateExpress,
     private factory: IFactory,
@@ -14,6 +20,8 @@ export class AuthRoutes implements IRoute {
       this.factory.controllerFactory.createLoginController();
     this.createRefreshAccessTokenController =
       this.factory.controllerFactory.createRefreshAccessTokenController();
+    this.createGoogleOAuthUrlController =
+      this.factory.controllerFactory.createCreateGoogleOAuthUrlController();
     this.setup();
   }
   async setup(): Promise<void> {
@@ -30,6 +38,14 @@ export class AuthRoutes implements IRoute {
       url: "/refresh-access-token",
       controller: async (req: any) => {
         return await this.createRefreshAccessTokenController.execute(req);
+      },
+    });
+
+    await this.http.on({
+      method: "post",
+      url: "/create-google-auth-url",
+      controller: async (req: any) => {
+        return await this.createGoogleOAuthUrlController.execute(req);
       },
     });
   }

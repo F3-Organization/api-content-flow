@@ -7,6 +7,7 @@ import {
   IServiceFactory,
 } from "@/application";
 import { DomainException } from "@/domain/error";
+import { HttpStatus } from "../../protocols.enum";
 
 export class CreateSubscriptionController implements IController {
   private useCase: CreateSubscriptionUseCase;
@@ -24,7 +25,7 @@ export class CreateSubscriptionController implements IController {
     try {
       const input = this.getParams(req);
       const output = await this.useCase.execute(input);
-      return { data: output, success: true, statusCode: 201 };
+      return { success: true, data: output, statusCode: HttpStatus.CREATED };
     } catch (err) {
       const error = err as DomainException;
       return {

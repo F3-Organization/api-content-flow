@@ -1,4 +1,10 @@
-import { AuthProvider, User, userRoleEnum } from "@/domain/entities";
+import {
+  Authentication,
+  AuthProvider,
+  User,
+  userRoleEnum,
+} from "@/domain/entities";
+import { GoogleOAuthAdapterNamespace } from "@/infra";
 
 export namespace IUserRepositoryNamespace {
   export interface CreateUser {
@@ -25,10 +31,8 @@ export namespace IUserRepositoryNamespace {
 }
 
 export interface IUserRepository {
-  save(
-    user: IUserRepositoryNamespace.CreateUser,
-    auth: IUserRepositoryNamespace.CreateAuth,
-  ): Promise<void>;
+  save(user: User, auth: Authentication): Promise<void>;
   getById(id: string): Promise<User | undefined>;
   getByEmail(email: string): Promise<User | undefined>;
+  saveFromGoogle(input: GoogleOAuthAdapterNamespace.Output): Promise<void>;
 }

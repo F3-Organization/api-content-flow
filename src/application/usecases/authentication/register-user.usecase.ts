@@ -22,12 +22,11 @@ export class RegisterUserUseCase implements IUseCase {
   }
   async execute(input: IRegisterUserNamespace.Input): Promise<any> {
     const { user, authentication } = await this.buildUser(input);
-    const { userData, authData } = this.buildInput(user, authentication);
     const users = await this.userRepository.getByEmail(input.email);
     if (users) {
       throw new DomainException("User already exists", HttpStatus.BAD_REQUEST);
     }
-    await this.userRepository.save(userData, authData);
+    await this.userRepository.save(user, authentication);
   }
 
   private async buildUser(input: IRegisterUserNamespace.Input) {
@@ -54,29 +53,5 @@ export class RegisterUserUseCase implements IUseCase {
     });
 
     return { user, authentication };
-  }
-
-  private buildInput(user: User, authentication: Authentication) {
-    const userData = {
-      id: user.getId,
-      name: user.getName,
-      email: user.getEmail.getValue,
-      cpf: user?.getCpf?.toString(),
-      isActive: user.getIsActive,
-      emailVerified: user.getEmailVerified,
-      role: user.getRole.getRole,
-      avatar: user.getAvatar,
-      updatedAt: user.getUpdatedAt,
-    };
-    const authData = {
-      id: authentication.getId,
-      userId: authentication.getUserId,
-      provider: authentication.getProvider,
-      passwordHash: authentication.getPasswordHash,
-      refreshToken: authentication.getRefreshToken,
-      createdAt: authentication.createdAt,
-      updatedAt: authentication.updatedAt,
-    };
-    return { userData, authData };
   }
 }

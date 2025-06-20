@@ -12,26 +12,17 @@ export class CreateGoogleOAuthUrlController implements IController {
     );
   }
   async execute(req: any): Promise<IResponse> {
-    try {
-      const output = await this.createGoogleOAuthUrlUseCase.execute({});
-      const res: IResponse = {
-        statusCode: HttpStatus.OK,
-        data: {
-          url: output.url,
-        },
-        cookies: {
-          state: output.state,
-          nonce: output.nonce,
-        },
-      };
-      return res;
-    } catch (err) {
-      const error = err as DomainException;
-      return {
-        success: false,
-        message: error.message,
-        statusCode: error.statusCode,
-      };
-    }
+    const output = await this.createGoogleOAuthUrlUseCase.execute({});
+    const res: IResponse = {
+      statusCode: HttpStatus.OK,
+      data: {
+        url: output.url,
+      },
+      cookies: {
+        state: output.state,
+        nonce: output.nonce,
+      },
+    };
+    return res;
   }
 }

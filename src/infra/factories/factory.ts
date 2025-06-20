@@ -9,6 +9,7 @@ import {
   CreateSubscriptionController,
   GoogleOAuthAdapter,
   CreateGoogleOAuthUrlController,
+  LoginOAuthGoogleController,
 } from "@/infra";
 import {
   ConnectionDatabase,
@@ -65,6 +66,11 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
         ),
       createCreateGoogleOAuthUrlController: () =>
         new CreateGoogleOAuthUrlController(Factory.serviceFactory),
+      createLoginOAuthController: () =>
+        new LoginOAuthGoogleController(
+          Factory.serviceFactory,
+          Factory.repositoryFactory,
+        ),
     },
   };
   return Factory;

@@ -41,4 +41,9 @@ export const env = {
     standard: process.env.PLAN_NAME_STANDARD,
     premium: process.env.PLAN_NAME_PREMIUM,
   },
+  o_auth: {
+    client_id: process.env.OAUTH_CLIENT_ID,
+    client_secret: process.env.OAUTH_CLIENT_SECRET,
+    redirect_uri: process.env.OAUTH_REDIRECT_URI,
+  },
 };

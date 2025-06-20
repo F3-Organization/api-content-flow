@@ -3,7 +3,7 @@ info:
   title: Content Flow API
   version: 1.0.0
 servers:
-  - url: "http://localhost:3000/api"
+  - url: 'http://localhost:3000/api'
 components:
   securitySchemes:
     bearerAuth:
@@ -47,7 +47,7 @@ paths:
                   type: string
                   default: local
       responses:
-        "201":
+        '201':
           content:
             application/json:
               schema:
@@ -60,7 +60,7 @@ paths:
                     type: string
                     default: User created successfully
           description: User created successfully
-        "400":
+        '400':
           content:
             application/json:
               schema:
@@ -92,7 +92,7 @@ paths:
                   type: string
                   default: string
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
@@ -112,7 +112,7 @@ paths:
                       refreshToken:
                         type: string
           description: Login successful
-        "401":
+        '401':
           content:
             application/json:
               schema:
@@ -125,7 +125,7 @@ paths:
                     type: string
                     default: Invalid password
           description: Invalid password
-        "404":
+        '404':
           content:
             application/json:
               schema:
@@ -153,7 +153,7 @@ paths:
                 refreshToken:
                   type: string
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
@@ -173,7 +173,7 @@ paths:
                       refreshToken:
                         type: string
           description: Token refreshed successfully
-        "401":
+        '401':
           content:
             application/json:
               schema:
@@ -192,7 +192,7 @@ paths:
         - Plans
       summary: Retrieve all available plans
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
@@ -284,7 +284,7 @@ paths:
                   description: Stripe payment method ID (credit card)
                   example: pm_card_visa
       responses:
-        "201":
+        '201':
           description: Subscription created successfully
           content:
             application/json:
@@ -306,7 +306,7 @@ paths:
                         description: Client secret for payment confirmation (can be null)
                         example: pi_1234567890abcdef_secret_1234567890abcdef
                         nullable: true
-        "400":
+        '400':
           description: Invalid priceId provided
           content:
             application/json:
@@ -319,7 +319,7 @@ paths:
                   message:
                     type: string
                     example: Invalid priceId provided
-        "403":
+        '403':
           description: User already has an active or pending subscription
           content:
             application/json:
@@ -345,7 +345,7 @@ paths:
                     value:
                       success: false
                       message: You have a pending subscription. Please wait for it to be processed.
-        "404":
+        '404':
           description: User not found
           content:
             application/json:
@@ -358,7 +358,7 @@ paths:
                   message:
                     type: string
                     example: User not found
-        "500":
+        '500':
           description: Internal server error (Stripe or other service issues)
           content:
             application/json:
@@ -372,3 +372,36 @@ paths:
                     type: string
                     description: Specific error message from the service
                     example: Stripe service error
+  /create-google-auth-url:
+    post:
+      tags:
+        - Auth
+      summary: Create a google url authentication
+      responses:
+        '200':
+          description: Create a google url authentication successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  data:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string

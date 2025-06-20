@@ -1,0 +1,32 @@
+post:
+  tags:
+    - Auth
+  summary: Create a google url authentication
+  responses:
+    "200":
+      description: Create a google url authentication successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: true
+              data:
+                type: object
+                properties:
+                  url:
+                    type: string
+    "500":
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: false
+              message:
+                type: string

@@ -13,6 +13,7 @@ export namespace GoogleOAuthAdapterNamespace {
   }
 }
 export interface IGoogleOAuthAdapter {
+  buildAuthUrl(input: { state: string; nonce: string }): string;
   getUserInfoFromCode(
     input: GoogleOAuthAdapterNamespace.Input,
   ): Promise<GoogleOAuthAdapterNamespace.Output>;

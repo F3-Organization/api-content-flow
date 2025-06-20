@@ -8,7 +8,7 @@ import {
 
 export interface IFactory {
   connection: () => IConnectionDatabase;
-  adapters: IAdaptersFactory;
+  adapterFactory: IAdaptersFactory;
   serviceFactory: IServiceFactory;
   repositoryFactory: IRepositoryFactory;
   controllerFactory: IControllerFactory;

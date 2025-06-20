@@ -14,6 +14,18 @@ export class GoogleOAuthAdapter implements IGoogleOAuthAdapter {
     );
   }
 
+  buildAuthUrl(input: { state: string; nonce: string }): string {
+    return this.oAuth2Client.generateAuthUrl({
+      access_type: "offline",
+      scope: [
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/userinfo.profile",
+      ],
+      state: input.state,
+      nonce: input.nonce,
+    });
+  }
+
   async getUserInfoFromCode(
     input: GoogleOAuthAdapterNamespace.Input,
   ): Promise<GoogleOAuthAdapterNamespace.Output> {

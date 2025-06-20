@@ -7,6 +7,7 @@ import {
   SubscriptionRepository,
   SubscriptionStripeDataRepository,
   CreateSubscriptionController,
+  GoogleOAuthAdapter,
 } from "@/infra";
 import {
   ConnectionDatabase,
@@ -16,22 +17,25 @@ import {
 } from "@/infra";
 
 import { IFactory } from "@/application";
-import { PaymentGatewayService } from "../services";
+import { GoogleOAuthService, PaymentGatewayService } from "../services";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
   const Factory: IFactory = {
     connection: () => connection,
 
-    adapters: {
+    adapterFactory: {
       createStripeAdapter: () => new StripeAdapter(),
+      createGoogleOAuthAdapter: () => new GoogleOAuthAdapter(),
     },
 
     serviceFactory: {
       createPaymentGatewayService: () =>
         new PaymentGatewayService(
-          Factory.adapters.createStripeAdapter(),
+          Factory.adapterFactory.createStripeAdapter(),
           Factory.repositoryFactory,
         ),
+      createGoogleOAuthService: () =>
+        new GoogleOAuthService(Factory.adapterFactory),
     },
 
     repositoryFactory: {

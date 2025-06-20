@@ -1,5 +1,6 @@
-import { IPaymentGateway } from "@/infra";
+import { IGoogleOAuthAdapter, IPaymentGateway } from "@/infra";
 
 export interface IAdaptersFactory {
   createStripeAdapter(): IPaymentGateway;
+  createGoogleOAuthAdapter(): IGoogleOAuthAdapter;
 }

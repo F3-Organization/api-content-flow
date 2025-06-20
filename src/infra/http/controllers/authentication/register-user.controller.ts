@@ -1,8 +1,11 @@
 import { IResponse } from "@/infra/adapters/express/interfaces/express-adapter.interface";
 import { IController } from "../interfaces/controller.interface";
-import { RegisterUserUseCase, IRepositoryFactory, IUseCase } from "@/application";
+import {
+  RegisterUserUseCase,
+  IRepositoryFactory,
+  IUseCase,
+} from "@/application";
 import { HttpStatus } from "../../protocols.enum";
-import { DomainException } from "@/domain/error";
 
 export class RegisterUserController implements IController {
   private createUser: IUseCase;

@@ -61,7 +61,7 @@ export class ExpressAdapter implements IExpressAdapter {
     this.app.use(middleware);
   }
 
-  private handleControllerResponse(result: IResponse, res: any): void {
+  private handleControllerResponse(result: IResponse, res: Response): void {
     const {
       statusCode = HttpStatus.OK,
       data,
@@ -77,6 +77,16 @@ export class ExpressAdapter implements IExpressAdapter {
     if (error) {
       response.success = false;
       response.error = error;
+    }
+
+    if (result.cookies) {
+      for (const [key, value] of Object.entries(result.cookies)) {
+        res.cookie(key, value, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+        });
+      }
     }
 
     res.status(statusCode).json(response);

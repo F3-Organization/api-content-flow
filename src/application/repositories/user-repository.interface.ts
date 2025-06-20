@@ -34,5 +34,5 @@ export interface IUserRepository {
   save(user: User, auth: Authentication): Promise<void>;
   getById(id: string): Promise<User | undefined>;
   getByEmail(email: string): Promise<User | undefined>;
-  saveFromGoogle(input: GoogleOAuthAdapterNamespace.Output): Promise<void>;
+  saveFromGoogle(input: User): Promise<void>;
 }

@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 export interface IResponse {
   statusCode?: number;
   data?: any;
+  cookies?: Record<string, string>;
   message?: string;
   success?: boolean;
   error?: string;
@@ -22,7 +23,7 @@ export namespace ExpressAdapterNamespace {
   export type middleware = (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => any;
 }
 
@@ -31,10 +32,10 @@ export interface IExpressAdapter {
     method: ExpressAdapterNamespace.method,
     url: ExpressAdapterNamespace.url,
     controller: ExpressAdapterNamespace.controller,
-    middlewares?: ExpressAdapterNamespace.middleware[]
+    middlewares?: ExpressAdapterNamespace.middleware[],
   ): Promise<void>;
 
   middlewareHandler(
-    middleware: ExpressAdapterNamespace.middleware
+    middleware: ExpressAdapterNamespace.middleware,
   ): Promise<void>;
 }

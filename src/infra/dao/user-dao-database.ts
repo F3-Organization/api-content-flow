@@ -5,6 +5,20 @@ import { IConnectionDatabase } from "../adapters/database/interfaces/connection-
 export class UserDAODatabase implements IUserDAO {
   constructor(private readonly connection: IConnectionDatabase) {}
 
+  async save(user: Models.User, auth: Models.Authentication): Promise<void> {
+    await this.connection.transaction(async (trx) => {
+      await trx.insert(user).into(Table.User);
+      await trx.insert(auth).into(Table.Authentication);
+    });
+  }
+
+  async saveFromGoogle(user: Models.User): Promise<void> {
+    await this.connection.insert({
+      table: Table.User,
+      data: user,
+    });
+  }
+
   async getById(id: string): Promise<Models.User> {
     const [result] = await this.connection.query<Models.User>({
       table: Table.User,
@@ -19,12 +33,5 @@ export class UserDAODatabase implements IUserDAO {
       where: { email: email },
     });
     return result;
-  }
-
-  async save(user: Models.User, auth: Models.Authentication): Promise<void> {
-    await this.connection.transaction(async (trx) => {
-      await trx.insert(user).into(Table.User);
-      await trx.insert(auth).into(Table.Authentication);
-    });
   }
 }

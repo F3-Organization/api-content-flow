@@ -8,6 +8,7 @@ import {
   SubscriptionStripeDataRepository,
   CreateSubscriptionController,
   GoogleOAuthAdapter,
+  CreateGoogleOAuthUrlController,
 } from "@/infra";
 import {
   ConnectionDatabase,
@@ -16,8 +17,8 @@ import {
   RefreshAccessTokenController,
 } from "@/infra";
 
-import { IFactory } from "@/application";
 import { GoogleOAuthService, PaymentGatewayService } from "../services";
+import { IFactory } from "@/application";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
   const Factory: IFactory = {
@@ -62,6 +63,8 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
           Factory.repositoryFactory,
           Factory.serviceFactory,
         ),
+      createCreateGoogleOAuthUrlController: () =>
+        new CreateGoogleOAuthUrlController(Factory.serviceFactory),
     },
   };
   return Factory;

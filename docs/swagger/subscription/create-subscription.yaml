@@ -90,17 +90,17 @@ post:
                 enum:
                   - "You already have an active subscription."
                   - "You have a pending subscription. Please wait for it to be processed."
-            examples:
-              active_subscription:
-                summary: Active subscription
-                value:
-                  success: false
-                  message: "You already have an active subscription."
-              pending_subscription:
-                summary: Pending subscription
-                value:
-                  success: false
-                  message: "You have a pending subscription. Please wait for it to be processed."
+          examples:
+            active_subscription:
+              summary: Active subscription
+              value:
+                success: false
+                message: "You already have an active subscription."
+            pending_subscription:
+              summary: Pending subscription
+              value:
+                success: false
+                message: "You have a pending subscription. Please wait for it to be processed."
     "404":
       description: User not found
       content:

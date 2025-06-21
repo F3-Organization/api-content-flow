@@ -5,6 +5,15 @@ post:
   responses:
     "200":
       description: Create a google url authentication successfully
+      headers:
+        Set-Cookie:
+          description: OAuth state and nonce cookies
+          schema:
+            items:
+              type: string
+            example:
+              - state=abc123def456; HttpOnly; SameSite=Lax; Secure
+              - nonce=xyz789ghi012; HttpOnly; SameSite=Lax; Secure
       content:
         application/json:
           schema:
@@ -18,6 +27,8 @@ post:
                 properties:
                   url:
                     type: string
+                    description: Google OAuth authentication URL
+                    example: "https://accounts.google.com/o/oauth2/v2/auth?client_id=..."
     "500":
       description: Internal server error
       content:

@@ -5,6 +5,8 @@ import { IUserRepository } from "@/application";
 import { GoogleOAuthAdapterNamespace } from "@/infra";
 import { Email, User, UserRole, userRoleEnum } from "@/domain/entities";
 import { v7 as uuidv7 } from "uuid";
+import { DomainException } from "@/domain/error";
+import { HttpStatus } from "@/infra/http/protocols.enum";
 
 export namespace LoginOAuthUseCaseNamespace {
   export interface Input {
@@ -35,6 +37,7 @@ export class LoginOAuthUseCase implements IUseCase {
     input: LoginOAuthUseCaseNamespace.Input,
   ): Promise<LoginOAuthUseCaseNamespace.Output> {
     const { code, returnedState, savedState, nonce } = input;
+    this.validateInput(input);
 
     const userInfo = await this.googleOAuthService.handlerCallback({
       code: code,
@@ -53,6 +56,21 @@ export class LoginOAuthUseCase implements IUseCase {
       accessToken: accessToken,
       refreshToken: refreshToken,
     };
+  }
+
+  private validateInput(input: LoginOAuthUseCaseNamespace.Input) {
+    if (
+      !input ||
+      !input.code ||
+      !input.returnedState ||
+      !input.nonce ||
+      !input.savedState
+    ) {
+      throw new DomainException(
+        "Invalid input: code, state, and nonce are required.",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   private buildEntry(userInfo: GoogleOAuthAdapterNamespace.Output) {

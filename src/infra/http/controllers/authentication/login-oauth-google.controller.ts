@@ -6,6 +6,7 @@ import {
   LoginOAuthUseCase,
 } from "@/application";
 import { HttpStatus } from "../../protocols.enum";
+import { DomainException } from "@/domain/error";
 
 export class LoginOAuthGoogleController implements IController {
   private loginOAuthUseCase: LoginOAuthUseCase;
@@ -18,9 +19,10 @@ export class LoginOAuthGoogleController implements IController {
       this.repositoryFactory,
     );
   }
+  
   async execute(req: any): Promise<IResponse> {
     const input = this.getParams(req);
-    const output = this.loginOAuthUseCase.execute(input);
+    const output = await this.loginOAuthUseCase.execute(input);
     const res: IResponse = {
       statusCode: HttpStatus.OK,
       data: output,

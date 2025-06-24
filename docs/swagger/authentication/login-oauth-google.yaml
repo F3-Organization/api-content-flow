@@ -1,0 +1,53 @@
+post:
+  tags:
+    - Auth
+  summary: OAuth Google login endpoint
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              default: "123abc"
+            returnedState:
+              type: string
+              default: "state123"
+            savedState:
+              type: string
+              default: "state123"
+            nonce:
+              type: string
+              default: "nonce123"
+  responses:
+    "200":
+      description: Login with Google OAuth successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: true
+              data:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+    "500":
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: false
+              message:
+                type: string

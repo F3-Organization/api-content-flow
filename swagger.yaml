@@ -33,3 +33,5 @@ paths:
     $ref: "./docs/swagger/subscription/create-subscription.yaml"
   /create-google-auth-url:
     $ref: "./docs/swagger/authentication/create-google-auth-url.yaml"
+  /login-oauth-google:
+    $ref: "./docs/swagger/authentication/login-oauth-google.yaml"

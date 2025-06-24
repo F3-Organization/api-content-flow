@@ -3,6 +3,7 @@ import { ExpressAdapter } from "./express-adapter";
 import { ExpressAdapterNamespace } from "./interfaces/express-adapter.interface";
 import { env } from "@/config/env";
 import { ICreateExpress, RouteConfig } from "./interfaces/express.interface";
+import cookieParser from "cookie-parser";
 
 export class CreateExpress implements ICreateExpress {
   private expressAdapter: ExpressAdapter;
@@ -45,8 +46,9 @@ export class CreateExpress implements ICreateExpress {
     });
   }
 
-  private async setMiddlewares(): Promise<void> {
-    await this.app.use(express.json());
-    await this.app.use(express.urlencoded({ extended: true }));
+  private setMiddlewares(): void {
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(cookieParser());
   }
 }

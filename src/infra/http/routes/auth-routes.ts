@@ -54,7 +54,7 @@ export class AuthRoutes implements IRoute {
     });
 
     await this.http.on({
-      method: "post",
+      method: "get",
       url: "/login-oauth-google",
       controller: async (req: any) => {
         return await this.createLoginOAuthController.execute(req);

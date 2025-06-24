@@ -49,6 +49,9 @@ export class LoginOAuthUseCase implements IUseCase {
     if (!user) {
       const buildedUser = this.buildEntry(userInfo);
       await this.userRepository.saveFromGoogle(buildedUser);
+      user = await this.userRepository.getByEmail(
+        buildedUser.getEmail.getValue,
+      );
     }
     const accessToken = generateToken(user!);
     const refreshToken = generateToken(user!, "30d");

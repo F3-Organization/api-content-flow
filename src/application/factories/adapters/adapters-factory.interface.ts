@@ -6,7 +6,7 @@ import {
 } from "@/infra";
 
 export interface IAdaptersFactory {
-  createRabbitMqAdapter(): IRabbitMQAdapter;
+  createRabbitMqAdapter(): Promise<IRabbitMQAdapter>;
   createNodemailerAdapter(): INodemailerAdapter;
   createStripeAdapter(): IPaymentGateway;
   createGoogleOAuthAdapter(): IGoogleOAuthAdapter;

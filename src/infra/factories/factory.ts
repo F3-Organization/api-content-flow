@@ -27,7 +27,7 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
     adapterFactory: {
       createStripeAdapter: () => new StripeAdapter(),
       createGoogleOAuthAdapter: () => new GoogleOAuthAdapter(),
-      createRabbitMqAdapter: () => new RabbitMQAdapter(),
+      createRabbitMqAdapter: async () => await RabbitMQAdapter.create(),
       createNodemailerAdapter: () => new NodemailerAdapter(),
     },
 

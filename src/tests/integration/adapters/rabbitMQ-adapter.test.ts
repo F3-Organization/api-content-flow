@@ -21,7 +21,6 @@ describe("RabbitMQ Adapter Integration Tests", () => {
     });
     await rabbitmqAdapter.sendToQueue(queueName, "test");
     const received = await messagePromise;
-    console.log(received);
     expect(received).toBe("test");
   });
 

@@ -6,12 +6,12 @@ describe("Environment Configuration", () => {
     "should load all required environment variables",
     () => {
       expect(typeof env.time_zone).toBe("string");
+      expect(typeof env.secret).toBe("string");
       expect(typeof env.database.client).toBe("string");
       expect(typeof env.database.connection.host).toBe("string");
       expect(typeof env.database.connection.user).toBe("string");
       expect(typeof env.database.connection.password).toBe("string");
       expect(typeof env.database.connection.database).toBe("string");
-      expect(typeof env.secret).toBe("string");
       expect(typeof env.database.connection.port).toBe("number");
       expect(Number.isNaN(env.database.connection.port)).toBe(false);
       expect(typeof env.api_port).toBe("number");
@@ -28,6 +28,11 @@ describe("Environment Configuration", () => {
       expect(typeof env.plan_name.basic).toBe("string");
       expect(typeof env.plan_name.standard).toBe("string");
       expect(typeof env.plan_name.premium).toBe("string");
+
+      expect(env.o_auth).toBeDefined();
+      expect(typeof env.o_auth.client_id).toBe("string");
+      expect(typeof env.o_auth.client_secret).toBe("string");
+      expect(typeof env.o_auth.redirect_uri).toBe("string");
     },
   );
 });

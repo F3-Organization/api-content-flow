@@ -1,15 +1,12 @@
 import { RabbitMQAdapter } from "@/infra";
-import {
-  setupTestRabbitMq,
-  stopTestRabbit,
-} from "@/tests/test-utils/setup-test-rabbitMq";
+import { setupTestRabbitMq } from "@/tests/test-utils/setup-test-rabbitMq";
 
 let rabbitmqAdapter: RabbitMQAdapter;
 let queueName: string = "testQueue";
 beforeAll(async () => {
   await setupTestRabbitMq();
   rabbitmqAdapter = await RabbitMQAdapter.create();
-});
+}, 20000);
 
 describe("RabbitMQ Adapter Integration Tests", () => {
   it("should connect to RabbitMQ successfully", async () => {

@@ -1,18 +1,40 @@
 import amqp, { Channel, ChannelModel } from "amqplib";
-import { RabbitMQInterface } from "./interfaces/rabbitmq.interface";
+import { IRabbitMQ } from "./interfaces/rabbitmq.interface";
+import { env } from "@/config/env";
 
-export class RabbitMQ implements RabbitMQInterface {
-    constructor(private readonly url: string) {}
+export class RabbitMQ implements IRabbitMQ {
+  private connection: amqp.ChannelModel | null;
+  private channel: amqp.Channel | null;
+  private constructor() {
+    this.connection = null;
+    this.channel = null;
+  }
 
-    async connect(): Promise<{ connection: ChannelModel; channel: Channel; }> {
-        const connection = await amqp.connect(this.url);
-        const channel = await connection.createChannel();
-        return { connection, channel }
-    }
+  static async create(): Promise<RabbitMQ> {
+    const instance = new RabbitMQ();
+    await instance.connect();
+    return instance;
+  }
 
-    async close(args: { connection: ChannelModel; channel: Channel; }): Promise<void> {
-        await args.channel.close();
-        await args.connection.close();
-    }
+  async connect(): Promise<void> {
+    const url = `amqp://${env.messageBroker.user}:${env.messageBroker.pass}@${env.messageBroker.host}:${env.messageBroker.port}/`;
+    this.connection = await amqp.connect(url);
+    this.channel = await this.connection.createChannel();
+  }
 
+  async close(args: {
+    connection: ChannelModel;
+    channel: Channel;
+  }): Promise<void> {
+    await args.channel.close();
+    await args.connection.close();
+  }
+
+  getConnection(): ChannelModel | null {
+    return this.connection;
+  }
+
+  getChannel(): Channel | null {
+    return this.channel;
+  }
 }

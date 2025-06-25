@@ -1,3 +1,5 @@
+import { IFactory } from "@/application";
+import { GoogleOAuthService, PaymentGatewayService } from "../services";
 import {
   AuthRepository,
   GetPlansController,
@@ -10,16 +12,13 @@ import {
   GoogleOAuthAdapter,
   CreateGoogleOAuthUrlController,
   LoginOAuthGoogleController,
-} from "@/infra";
-import {
+  RabbitMQAdapter,
+  NodemailerAdapter,
   ConnectionDatabase,
   RegisterUserController,
   LoginController,
   RefreshAccessTokenController,
 } from "@/infra";
-
-import { GoogleOAuthService, PaymentGatewayService } from "../services";
-import { IFactory } from "@/application";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
   const Factory: IFactory = {
@@ -28,6 +27,8 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
     adapterFactory: {
       createStripeAdapter: () => new StripeAdapter(),
       createGoogleOAuthAdapter: () => new GoogleOAuthAdapter(),
+      createRabbitMqAdapter: async () => await RabbitMQAdapter.create(),
+      createNodemailerAdapter: () => new NodemailerAdapter(),
     },
 
     serviceFactory: {

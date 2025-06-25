@@ -1,24 +1,20 @@
 import nodemailer from "nodemailer";
-import { NodemailerAdapterInterface } from "./interfaces/nodemailer-adapter.interface";
+import { INodemailerAdapter } from "./interfaces/nodemailer-adapter.interface";
+import { env } from "@/config/env";
 
-export namespace NodemailerAdapterNamespace {
-  export interface Config {
-    host?: string;
-    port: number;
-    secure: boolean;
-    service: string,
-    auth: {
-      user?: string;
-      pass?: string;
-    };
-  }
-}
-
-export class NodemailerAdapter implements NodemailerAdapterInterface {
+export class NodemailerAdapter implements INodemailerAdapter {
   private transporter;
 
-  constructor(config: NodemailerAdapterNamespace.Config) {
-    this.transporter = nodemailer.createTransport(config);
+  constructor() {
+    this.transporter = nodemailer.createTransport({
+      host: env.smtp.host,
+      port: env.smtp.port,
+      secure: process.env.NODE_ENV === "production",
+      auth: {
+        user: env.smtp.user,
+        pass: env.smtp.password,
+      },
+    });
   }
 
   sendMail(options: {

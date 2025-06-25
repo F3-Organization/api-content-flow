@@ -1,6 +1,8 @@
 import { Channel, ChannelModel } from "amqplib";
 
-export interface RabbitMQInterface {
-    connect(): Promise<{connection: ChannelModel, channel: Channel}>;
-    close(args: {connection: ChannelModel, channel: Channel}): Promise<void>;
+export interface IRabbitMQ {
+  connect(): Promise<void>;
+  close(args: { connection: ChannelModel; channel: Channel }): Promise<void>;
+  getConnection(): ChannelModel | null;
+  getChannel(): Channel | null;
 }

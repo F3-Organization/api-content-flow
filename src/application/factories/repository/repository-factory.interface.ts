@@ -4,6 +4,7 @@ import {
   IUserRepository,
   ISubscriptionRepository,
   ISubscriptionStripeDataRepository,
+  IRecoveryPasswordRepository,
 } from "@/application";
 
 export interface IRepositoryFactory {
@@ -12,4 +13,5 @@ export interface IRepositoryFactory {
   createPlanRepository(): IPlanRepository;
   createSubscriptionRepository(): ISubscriptionRepository;
   createSubscriptionStripeDataModelRepository(): ISubscriptionStripeDataRepository;
+  createRecoveryPasswordRepository(): IRecoveryPasswordRepository;
 }

@@ -11,7 +11,8 @@ export interface TokenPayload {
   jti: string;
 }
 
-export function generateToken(user: User, expiresIn?: StringValue) {
+export function generateToken(input: { user: User; expiresIn?: StringValue }) {
+  const { user, expiresIn } = input;
   const payload = buildPayload(user);
   return jwt.sign(payload, env.secret!, {
     algorithm: "HS256",

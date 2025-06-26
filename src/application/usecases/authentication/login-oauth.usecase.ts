@@ -53,8 +53,8 @@ export class LoginOAuthUseCase implements IUseCase {
         buildedUser.getEmail.getValue,
       );
     }
-    const accessToken = generateToken(user!);
-    const refreshToken = generateToken(user!, "30d");
+    const accessToken = generateToken({ user: user! });
+    const refreshToken = generateToken({ user: user!, expiresIn: "30d" });
     return {
       accessToken: accessToken,
       refreshToken: refreshToken,

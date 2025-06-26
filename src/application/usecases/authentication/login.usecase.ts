@@ -43,8 +43,8 @@ export class LoginUseCase implements IUseCase {
   }
 
   private setTokens(user: User) {
-    const accessToken = generateToken(user, "1h");
-    const refreshToken = generateToken(user, "30d");
+    const accessToken = generateToken({ user: user, expiresIn: "1h" });
+    const refreshToken = generateToken({ user: user, expiresIn: "30d" });
     return { accessToken, refreshToken };
   }
 }

@@ -47,7 +47,7 @@ export class RegisterUserUseCase implements IUseCase {
       userId: user.getId,
       provider: input.provider as AuthProvider,
       passwordHash: await generatePasswordHash(input.password),
-      refreshToken: await generateToken(user, "30d"),
+      refreshToken: await generateToken({ user: user, expiresIn: "30d" }),
       createdAt: new Date(),
       updatedAt: new Date(),
     });

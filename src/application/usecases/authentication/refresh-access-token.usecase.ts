@@ -45,8 +45,8 @@ export class RefreshAccessTokenUseCase implements IUseCase {
   }
 
   private getTokens(user: User) {
-    const newAccessToken = generateToken(user, "1d");
-    const newRefreshToken = generateToken(user, "30d");
+    const newAccessToken = generateToken({ user: user, expiresIn: "1d" });
+    const newRefreshToken = generateToken({ user: user, expiresIn: "30d" });
     return { newAccessToken, newRefreshToken };
   }
 }

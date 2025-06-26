@@ -1,17 +1,19 @@
 export namespace Table {
   export const User = "content_flow.users";
-  export const Authentication = "content_flow.authentications";
   export const Plan = "content_flow.plan";
   export const Subscription = "content_flow.subscription";
+  export const Authentication = "content_flow.authentications";
+  export const PasswordRecovery = "content_flow.password_recovery_tokens";
   export const subscriptionStripeData = "content_flow.subscription_stripe_data";
 }
 
 export namespace Models {
   export type User = UserModel;
   export type Plan = PlanModel;
-  export type Authentication = AuthenticationModel;
   export type Subscription = SubscriptionModel;
+  export type Authentication = AuthenticationModel;
   export type SubscriptionStripeData = SubscriptionStripeDataModel;
+  export type PasswordRecovery = PasswordRecoveryModel;
 }
 
 export interface UserModel {
@@ -34,6 +36,15 @@ export interface AuthenticationModel {
   refresh_token: string;
   created_at: Date;
   updated_at: Date;
+}
+
+export interface PasswordRecoveryModel {
+  id: string;
+  user_id: string;
+  token: string;
+  expires_at: Date;
+  used: boolean;
+  created_at: Date;
 }
 
 export interface PlanModel {

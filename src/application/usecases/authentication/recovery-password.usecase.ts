@@ -8,7 +8,6 @@ import {
 import { IUseCase } from "../interfaces/usecase.interface";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
-import { generateToken } from "@/infra/services";
 import { User } from "@/domain/entities";
 import { v7 as uuidv7 } from "uuid";
 import { IQueue } from "@/infra";
@@ -19,7 +18,6 @@ export namespace RecoveryPasswordNamespace {
   }
 
   export interface Output {
-    success: boolean;
     message: string;
   }
 }
@@ -36,12 +34,14 @@ export class RecoveryPasswordUseCase implements IUseCase {
       this.repositoryFactory.createRecoveryPasswordRepository();
     this.emailQueue = this.queueFactory.createEmailQueue();
   }
-  async execute(input: { email: string }): Promise<any> {
+  async execute(input: {
+    email: string;
+  }): Promise<RecoveryPasswordNamespace.Output> {
     const user = await this.userRepository.getByEmail(input.email);
     if (!user) {
       throw new DomainException("User not found", HttpStatus.NOT_FOUND);
     }
-    const token = generateToken({ user: user, expiresIn: "30min" });
+    const token = this.generateRecoveryToken();
     const entry = this.buildEntry({ user, token });
     await this.recoveryPasswordRepository.save(entry);
     this.emailQueue.enqueue({
@@ -49,6 +49,9 @@ export class RecoveryPasswordUseCase implements IUseCase {
       subject: "Password Recovery",
       html: `<p>Your recovery token is: <strong>${token}</strong></p>`,
     });
+    return {
+      message: "Password recovery email sent successfully",
+    };
   }
 
   private buildEntry(input: {
@@ -64,5 +67,9 @@ export class RecoveryPasswordUseCase implements IUseCase {
       used: false,
       createdAt: new Date(),
     };
+  }
+
+  private generateRecoveryToken(): string {
+    return Math.floor(100000 + Math.random() * 900000).toString();
   }
 }

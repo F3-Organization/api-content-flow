@@ -6,13 +6,13 @@ import { env } from "@/config/env";
 import { makeFactory } from "./factories/factory";
 import { Workers } from "./message-broker/workers/workers";
 
-function CreateServer() {
+async function CreateServer() {
   const expressAdapter = new CreateExpress();
   const kenx = new KnexConnection(env.database);
   const connection = new ConnectionDatabase(kenx.knexInstance);
   const factory = makeFactory(connection);
   new AppRoutes(expressAdapter, factory);
-  new Workers(factory);
+  await new Workers(factory).start();
 }
 
 CreateServer();

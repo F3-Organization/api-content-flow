@@ -24,9 +24,9 @@ CREATE TABLE content_flow.authentications (
 );
 
 CREATE TABLE content_flow.password_recovery_tokens (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY,
     user_id UUID REFERENCES content_flow.users(id) ON DELETE CASCADE,
-    token VARCHAR(128) NOT NULL UNIQUE,
+    token INTEGER NOT NULL UNIQUE,
     expires_at TIMESTAMP NOT NULL,
     used BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT NOW()

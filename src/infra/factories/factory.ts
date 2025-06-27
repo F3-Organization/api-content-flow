@@ -1,4 +1,4 @@
-import { IFactory, IRecoveryPasswordRepository } from "@/application";
+import { IFactory } from "@/application";
 import { GoogleOAuthService, PaymentGatewayService } from "../services";
 import {
   AuthRepository,
@@ -19,6 +19,8 @@ import {
   LoginController,
   RefreshAccessTokenController,
   RecoveryPasswordRepository,
+  IQueue,
+  EmailQueue,
 } from "@/infra";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
@@ -75,6 +77,10 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
           Factory.serviceFactory,
           Factory.repositoryFactory,
         ),
+    },
+
+    queueFactory: {
+      emailQueue: () => new EmailQueue(Factory.adapterFactory),
     },
   };
   return Factory;

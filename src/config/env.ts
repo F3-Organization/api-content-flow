@@ -22,6 +22,9 @@ export const env = {
     user: process.env.RABBITMQ_USER,
     pass: process.env.RABBITMQ_PASS,
   },
+  queue_names: {
+    email: process.env.EMAIL_QUEUE_NAME,
+  },
   smtp: {
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),

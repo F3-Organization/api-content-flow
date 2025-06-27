@@ -4,6 +4,7 @@ import { KnexConnection } from "./adapters/database/connection";
 import { ConnectionDatabase } from "./adapters/database/connection-database";
 import { env } from "@/config/env";
 import { makeFactory } from "./factories/factory";
+import { Workers } from "./message-broker/workers/workers";
 
 function CreateServer() {
   const expressAdapter = new CreateExpress();
@@ -11,6 +12,7 @@ function CreateServer() {
   const connection = new ConnectionDatabase(kenx.knexInstance);
   const factory = makeFactory(connection);
   new AppRoutes(expressAdapter, factory);
+  new Workers(factory);
 }
 
 CreateServer();

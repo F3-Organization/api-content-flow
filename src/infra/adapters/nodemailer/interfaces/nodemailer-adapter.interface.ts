@@ -1,11 +1,8 @@
 import SMTPTransport from "nodemailer/lib/smtp-transport";
+import { Options } from "nodemailer/lib/mailer";
+
+export interface sendMailInput extends Options {}
 
 export interface INodemailerAdapter {
-  sendMail(options: {
-    to: string;
-    subject: string;
-    text?: string;
-    html?: string;
-    from?: string;
-  }): Promise<SMTPTransport.SentMessageInfo>;
+  sendMail(options: sendMailInput): Promise<SMTPTransport.SentMessageInfo>;
 }

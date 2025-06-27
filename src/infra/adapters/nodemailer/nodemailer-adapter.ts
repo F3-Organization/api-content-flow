@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import { INodemailerAdapter } from "./interfaces/nodemailer-adapter.interface";
 import { env } from "@/config/env";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
+import Mail from "nodemailer/lib/mailer";
 
 export class NodemailerAdapter implements INodemailerAdapter {
   private transporter;
@@ -18,13 +19,9 @@ export class NodemailerAdapter implements INodemailerAdapter {
     });
   }
 
-  async sendMail(options: {
-    to: string;
-    subject: string;
-    text?: string;
-    html?: string;
-    from?: string;
-  }): Promise<SMTPTransport.SentMessageInfo> {
+  async sendMail(
+    options: Mail.Options,
+  ): Promise<SMTPTransport.SentMessageInfo> {
     return await this.transporter.sendMail(options);
   }
 }

@@ -80,7 +80,7 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
     },
 
     queueFactory: {
-      emailQueue: () => new EmailQueue(Factory.adapterFactory),
+      createEmailQueue: () => new EmailQueue(Factory.adapterFactory),
     },
   };
   return Factory;

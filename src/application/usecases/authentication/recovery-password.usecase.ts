@@ -1,4 +1,5 @@
 import {
+  IQueueFactory,
   IRecoveryPasswordRepository,
   IRepositoryFactory,
   IUserRepository,
@@ -10,6 +11,7 @@ import { HttpStatus } from "@/infra/http/protocols.enum";
 import { generateToken } from "@/infra/services";
 import { User } from "@/domain/entities";
 import { v7 as uuidv7 } from "uuid";
+import { IQueue } from "@/infra";
 
 export namespace RecoveryPasswordNamespace {
   export interface Input {
@@ -22,12 +24,17 @@ export namespace RecoveryPasswordNamespace {
   }
 }
 export class RecoveryPasswordUseCase implements IUseCase {
+  private emailQueue: IQueue;
   private userRepository: IUserRepository;
   private recoveryPasswordRepository: IRecoveryPasswordRepository;
-  constructor(private repositoryFactory: IRepositoryFactory) {
+  constructor(
+    private repositoryFactory: IRepositoryFactory,
+    private queueFactory: IQueueFactory,
+  ) {
     this.userRepository = this.repositoryFactory.createUserRepository();
     this.recoveryPasswordRepository =
       this.repositoryFactory.createRecoveryPasswordRepository();
+    this.emailQueue = this.queueFactory.createEmailQueue();
   }
   async execute(input: { email: string }): Promise<any> {
     const user = await this.userRepository.getByEmail(input.email);
@@ -37,6 +44,11 @@ export class RecoveryPasswordUseCase implements IUseCase {
     const token = generateToken({ user: user, expiresIn: "30min" });
     const entry = this.buildEntry({ user, token });
     await this.recoveryPasswordRepository.save(entry);
+    this.emailQueue.enqueue({
+      to: input.email,
+      subject: "Password Recovery",
+      html: `<p>Your recovery token is: <strong>${token}</strong></p>`,
+    });
   }
 
   private buildEntry(input: {

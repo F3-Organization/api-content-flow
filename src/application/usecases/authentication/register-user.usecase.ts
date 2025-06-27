@@ -1,4 +1,4 @@
-import { IRepositoryFactory } from "@/application/factories";
+import { IQueueFactory, IRepositoryFactory } from "@/application/factories";
 import { IUseCase } from "../interfaces/usecase.interface";
 import { IUserRepository } from "@/application/repositories";
 import { v7 as uuidv7 } from "uuid";
@@ -14,11 +14,17 @@ import { IRegisterUserNamespace } from "./interfaces/register-user.usecase.inter
 import { generatePasswordHash, generateToken } from "@/infra/services";
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { DomainException } from "@/domain/error";
+import { IQueue } from "@/infra";
 
 export class RegisterUserUseCase implements IUseCase {
   private userRepository: IUserRepository;
-  constructor(private repositoryFactory: IRepositoryFactory) {
+  private queueEmail: IQueue;
+  constructor(
+    private repositoryFactory: IRepositoryFactory,
+    private queueFactory: IQueueFactory,
+  ) {
     this.userRepository = this.repositoryFactory.createUserRepository();
+    this.queueEmail = this.queueFactory.createEmailQueue();
   }
   async execute(input: IRegisterUserNamespace.Input): Promise<any> {
     const { user, authentication } = await this.buildUser(input);
@@ -27,6 +33,11 @@ export class RegisterUserUseCase implements IUseCase {
       throw new DomainException("User already exists", HttpStatus.BAD_REQUEST);
     }
     await this.userRepository.save(user, authentication);
+    this.queueEmail.enqueue({
+      to: input.email,
+      subject: "Welcome!",
+      html: "<p>Thank you for registering.</p>",
+    });
   }
 
   private async buildUser(input: IRegisterUserNamespace.Input) {

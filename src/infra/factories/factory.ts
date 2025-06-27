@@ -59,7 +59,10 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
 
     controllerFactory: {
       createRegisterUSerController: () =>
-        new RegisterUserController(Factory.repositoryFactory),
+        new RegisterUserController(
+          Factory.repositoryFactory,
+          Factory.queueFactory,
+        ),
       createLoginController: () =>
         new LoginController(Factory.repositoryFactory),
       createRefreshAccessTokenController: () =>

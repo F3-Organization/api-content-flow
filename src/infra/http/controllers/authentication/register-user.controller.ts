@@ -4,13 +4,20 @@ import {
   RegisterUserUseCase,
   IRepositoryFactory,
   IUseCase,
+  IQueueFactory,
 } from "@/application";
 import { HttpStatus } from "../../protocols.enum";
 
 export class RegisterUserController implements IController {
   private createUser: IUseCase;
-  constructor(private repositoryFactory: IRepositoryFactory) {
-    this.createUser = new RegisterUserUseCase(this.repositoryFactory);
+  constructor(
+    private repositoryFactory: IRepositoryFactory,
+    private queueFactory: IQueueFactory,
+  ) {
+    this.createUser = new RegisterUserUseCase(
+      this.repositoryFactory,
+      this.queueFactory,
+    );
   }
   async execute(req: any): Promise<IResponse> {
     const params = this.getParams(req);

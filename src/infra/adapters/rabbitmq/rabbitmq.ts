@@ -25,6 +25,7 @@ export class RabbitMQ implements IRabbitMQ {
       try {
         this.connection = await amqp.connect(this.url);
         this.channel = await this.connection.createChannel();
+        connected = true;
       } catch (err) {
         attempts++;
         console.error("Failed to connect to RabbitMQ:", err);

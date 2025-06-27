@@ -17,9 +17,14 @@ export class RabbitMQ implements IRabbitMQ {
   }
 
   async connect(): Promise<void> {
-    const url = `amqp://${env.messageBroker.user}:${env.messageBroker.pass}@${env.messageBroker.host}:${env.messageBroker.port}/`;
-    this.connection = await amqp.connect(url);
-    this.channel = await this.connection.createChannel();
+    try {
+      const url = `amqp://${env.messageBroker.user}:${env.messageBroker.pass}@${env.messageBroker.host}:${env.messageBroker.port}/`;
+      this.connection = await amqp.connect(url);
+      this.channel = await this.connection.createChannel();
+    } catch (err) {
+      console.error("Failed to connect to RabbitMQ:", err);
+      throw new Error("RabbitMQ connection failed");
+    }
   }
 
   async close(args: {

@@ -13,5 +13,6 @@ export namespace RecoveryPasswordDAONamespace {
 
 export interface IRecoveryPasswordDAO {
   save(data: RecoveryPasswordDAONamespace.Data): Promise<void>;
+  update(data: RecoveryPasswordDAONamespace.Data): Promise<void>;
   getByToken(token: number): Promise<Models.PasswordRecovery | null>;
 }

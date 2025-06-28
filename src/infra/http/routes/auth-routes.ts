@@ -3,11 +3,11 @@ import { CreateExpress } from "@/infra/adapters/express/express";
 import { IFactory } from "@/application";
 import {
   CreateGoogleOAuthUrlController,
-  CreateSubscriptionController,
   LoginController,
   LoginOAuthGoogleController,
   CreateRecoveryPasswordTokenController,
   RefreshAccessTokenController,
+  RecoveryPasswordController,
 } from "../controllers";
 
 export class AuthRoutes implements IRoute {
@@ -16,6 +16,7 @@ export class AuthRoutes implements IRoute {
   private GoogleOAuthUrlController: CreateGoogleOAuthUrlController;
   private LoginOAuthController: LoginOAuthGoogleController;
   private CreateRecoveryPasswordTokenController: CreateRecoveryPasswordTokenController;
+  private recoveryPassword: RecoveryPasswordController;
   constructor(
     private http: CreateExpress,
     private factory: IFactory,
@@ -30,6 +31,8 @@ export class AuthRoutes implements IRoute {
       this.factory.controllerFactory.createLoginOAuthController();
     this.CreateRecoveryPasswordTokenController =
       this.factory.controllerFactory.createCreateRecoveryPasswordTokenController();
+    this.recoveryPassword =
+      this.factory.controllerFactory.createRecoveryPasswordController();
     this.setup();
   }
   async setup(): Promise<void> {
@@ -70,6 +73,14 @@ export class AuthRoutes implements IRoute {
       url: "/create-recovery-password-token",
       controller: async (req: any) => {
         return await this.CreateRecoveryPasswordTokenController.execute(req);
+      },
+    });
+
+    await this.http.on({
+      method: "patch",
+      url: "/recovery-password",
+      controller: async (req: any) => {
+        return await this.recoveryPassword.execute(req);
       },
     });
   }

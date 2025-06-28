@@ -17,6 +17,11 @@ export class RecoveryPasswordRepository implements IRecoveryPasswordRepository {
     await this.recoveryPasswordDAO.save(formattedInput);
   }
 
+  async update(input: RecoveryPasswordRepositoryNamespace.Data): Promise<void> {
+    const formattedInput = this.formatToDatabase(input);
+    await this.recoveryPasswordDAO.update(formattedInput);
+  }
+
   async getByToken(
     token: number,
   ): Promise<RecoveryPasswordRepositoryNamespace.Data | null> {

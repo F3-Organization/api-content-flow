@@ -11,6 +11,7 @@ export namespace RecoveryPasswordRepositoryNamespace {
 
 export interface IRecoveryPasswordRepository {
   save(input: RecoveryPasswordRepositoryNamespace.Data): Promise<void>;
+  update(input: RecoveryPasswordRepositoryNamespace.Data): Promise<void>;
   getByToken(
     token: number,
   ): Promise<RecoveryPasswordRepositoryNamespace.Data | null>;

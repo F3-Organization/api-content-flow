@@ -1,6 +1,6 @@
 get:
   tags:
-    - Auth
+    - Google OAuth
   summary: OAuth Google login endpoint
   requestBody:
     required: true

@@ -1,6 +1,6 @@
 post:
   tags:
-    - Auth
+    - Google OAuth
   summary: Create a google url authentication
   responses:
     "200":

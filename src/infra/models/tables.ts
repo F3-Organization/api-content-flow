@@ -31,7 +31,6 @@ export interface UserModel {
 export interface AuthenticationModel {
   id: string;
   user_id: string;
-  provider: string;
   password_hash: string;
   refresh_token: string;
   created_at: Date;

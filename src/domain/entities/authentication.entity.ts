@@ -1,9 +1,6 @@
-export type AuthProvider = "local" | "google";
-
 export interface AuthenticationProps {
   id: string;
   userId: string;
-  provider: AuthProvider;
   passwordHash: string;
   refreshToken: string;
   createdAt: Date;
@@ -22,9 +19,6 @@ export class Authentication {
   }
   get getUserId() {
     return this.props.userId;
-  }
-  get getProvider() {
-    return this.props.provider;
   }
   set setPasswordHash(password: string) {
     this.props.passwordHash = password;

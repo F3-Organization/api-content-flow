@@ -2,15 +2,7 @@ import { IQueueFactory, IRepositoryFactory } from "@/application/factories";
 import { IUseCase } from "../../interfaces/usecase.interface";
 import { IUserRepository } from "@/application/repositories";
 import { v7 as uuidv7 } from "uuid";
-import {
-  Authentication,
-  AuthProvider,
-  CPF,
-  Email,
-  User,
-  UserRole,
-} from "@/domain/entities";
-import { IRegisterUserNamespace } from "../interfaces/register-user.usecase.interface";
+import { Authentication, CPF, Email, User, UserRole } from "@/domain/entities";
 import {
   generatePasswordHash,
   generateToken,
@@ -19,6 +11,7 @@ import {
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { DomainException } from "@/domain/error";
 import { IQueue } from "@/infra";
+import { IRegisterUserNamespace } from "../interfaces";
 
 export class RegisterUserUseCase implements IUseCase {
   private userRepository: IUserRepository;
@@ -61,7 +54,6 @@ export class RegisterUserUseCase implements IUseCase {
     const authentication = new Authentication({
       id: uuidv7(),
       userId: user.getId,
-      provider: input.provider as AuthProvider,
       passwordHash: await generatePasswordHash(input.password),
       refreshToken: await generateToken({ user: user, expiresIn: "30d" }),
       createdAt: new Date(),

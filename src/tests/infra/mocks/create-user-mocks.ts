@@ -1,10 +1,4 @@
-import {
-  AuthProvider,
-  CPF,
-  Email,
-  UserRole,
-  userRoleEnum,
-} from "@/domain/entities";
+import { CPF, Email, UserRole, userRoleEnum } from "@/domain/entities";
 
 export const registerUserMock = {
   validUser: {
@@ -12,14 +6,12 @@ export const registerUserMock = {
     email: "testuser@example.com",
     password: "securePassword123",
     role: userRoleEnum.member,
-    provider: "local" as AuthProvider,
   },
   invalidUser: {
     name: "Invalid User",
     email: "invaliduser@example.com",
     password: "wrongPassword",
     role: 4,
-    provider: "local" as AuthProvider,
   },
 };
 

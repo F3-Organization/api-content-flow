@@ -1,10 +1,4 @@
-import {
-  Authentication,
-  AuthProvider,
-  User,
-  userRoleEnum,
-} from "@/domain/entities";
-import { GoogleOAuthAdapterNamespace } from "@/infra";
+import { Authentication, User, userRoleEnum } from "@/domain/entities";
 
 export namespace IUserRepositoryNamespace {
   export interface CreateUser {
@@ -22,7 +16,6 @@ export namespace IUserRepositoryNamespace {
   export interface CreateAuth {
     id: string;
     userId: string;
-    provider: AuthProvider;
     passwordHash: string;
     refreshToken: string;
     createdAt: Date;

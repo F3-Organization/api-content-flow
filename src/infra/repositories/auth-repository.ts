@@ -1,7 +1,7 @@
 import { IAuthRepository } from "@/application";
 import { IConnectionDatabase } from "../adapters/database/interfaces/connection-database.interface";
 import { Models } from "../models/tables";
-import { Authentication, AuthProvider } from "@/domain/entities";
+import { Authentication } from "@/domain/entities";
 import { IAuthDAO } from "@/application/dao/auth-dao.interface";
 import { AuthDAODatabase } from "../dao";
 
@@ -25,7 +25,6 @@ export class AuthRepository implements IAuthRepository {
     return {
       id: input.getId,
       user_id: input.getUserId,
-      provider: input.getProvider,
       password_hash: input.getPasswordHash,
       refresh_token: input.getRefreshToken,
       created_at: input.createdAt,
@@ -37,7 +36,6 @@ export class AuthRepository implements IAuthRepository {
     return new Authentication({
       id: input.id,
       userId: input.user_id,
-      provider: input.provider as AuthProvider,
       passwordHash: input.password_hash,
       refreshToken: input.refresh_token,
       createdAt: input.created_at,

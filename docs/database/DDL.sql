@@ -15,12 +15,10 @@ CREATE TABLE content_flow.users (
 CREATE TABLE content_flow.authentications (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES content_flow.users(id) ON DELETE CASCADE,
-    provider VARCHAR(20) NOT NULL CHECK (provider IN ('local', 'google', 'github')),
     password_hash VARCHAR(255),
     refresh_token TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT unique_user_provider UNIQUE (user_id, provider)
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE content_flow.password_recovery_tokens (

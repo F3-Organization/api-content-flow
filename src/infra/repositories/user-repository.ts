@@ -54,7 +54,6 @@ export class UserRepository implements IUserRepository {
       formattedAuth = {
         id: auth.getId,
         user_id: auth.getUserId,
-        provider: auth.getProvider,
         password_hash: auth.getPasswordHash,
         refresh_token: auth.getRefreshToken,
         created_at: auth.createdAt,

@@ -1,4 +1,4 @@
-import { AuthProvider, userRoleEnum } from "@/domain/entities";
+import { userRoleEnum } from "@/domain/entities";
 
 export namespace IRegisterUserNamespace {
   export interface Input {
@@ -6,7 +6,6 @@ export namespace IRegisterUserNamespace {
     email: string;
     role: userRoleEnum;
     avatar?: string;
-    provider: AuthProvider;
     password: string;
   }
 }

@@ -1,6 +1,6 @@
 import { IFactory, CreateRecoveryPasswordTokenUseCase } from "@/application";
 import { IController, IResponse } from "@/infra";
-import { HttpStatus } from "../../protocols.enum";
+import { HttpStatus } from "../../../protocols.enum";
 
 export class CreateRecoveryPasswordTokenController implements IController {
   private recoveryPasswordUsecase: CreateRecoveryPasswordTokenUseCase;

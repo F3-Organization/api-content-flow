@@ -1,8 +1,7 @@
 import { IResponse } from "@/infra/adapters";
-import { IController } from "../interfaces";
 import { CreateGoogleAuthUrlUseCase, IServiceFactory } from "@/application";
-import { HttpStatus } from "../../protocols.enum";
-import { DomainException } from "@/domain/error";
+import { IController } from "@/infra";
+import { HttpStatus } from "@/infra/http/protocols.enum";
 
 export class CreateGoogleOAuthUrlController implements IController {
   private createGoogleOAuthUrlUseCase: CreateGoogleAuthUrlUseCase;

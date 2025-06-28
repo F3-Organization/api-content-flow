@@ -19,7 +19,6 @@ import {
   LoginController,
   RefreshAccessTokenController,
   RecoveryPasswordRepository,
-  IQueue,
   EmailQueue,
   CreateRecoveryPasswordTokenController,
 } from "@/infra";

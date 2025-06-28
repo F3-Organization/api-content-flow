@@ -1,1 +1,1 @@
-export * from "./create-recovery-password-token-controller";
+export * from "./create-recovery-password-token.controller";

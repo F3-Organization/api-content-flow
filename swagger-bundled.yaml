@@ -470,7 +470,7 @@ paths:
                     default: false
                   message:
                     type: string
-  /recovery-password:
+  /create-recovery-password-token:
     post:
       tags:
         - Auth

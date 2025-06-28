@@ -6,7 +6,7 @@ import {
   CreateSubscriptionController,
   LoginController,
   LoginOAuthGoogleController,
-  RecoveryPasswordController,
+  CreateRecoveryPasswordTokenController,
   RefreshAccessTokenController,
 } from "../controllers";
 
@@ -15,7 +15,7 @@ export class AuthRoutes implements IRoute {
   private RefreshAccessTokenController: RefreshAccessTokenController;
   private GoogleOAuthUrlController: CreateGoogleOAuthUrlController;
   private LoginOAuthController: LoginOAuthGoogleController;
-  private RecoveryPasswordController: RecoveryPasswordController;
+  private CreateRecoveryPasswordTokenController: CreateRecoveryPasswordTokenController;
   constructor(
     private http: CreateExpress,
     private factory: IFactory,
@@ -28,8 +28,8 @@ export class AuthRoutes implements IRoute {
       this.factory.controllerFactory.createCreateGoogleOAuthUrlController();
     this.LoginOAuthController =
       this.factory.controllerFactory.createLoginOAuthController();
-    this.RecoveryPasswordController =
-      this.factory.controllerFactory.createRecoveryPasswordController();
+    this.CreateRecoveryPasswordTokenController =
+      this.factory.controllerFactory.createCreateRecoveryPasswordTokenController();
     this.setup();
   }
   async setup(): Promise<void> {
@@ -67,9 +67,9 @@ export class AuthRoutes implements IRoute {
 
     await this.http.on({
       method: "post",
-      url: "/recovery-password",
+      url: "/create-recovery-password-token",
       controller: async (req: any) => {
-        return await this.RecoveryPasswordController.execute(req);
+        return await this.CreateRecoveryPasswordTokenController.execute(req);
       },
     });
   }

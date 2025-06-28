@@ -5,7 +5,7 @@ import {
 } from "@/tests/test-utils/setup-test-db";
 import {
   IFactory,
-  RecoveryPasswordUseCase,
+  CreateRecoveryPasswordTokenUseCase,
   RegisterUserUseCase,
 } from "@/application";
 import { makeFactory } from "@/infra/factories/factory";
@@ -15,13 +15,13 @@ import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { mockQueueFactory } from "@/tests/infra/mocks/factories/queue-factory-mock";
 
-let useCase: RecoveryPasswordUseCase;
+let useCase: CreateRecoveryPasswordTokenUseCase;
 let registerUserUseCase: RegisterUserUseCase;
 let factory: IFactory;
 beforeAll(async () => {
   await startTestDB();
   factory = makeFactory(connection);
-  useCase = new RecoveryPasswordUseCase(
+  useCase = new CreateRecoveryPasswordTokenUseCase(
     factory.repositoryFactory,
     mockQueueFactory,
   );

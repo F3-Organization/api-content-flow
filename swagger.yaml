@@ -35,5 +35,5 @@ paths:
     $ref: "./docs/swagger/authentication/create-google-auth-url.yaml"
   /login-oauth-google:
     $ref: "./docs/swagger/authentication/login-oauth-google.yaml"
-  /recovery-password:
-    $ref: "./docs/swagger/authentication/recovery-password.yaml"
+  /create-recovery-password-token:
+    $ref: "./docs/swagger/authentication/create-recovery-password-token.yaml"

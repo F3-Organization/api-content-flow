@@ -1,11 +1,11 @@
-import { IFactory, RecoveryPasswordUseCase } from "@/application";
+import { IFactory, CreateRecoveryPasswordTokenUseCase } from "@/application";
 import { IController, IResponse } from "@/infra";
 import { HttpStatus } from "../../protocols.enum";
 
-export class RecoveryPasswordController implements IController {
-  private recoveryPasswordUsecase: RecoveryPasswordUseCase;
+export class CreateRecoveryPasswordTokenController implements IController {
+  private recoveryPasswordUsecase: CreateRecoveryPasswordTokenUseCase;
   constructor(private factory: IFactory) {
-    this.recoveryPasswordUsecase = new RecoveryPasswordUseCase(
+    this.recoveryPasswordUsecase = new CreateRecoveryPasswordTokenUseCase(
       this.factory.repositoryFactory,
       this.factory.queueFactory,
     );

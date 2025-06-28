@@ -21,7 +21,7 @@ import {
   RecoveryPasswordRepository,
   IQueue,
   EmailQueue,
-  RecoveryPasswordController,
+  CreateRecoveryPasswordTokenController,
 } from "@/infra";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
@@ -81,8 +81,8 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
           Factory.serviceFactory,
           Factory.repositoryFactory,
         ),
-      createRecoveryPasswordController: () =>
-        new RecoveryPasswordController(Factory),
+      createCreateRecoveryPasswordTokenController: () =>
+        new CreateRecoveryPasswordTokenController(Factory),
     },
 
     queueFactory: {

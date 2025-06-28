@@ -21,7 +21,7 @@ export namespace RecoveryPasswordNamespace {
     message: string;
   }
 }
-export class RecoveryPasswordUseCase implements IUseCase {
+export class CreateRecoveryPasswordTokenUseCase implements IUseCase {
   private emailQueue: IQueue;
   private userRepository: IUserRepository;
   private recoveryPasswordRepository: IRecoveryPasswordRepository;

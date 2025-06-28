@@ -1,5 +1,5 @@
+import { IUseCase } from "@/application";
 import { IServiceFactory } from "@/application/factories";
-import { IUseCase } from "../interfaces/usecase.interface";
 import { IGoogleOAuthService } from "@/infra/services";
 
 export namespace CreateGoogleAuthUrlNamespace {

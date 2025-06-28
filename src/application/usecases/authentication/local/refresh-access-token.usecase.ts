@@ -4,7 +4,7 @@ import {
   IUseCase,
   IUserRepository,
 } from "@/application";
-import { RefreshAccessTokenNamespace } from "./interfaces";
+import { RefreshAccessTokenNamespace } from "../interfaces";
 import { decodeToken, generateToken, verifyToken } from "@/infra/services";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";

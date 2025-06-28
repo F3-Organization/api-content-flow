@@ -18,11 +18,12 @@ export class RecoveryPasswordRepository implements IRecoveryPasswordRepository {
   }
 
   async getByToken(
-    token: string,
+    token: number,
   ): Promise<RecoveryPasswordRepositoryNamespace.Data | null> {
     const output = await this.recoveryPasswordDAO.getByToken(token);
     return this.formatToInput(output);
   }
+
   formatToInput(
     output: PasswordRecoveryModel | null,
   ): RecoveryPasswordRepositoryNamespace.Data | null {

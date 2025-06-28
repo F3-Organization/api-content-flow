@@ -11,7 +11,7 @@ export class RecoveryPasswordDAODatabase implements IRecoveryPasswordDAO {
     await this.connection.insert({ table: Table.PasswordRecovery, data: data });
   }
 
-  async getByToken(token: string): Promise<Models.PasswordRecovery | null> {
+  async getByToken(token: number): Promise<Models.PasswordRecovery | null> {
     const [result] = await this.connection.query<Models.PasswordRecovery>({
       table: Table.PasswordRecovery,
       where: { token: token },

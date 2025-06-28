@@ -1,7 +1,7 @@
 import { IRepositoryFactory } from "@/application/factories";
-import { IUseCase } from "../interfaces/usecase.interface";
+import { IUseCase } from "../../interfaces/usecase.interface";
 import { IAuthRepository, IUserRepository } from "@/application/repositories";
-import { AuthenticationNamespace } from "./interfaces/authentication.interface";
+import { AuthenticationNamespace } from "../interfaces/authentication.interface";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { comparePassword, generateToken } from "@/infra/services";

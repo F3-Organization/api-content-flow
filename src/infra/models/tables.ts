@@ -41,7 +41,7 @@ export interface AuthenticationModel {
 export interface PasswordRecoveryModel {
   id: string;
   user_id: string;
-  token: string;
+  token: number;
   expires_at: Date;
   used: boolean;
   created_at: Date;

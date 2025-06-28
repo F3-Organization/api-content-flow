@@ -1,7 +1,6 @@
 import { IRepositoryFactory, IServiceFactory } from "@/application/factories";
-import { IUseCase } from "../interfaces/usecase.interface";
 import { generateToken, IGoogleOAuthService } from "@/infra/services";
-import { IUserRepository } from "@/application";
+import { IUseCase, IUserRepository } from "@/application";
 import { GoogleOAuthAdapterNamespace } from "@/infra";
 import { Email, User, UserRole, userRoleEnum } from "@/domain/entities";
 import { v7 as uuidv7 } from "uuid";

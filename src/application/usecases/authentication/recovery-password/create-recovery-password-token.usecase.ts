@@ -2,17 +2,17 @@ import {
   IQueueFactory,
   IRecoveryPasswordRepository,
   IRepositoryFactory,
+  IUseCase,
   IUserRepository,
   RecoveryPasswordRepositoryNamespace,
 } from "@/application";
-import { IUseCase } from "../interfaces/usecase.interface";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { User } from "@/domain/entities";
 import { v7 as uuidv7 } from "uuid";
 import { IQueue } from "@/infra";
 
-export namespace RecoveryPasswordNamespace {
+export namespace CreateRecoveryPasswordNamespace {
   export interface Input {
     email: string;
   }
@@ -36,7 +36,7 @@ export class CreateRecoveryPasswordTokenUseCase implements IUseCase {
   }
   async execute(input: {
     email: string;
-  }): Promise<RecoveryPasswordNamespace.Output> {
+  }): Promise<CreateRecoveryPasswordNamespace.Output> {
     const user = await this.userRepository.getByEmail(input.email);
     if (!user) {
       throw new DomainException("User not found", HttpStatus.NOT_FOUND);
@@ -56,7 +56,7 @@ export class CreateRecoveryPasswordTokenUseCase implements IUseCase {
 
   private buildEntry(input: {
     user: User;
-    token: string;
+    token: number;
   }): RecoveryPasswordRepositoryNamespace.Data {
     const { user, token } = input;
     return {
@@ -69,7 +69,7 @@ export class CreateRecoveryPasswordTokenUseCase implements IUseCase {
     };
   }
 
-  private generateRecoveryToken(): string {
-    return Math.floor(100000 + Math.random() * 900000).toString();
+  private generateRecoveryToken(): number {
+    return Math.floor(100000 + Math.random() * 900000);
   }
 }

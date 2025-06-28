@@ -1,5 +1,5 @@
 import { IQueueFactory, IRepositoryFactory } from "@/application/factories";
-import { IUseCase } from "../interfaces/usecase.interface";
+import { IUseCase } from "../../interfaces/usecase.interface";
 import { IUserRepository } from "@/application/repositories";
 import { v7 as uuidv7 } from "uuid";
 import {
@@ -10,8 +10,12 @@ import {
   User,
   UserRole,
 } from "@/domain/entities";
-import { IRegisterUserNamespace } from "./interfaces/register-user.usecase.interface";
-import { generatePasswordHash, generateToken } from "@/infra/services";
+import { IRegisterUserNamespace } from "../interfaces/register-user.usecase.interface";
+import {
+  generatePasswordHash,
+  generateToken,
+  validatePassword,
+} from "@/infra/services";
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { DomainException } from "@/domain/error";
 import { IQueue } from "@/infra";
@@ -27,6 +31,7 @@ export class RegisterUserUseCase implements IUseCase {
     this.queueEmail = this.queueFactory.createEmailQueue();
   }
   async execute(input: IRegisterUserNamespace.Input): Promise<any> {
+    validatePassword(input.password);
     const { user, authentication } = await this.buildUser(input);
     const users = await this.userRepository.getByEmail(input.email);
     if (users) {

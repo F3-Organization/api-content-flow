@@ -16,6 +16,8 @@ import { registerUserMock } from "@/tests/infra/mocks/create-user-mocks";
 import { Authentication, User } from "@/domain/entities";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
+import { setupTestRabbitMq } from "@/tests/test-utils/setup-test-rabbitMq";
+import { mockQueueFactory } from "@/tests/infra/mocks/factories/queue-factory-mock";
 
 let factory: IFactory;
 let createUserUseCase: IUseCase;
@@ -30,7 +32,10 @@ beforeAll(async () => {
   factory = makeFactory(connection);
   userRepository = factory.repositoryFactory.createUserRepository();
   authRepository = factory.repositoryFactory.createAuthRepository();
-  createUserUseCase = new RegisterUserUseCase(factory.repositoryFactory);
+  createUserUseCase = new RegisterUserUseCase(
+    factory.repositoryFactory,
+    mockQueueFactory,
+  );
   await createUserUseCase.execute(registerUserMock.validUser);
   user = await userRepository.getByEmail(registerUserMock.validUser.email);
   auth = await authRepository.getByUserId(user!.getId);

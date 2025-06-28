@@ -14,7 +14,7 @@ let server: any;
 
 beforeAll(async () => {
   await startTestDB();
-  const express = startTestHttp(connection);
+  const express = await startTestHttp(connection);
   app = express.getApp();
   server = express.getServer();
 }, 20000);

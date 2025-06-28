@@ -11,24 +11,24 @@ import {
 import { makeFactory } from "@/infra/factories/factory";
 import { setupTestRabbitMq } from "@/tests/test-utils/setup-test-rabbitMq";
 import { registerUserMock } from "@/tests/infra/mocks/create-user-mocks";
-import { Workers } from "@/infra/message-broker/workers/workers";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
+import { mockQueueFactory } from "@/tests/infra/mocks/factories/queue-factory-mock";
 
 let useCase: RecoveryPasswordUseCase;
 let registerUserUseCase: RegisterUserUseCase;
 let factory: IFactory;
 beforeAll(async () => {
   await startTestDB();
-  await setupTestRabbitMq();
   factory = makeFactory(connection);
-  const queueFactory = jest.mocked(factory.queueFactory);
   useCase = new RecoveryPasswordUseCase(
     factory.repositoryFactory,
-    queueFactory,
+    mockQueueFactory,
   );
-  registerUserUseCase = new RegisterUserUseCase(factory.repositoryFactory);
-  await new Workers(factory).start();
+  registerUserUseCase = new RegisterUserUseCase(
+    factory.repositoryFactory,
+    mockQueueFactory,
+  );
 }, 200000);
 
 afterAll(async () => {

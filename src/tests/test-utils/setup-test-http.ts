@@ -1,10 +1,12 @@
 import { AppRoutes, ConnectionDatabase } from "@/infra";
 import { CreateExpress } from "@/infra/adapters/express/express";
 import { makeFactory } from "@/infra/factories/factory";
+import { setupTestRabbitMq } from "./setup-test-rabbitMq";
 
-export function startTestHttp(connection: ConnectionDatabase) {
+export async function startTestHttp(connection: ConnectionDatabase) {
   const expressAdapter = new CreateExpress();
+  await setupTestRabbitMq();
   const factory = makeFactory(connection);
   new AppRoutes(expressAdapter, factory);
-  return expressAdapter
+  return expressAdapter;
 }

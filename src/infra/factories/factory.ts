@@ -18,6 +18,10 @@ import {
   RegisterUserController,
   LoginController,
   RefreshAccessTokenController,
+  RecoveryPasswordRepository,
+  EmailQueue,
+  CreateRecoveryPasswordTokenController,
+  RecoveryPasswordController,
 } from "@/infra";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
@@ -49,11 +53,16 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
         new SubscriptionRepository(connection),
       createSubscriptionStripeDataModelRepository: () =>
         new SubscriptionStripeDataRepository(connection),
+      createRecoveryPasswordRepository: () =>
+        new RecoveryPasswordRepository(connection),
     },
 
     controllerFactory: {
       createRegisterUSerController: () =>
-        new RegisterUserController(Factory.repositoryFactory),
+        new RegisterUserController(
+          Factory.repositoryFactory,
+          Factory.queueFactory,
+        ),
       createLoginController: () =>
         new LoginController(Factory.repositoryFactory),
       createRefreshAccessTokenController: () =>
@@ -72,6 +81,14 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
           Factory.serviceFactory,
           Factory.repositoryFactory,
         ),
+      createCreateRecoveryPasswordTokenController: () =>
+        new CreateRecoveryPasswordTokenController(Factory),
+      createRecoveryPasswordController: () =>
+        new RecoveryPasswordController(Factory),
+    },
+
+    queueFactory: {
+      createEmailQueue: () => new EmailQueue(Factory.adapterFactory),
     },
   };
   return Factory;

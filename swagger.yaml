@@ -16,22 +16,30 @@ security:
 tags:
   - name: Auth
     description: Authentication related endpoints
+  - name: Google OAuth
+    description: Endpoints related to Google OAuth
+  - name: Recovery Password
+    description: Endpoints related to password recovery
   - name: Plans
     description: Endpoints related to plans
   - name: Subscription
     description: Endpoints related to subscriptions
 paths:
   /register:
-    $ref: "./docs/swagger/authentication/register.yaml"
+    $ref: "./docs/swagger/authentication/local/register.yaml"
   /login:
-    $ref: "./docs/swagger/authentication/login.yaml"
+    $ref: "./docs/swagger/authentication/local/login.yaml"
   /refresh-access-token:
-    $ref: "./docs/swagger/authentication/refresh-access-token.yaml"
+    $ref: "./docs/swagger/authentication/local/refresh-access-token.yaml"
   /plans:
     $ref: "./docs/swagger/plans/get-plans.yaml"
   /subscriptions:
     $ref: "./docs/swagger/subscription/create-subscription.yaml"
   /create-google-auth-url:
-    $ref: "./docs/swagger/authentication/create-google-auth-url.yaml"
+    $ref: "./docs/swagger/authentication/oauth-google/create-google-auth-url.yaml"
   /login-oauth-google:
-    $ref: "./docs/swagger/authentication/login-oauth-google.yaml"
+    $ref: "./docs/swagger/authentication/oauth-google/login-oauth-google.yaml"
+  /create-recovery-password-token:
+    $ref: "./docs/swagger/authentication/recovery-password/create-recovery-password-token.yaml"
+  /recovery-password:
+    $ref: "./docs/swagger/authentication/recovery-password/recovery-password.yaml"

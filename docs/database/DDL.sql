@@ -23,6 +23,15 @@ CREATE TABLE content_flow.authentications (
     CONSTRAINT unique_user_provider UNIQUE (user_id, provider)
 );
 
+CREATE TABLE content_flow.password_recovery_tokens (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES content_flow.users(id) ON DELETE CASCADE,
+    token INTEGER NOT NULL UNIQUE,
+    expires_at TIMESTAMP NOT NULL,
+    used BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
 CREATE TABLE content_flow.content (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES content_flow.users(id) ON DELETE CASCADE,

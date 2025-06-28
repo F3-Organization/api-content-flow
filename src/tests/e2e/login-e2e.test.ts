@@ -9,13 +9,11 @@ import { HttpStatus } from "@/infra/http/protocols.enum";
 import { registerUserMock } from "../infra/mocks/create-user-mocks";
 import request from "supertest";
 
-
 let app: Application;
 let server: any;
-
 beforeAll(async () => {
   await startTestDB();
-  const express = startTestHttp(connection);
+  const express = await startTestHttp(connection);
   app = express.getApp();
   server = express.getServer();
 }, 20000);

@@ -1,7 +1,7 @@
 import { IRepositoryFactory } from "@/application/factories";
-import { IUseCase } from "../interfaces/usecase.interface";
+import { IUseCase } from "../../interfaces/usecase.interface";
 import { IAuthRepository, IUserRepository } from "@/application/repositories";
-import { AuthenticationNamespace } from "./interfaces/authentication.interface";
+import { AuthenticationNamespace } from "../interfaces/authentication.interface";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { comparePassword, generateToken } from "@/infra/services";
@@ -43,8 +43,8 @@ export class LoginUseCase implements IUseCase {
   }
 
   private setTokens(user: User) {
-    const accessToken = generateToken(user, "1h");
-    const refreshToken = generateToken(user, "30d");
+    const accessToken = generateToken({ user: user, expiresIn: "1h" });
+    const refreshToken = generateToken({ user: user, expiresIn: "30d" });
     return { accessToken, refreshToken };
   }
 }

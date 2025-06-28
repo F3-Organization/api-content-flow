@@ -15,6 +15,10 @@ security:
 tags:
   - name: Auth
     description: Authentication related endpoints
+  - name: Google OAuth
+    description: Endpoints related to Google OAuth
+  - name: Recovery Password
+    description: Endpoints related to password recovery
   - name: Plans
     description: Endpoints related to plans
   - name: Subscription
@@ -375,7 +379,7 @@ paths:
   /create-google-auth-url:
     post:
       tags:
-        - Auth
+        - Google OAuth
       summary: Create a google url authentication
       responses:
         "200":
@@ -419,7 +423,7 @@ paths:
   /login-oauth-google:
     get:
       tags:
-        - Auth
+        - Google OAuth
       summary: OAuth Google login endpoint
       requestBody:
         required: true
@@ -470,3 +474,118 @@ paths:
                     default: false
                   message:
                     type: string
+  /create-recovery-password-token:
+    post:
+      tags:
+        - Recovery Password
+      summary: Initiates the password recovery process
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: The email address of the user requesting password recovery
+      description: This endpoint allows users to initiate the password recovery process by providing their email address.
+      responses:
+        "200":
+          description: Password recovery email sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Password recovery email sent successfully
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: User not found
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+  /recovery-password:
+    patch:
+      tags:
+        - Recovery Password
+      description: Recovery Password endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: number
+                  description: The recovery token for password reset
+                password:
+                  type: string
+                  description: The new password for the user
+      responses:
+        "204":
+          description: Success - No content
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: null
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+        "401":
+          description: The password cannot be the same as the old one
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: The password cannot be the same as the old one
+        "404":
+          description: Token not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Token not found

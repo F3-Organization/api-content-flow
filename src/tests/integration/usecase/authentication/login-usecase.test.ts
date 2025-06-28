@@ -13,6 +13,8 @@ import {
 import { registerUserMock } from "@/tests/infra/mocks/create-user-mocks";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
+import { setupTestRabbitMq } from "@/tests/test-utils/setup-test-rabbitMq";
+import { mockQueueFactory } from "@/tests/infra/mocks/factories/queue-factory-mock";
 
 let factory: IFactory;
 let createUserUseCase: IUseCase;
@@ -20,7 +22,10 @@ let loginUseCase: IUseCase;
 beforeAll(async () => {
   await startTestDB();
   factory = makeFactory(connection);
-  createUserUseCase = new RegisterUserUseCase(factory.repositoryFactory);
+  createUserUseCase = new RegisterUserUseCase(
+    factory.repositoryFactory,
+    mockQueueFactory,
+  );
   loginUseCase = new LoginUseCase(factory.repositoryFactory);
 }, 30000);
 

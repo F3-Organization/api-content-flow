@@ -4,7 +4,7 @@ import {
   IUseCase,
   IUserRepository,
 } from "@/application";
-import { RefreshAccessTokenNamespace } from "./interfaces";
+import { RefreshAccessTokenNamespace } from "../interfaces";
 import { decodeToken, generateToken, verifyToken } from "@/infra/services";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
@@ -45,8 +45,8 @@ export class RefreshAccessTokenUseCase implements IUseCase {
   }
 
   private getTokens(user: User) {
-    const newAccessToken = generateToken(user, "1d");
-    const newRefreshToken = generateToken(user, "30d");
+    const newAccessToken = generateToken({ user: user, expiresIn: "1d" });
+    const newRefreshToken = generateToken({ user: user, expiresIn: "30d" });
     return { newAccessToken, newRefreshToken };
   }
 }

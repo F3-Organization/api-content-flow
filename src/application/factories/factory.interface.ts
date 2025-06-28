@@ -2,6 +2,7 @@ import { IControllerFactory } from "@/infra/http/controllers/interfaces/factory/
 import { IConnectionDatabase } from "@/infra";
 import {
   IAdaptersFactory,
+  IQueueFactory,
   IRepositoryFactory,
   IServiceFactory,
 } from "@/application/factories";
@@ -12,4 +13,5 @@ export interface IFactory {
   serviceFactory: IServiceFactory;
   repositoryFactory: IRepositoryFactory;
   controllerFactory: IControllerFactory;
+  queueFactory: IQueueFactory;
 }

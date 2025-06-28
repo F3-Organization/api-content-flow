@@ -33,6 +33,9 @@ describe("Environment Configuration", () => {
       expect(typeof env.o_auth.client_id).toBe("string");
       expect(typeof env.o_auth.client_secret).toBe("string");
       expect(typeof env.o_auth.redirect_uri).toBe("string");
+
+      expect(env.queue_names).toBeDefined();
+      expect(typeof env.queue_names.email).toBe("string");
     },
   );
 });

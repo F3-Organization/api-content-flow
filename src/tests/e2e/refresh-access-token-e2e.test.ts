@@ -8,13 +8,18 @@ import { Application } from "express";
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { registerUserMock } from "../infra/mocks/create-user-mocks";
 import request from "supertest";
+import {
+  setupTestRabbitMq,
+  stopTestRabbit,
+} from "../test-utils/setup-test-rabbitMq";
+import { Workers } from "@/infra/message-broker/workers/workers";
 
 let app: Application;
 let server: any;
 
 beforeAll(async () => {
   await startTestDB();
-  const express = startTestHttp(connection);
+  const express = await startTestHttp(connection);
   app = express.getApp();
   server = express.getServer();
 }, 20000);

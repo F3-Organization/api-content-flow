@@ -1,11 +1,11 @@
 import { IResponse } from "@/infra/adapters";
-import { IController } from "../interfaces";
 import {
   IRepositoryFactory,
   IServiceFactory,
   LoginOAuthUseCase,
 } from "@/application";
-import { HttpStatus } from "../../protocols.enum";
+import { IController } from "@/infra";
+import { HttpStatus } from "@/infra/http/protocols.enum";
 
 export class LoginOAuthGoogleController implements IController {
   private loginOAuthUseCase: LoginOAuthUseCase;

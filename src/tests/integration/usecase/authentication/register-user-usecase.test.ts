@@ -2,6 +2,7 @@ import { RegisterUserUseCase, IFactory, IUseCase } from "@/application";
 import { DomainException } from "@/domain/error";
 import { makeFactory } from "@/infra/factories/factory";
 import { HttpStatus } from "@/infra/http/protocols.enum";
+import { mockQueueFactory } from "@/tests/infra/mocks/factories/queue-factory-mock";
 import {
   startTestDB,
   connection,
@@ -14,7 +15,10 @@ let useCase: IUseCase;
 beforeAll(async () => {
   await startTestDB();
   factory = makeFactory(connection);
-  useCase = new RegisterUserUseCase(factory.repositoryFactory);
+  useCase = new RegisterUserUseCase(
+    factory.repositoryFactory,
+    mockQueueFactory,
+  );
 }, 30000);
 
 afterAll(async () => {

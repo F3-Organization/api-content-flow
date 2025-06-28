@@ -5,6 +5,7 @@ import { env } from "@/config/env";
 export class RabbitMQ implements IRabbitMQ {
   private connection: amqp.ChannelModel | null;
   private channel: amqp.Channel | null;
+  private url = `amqp://${env.messageBroker.user}:${env.messageBroker.pass}@${env.messageBroker.host}:${env.messageBroker.port}/`;
   private constructor() {
     this.connection = null;
     this.channel = null;
@@ -17,9 +18,21 @@ export class RabbitMQ implements IRabbitMQ {
   }
 
   async connect(): Promise<void> {
-    const url = `amqp://${env.messageBroker.user}:${env.messageBroker.pass}@${env.messageBroker.host}:${env.messageBroker.port}/`;
-    this.connection = await amqp.connect(url);
-    this.channel = await this.connection.createChannel();
+    let connected = false;
+    let attempts = 0;
+    const maxAttempts = 5;
+    for (attempts = 0; attempts < maxAttempts && !connected; attempts++) {
+      try {
+        this.connection = await amqp.connect(this.url);
+        this.channel = await this.connection.createChannel();
+        connected = true;
+      } catch (err) {
+        attempts++;
+        console.error("Failed to connect to RabbitMQ:", err);
+        console.log("Retrying connection to RabbitMQ... Attempt: ", attempts);
+        await new Promise((res) => setTimeout(res, 2000));
+      }
+    }
   }
 
   async close(args: {

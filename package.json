@@ -6,8 +6,10 @@
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/infra/main.ts",
     "test": "jest",
     "coverage": "jest --coverage",
-    "up-dev-build": "docker compose -f docker-compose-dev.yaml up --build",
+    "setup-env": "ansible-playbook ./ansible/setup-env.yml",
+    "setup-dev": "npm run setup-env && npm install && npm run up-dev-build",
     "up-dev": "docker compose -f docker-compose-dev.yaml up",
+    "up-dev-build": "docker compose -f docker-compose-dev.yaml up --build",
     "update-swagger": "npx swagger-cli bundle swagger.yaml -o swagger-bundled.yaml --type yaml"
   },
   "lint-staged": {

@@ -1,0 +1,68 @@
+---
+- name: Setup development environment
+  hosts: localhost
+  connection: local
+  vars:
+    repo_url: "{{ repo | default('git@github.com:F3-Organization/content-flow-dev-configs.git') }}"
+    ssh_key_file: "{{ ssh_key | default('~/.ssh/id_ed25519') }}"
+    temp_dir: "/tmp/dev-config"
+
+  tasks:
+    - name: Expand SSH key path
+      set_fact:
+        ssh_key_path: "{{ ssh_key_file | expanduser }}"
+
+    - name: Check if SSH key file exists
+      stat:
+        path: "{{ ssh_key_path }}"
+      register: ssh_key_stat
+
+    - name: Fail if SSH key file not found
+      fail:
+        msg: |
+          ❌ Chave SSH não encontrada: {{ ssh_key_path }}
+
+          💡 Opções:
+          1. Gere uma chave: ssh-keygen -t ed25519"
+          2. Ou use outra chave: ansible-playbook setup-env.yml -e ssh_key="/caminho/da/chave"
+      when: not ssh_key_stat.stat.exists
+
+    - name: Clone private config repository
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ temp_dir }}"
+        key_file: "{{ ssh_key_path }}"
+        accept_hostkey: yes
+        force: yes
+      environment:
+        GIT_SSH_COMMAND: "ssh -i {{ ssh_key_path }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
+    - name: Verify .env.development exists
+      stat:
+        path: "{{ temp_dir }}/.env.development"
+      register: env_file_stat
+
+    - name: Fail if .env.development not found
+      fail:
+        msg: "❌ Arquivo .env.development não encontrado no repositório"
+      when: not env_file_stat.stat.exists
+
+    - name: Copy .env.development to .env
+      copy:
+        src: "{{ temp_dir }}/.env.development"
+        dest: "../.env"
+        mode: "0600"
+        backup: yes
+
+    - name: Clean up temporary repository
+      file:
+        path: "{{ temp_dir }}"
+        state: absent
+
+    - name: Show success message
+      debug:
+        msg: |
+          ✅ Arquivo .env de desenvolvimento configurado!
+          🔑 Chave SSH: {{ ssh_key_path }}
+          📂 Repositório: {{ repo_url }}
+          📝 Backup anterior salvo como .env.backup

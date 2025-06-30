@@ -1,6 +1,6 @@
 # Content Flow - API
 
-Uma API para gerenciamento de conteúdo, construída com TypeScript, Node.js e clear-architecture.
+Uma API para gerenciamento de conteúdo, construída com TypeScript, Node.js e clean-architecture.
 
 ## 📋 Pré-requisitos
 

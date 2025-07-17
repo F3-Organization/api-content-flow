@@ -13,7 +13,6 @@ export const env = {
       database: process.env.DB_NAME,
     },
   },
-  api_url: process.env.API_URL,
   api_port: Number(process.env.API_PORT),
   secret: process.env.JWT_SECRET,
   messageBroker: {

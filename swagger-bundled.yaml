@@ -556,7 +556,7 @@ paths:
           content:
             application/json:
               schema:
-                type: null
+                type: object
                 properties:
                   success:
                     type: boolean

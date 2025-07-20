@@ -1,11 +1,6 @@
 import { IResponse } from "@/infra/adapters";
 import { IController } from "../interfaces";
-import {
-  CreateCheckoutSessionUseCase,
-  IFactory,
-  IRepositoryFactory,
-  IServiceFactory,
-} from "@/application";
+import { CreateCheckoutSessionUseCase, IFactory } from "@/application";
 
 export class CreateCheckoutSessionController implements IController {
   private useCase: CreateCheckoutSessionUseCase;

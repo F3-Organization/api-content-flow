@@ -1,4 +1,4 @@
-import { IFactory } from "@/application";
+import { IFactory, IPaymentRepository } from "@/application";
 import { GoogleOAuthService, PaymentGatewayService } from "../services";
 import {
   AuthRepository,
@@ -23,6 +23,7 @@ import {
   CreateRecoveryPasswordTokenController,
   RecoveryPasswordController,
   CreateCheckoutSessionController,
+  PaymentRepository,
 } from "@/infra";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
@@ -56,6 +57,7 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
         new SubscriptionStripeDataRepository(connection),
       createRecoveryPasswordRepository: () =>
         new RecoveryPasswordRepository(connection),
+      createPaymentRepository: () => new PaymentRepository(connection),
     },
 
     controllerFactory: {

@@ -1,6 +1,7 @@
 export namespace Table {
-  export const User = "content_flow.users";
   export const Plan = "content_flow.plan";
+  export const User = "content_flow.users";
+  export const Payment = "content_flow.payments";
   export const Subscription = "content_flow.subscription";
   export const Authentication = "content_flow.authentications";
   export const PasswordRecovery = "content_flow.password_recovery_tokens";
@@ -14,6 +15,7 @@ export namespace Models {
   export type Authentication = AuthenticationModel;
   export type SubscriptionStripeData = SubscriptionStripeDataModel;
   export type PasswordRecovery = PasswordRecoveryModel;
+  export type Payment = PaymentModel;
 }
 
 export interface UserModel {
@@ -93,4 +95,18 @@ export interface SubscriptionStripeDataModel {
   last_stripe_event?: string;
   created_at: Date;
   updated_at: Date;
+}
+
+export interface PaymentModel {
+  id: string;
+  user_id: string;
+  plan_id: string;
+  subscription_id: string;
+  amount: number;
+  status: string;
+  method: string;
+  created_at: Date;
+  updated_at: Date;
+  paid_at?: Date;
+  error_message?: string;
 }

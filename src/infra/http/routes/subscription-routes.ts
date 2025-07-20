@@ -23,9 +23,10 @@ export class SubscriptionRoutes implements IRoute {
   async setup(): Promise<void> {
     await this.http.on({
       method: "post",
-      url: "/create-checkout",
+      url: "/create-checkout-session",
       controller: async (req: any) =>
         await this.createCheckoutSessionController.execute(req),
+      middlewares: [authenticationMiddleware],
     });
     await this.http.on({
       method: "post",

@@ -17,12 +17,12 @@ export class StripeAdapter implements IPaymentGateway {
   }
 
   async createCustomer(user: User): Promise<string> {
-    const costumer = await this.stripe.customers.create({
+    const customer = await this.stripe.customers.create({
       name: user.getName,
       email: user.getEmail.getValue,
       metadata: { userId: user.getId },
     });
-    return costumer.id;
+    return customer.id;
   }
 
   async charge(
@@ -66,6 +66,8 @@ export class StripeAdapter implements IPaymentGateway {
           save_default_payment_method: "on_subscription",
         },
         expand: ["latest_invoice.confirmation_secret"],
+        collection_method: "charge_automatically",
+        payment_behavior: "default_incomplete",
         trial_period_days: input.trialPeriodDays,
       });
       const invoice = subscription.latest_invoice as Stripe.Invoice;

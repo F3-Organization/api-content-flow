@@ -32,6 +32,8 @@ export const env = {
   },
   stripe: {
     stripe_secret: process.env.STRIPE_SECRET,
+    success_url: process.env.STRIPE_SUCCESS_URL,
+    cancel_url: process.env.STRIPE_CANCEL_URL,
     price_ids: {
       basic: process.env.STRIPE_PRICE_ID_BASIC,
       standard: process.env.STRIPE_PRICE_ID_STANDARD,

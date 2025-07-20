@@ -41,9 +41,18 @@ export namespace IPaymentGatewayOutput {
   export interface SaveCard {
     paymentMethod: string;
   }
+
+  export interface CheckoutSessionOutput {
+    sessionId: string;
+    url: string;
+  }
 }
 
 export interface IPaymentGateway {
+  createCheckoutSession(
+    priceId: string,
+    userID: string,
+  ): Promise<Stripe.Checkout.Session>;
   createCustomer(user: User): Promise<string>;
   charge(
     input: IPaymentGatewayInput.Charge,
@@ -64,4 +73,5 @@ export interface IPaymentGateway {
     customerId: string,
   ): Promise<Stripe.Customer | Stripe.DeletedCustomer>;
   retrieveSubscription(subscriptionId: string): Promise<Stripe.Subscription>;
+  retrievePaymentMethod(paymentMethodId: string): Promise<Stripe.PaymentMethod>;
 }

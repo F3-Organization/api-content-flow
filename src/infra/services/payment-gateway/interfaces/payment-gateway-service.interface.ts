@@ -18,9 +18,19 @@ export namespace PaymentGatewayServiceInput {
     priceId: string;
     paymentMethodId: string;
   }
+
+  export interface CheckoutSessionOutput {
+    sessionId: string;
+    successUrl: string | null;
+    cancelUrl: string | null;
+  }
 }
 
 export interface IPaymentGatewayService {
+  createCheckoutSession(input: {
+    priceId: string;
+    userId: string;
+  }): Promise<PaymentGatewayServiceInput.CheckoutSessionOutput>;
   createSubscription(
     input: PaymentGatewayServiceInput.CreateSubscription,
     subscriptionId: string,

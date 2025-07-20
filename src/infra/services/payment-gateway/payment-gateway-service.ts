@@ -21,6 +21,21 @@ export class PaymentGatewayService implements IPaymentGatewayService {
       this.repositoryFactory.createSubscriptionStripeDataModelRepository();
   }
 
+  async createCheckoutSession(input: {
+    priceId: string;
+    userId: string;
+  }): Promise<PaymentGatewayServiceInput.CheckoutSessionOutput> {
+    const session = await this.stripeAdapter.createCheckoutSession(
+      input.priceId,
+      input.userId,
+    );
+    return {
+      sessionId: session.id,
+      successUrl: session.success_url,
+      cancelUrl: session.cancel_url,
+    };
+  }
+
   async createSubscription(
     input: PaymentGatewayServiceInput.CreateSubscription,
     subscriptionId: string,
@@ -90,8 +105,8 @@ export class PaymentGatewayService implements IPaymentGatewayService {
     savedCard: IPaymentGatewayOutput.SaveCard,
   ) {
     if (stripeData.stripePaymentMethodId !== savedCard.paymentMethod)
-      return savedCard.paymentMethod;
-    return stripeData.stripePaymentMethodId;
+      return stripeData.stripePaymentMethodId;
+    return savedCard.paymentMethod;
   }
 
   private buildToSave(input: {

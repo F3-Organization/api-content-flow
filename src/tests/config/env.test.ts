@@ -22,6 +22,8 @@ describe("Environment Configuration", () => {
       expect(env.smtp.password).toBeDefined();
       expect(env.stripe).toBeDefined();
       expect(typeof env.stripe.stripe_secret).toBe("string");
+      expect(typeof env.stripe.success_url).toBe("string");
+      expect(typeof env.stripe.cancel_url).toBe("string");
       expect(typeof env.stripe.price_ids.basic).toBe("string");
       expect(typeof env.stripe.price_ids.standard).toBe("string");
       expect(typeof env.stripe.price_ids.premium).toBe("string");

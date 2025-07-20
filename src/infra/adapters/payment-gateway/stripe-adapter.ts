@@ -16,6 +16,21 @@ export class StripeAdapter implements IPaymentGateway {
     this.stripe = new Stripe(env.stripe.stripe_secret!);
   }
 
+  async createCheckoutSession(
+    priceId: string,
+    userId: string,
+  ): Promise<Stripe.Checkout.Session> {
+    return await this.stripe.checkout.sessions.create({
+      mode: "subscription",
+      line_items: [{ price: priceId, quantity: 1 }],
+      success_url: `${env.stripe.success_url}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: env.stripe.cancel_url,
+      metadata: {
+        userId: userId,
+      },
+    });
+  }
+
   async createCustomer(user: User): Promise<string> {
     const customer = await this.stripe.customers.create({
       name: user.getName,
@@ -158,5 +173,11 @@ export class StripeAdapter implements IPaymentGateway {
     subscriptionId: string,
   ): Promise<Stripe.Subscription> {
     return await this.stripe.subscriptions.retrieve(subscriptionId);
+  }
+
+  async retrievePaymentMethod(
+    paymentMethodId: string,
+  ): Promise<Stripe.PaymentMethod> {
+    return await this.stripe.paymentMethods.retrieve(paymentMethodId);
   }
 }

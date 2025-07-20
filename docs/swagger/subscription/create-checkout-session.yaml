@@ -1,0 +1,66 @@
+post:
+  tags:
+    - Subscription
+  summary: Create a checkout session for subscriptions
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            priceId:
+              type: string
+              description: ID of the subscription plan
+            userId:
+              type: string
+              description: ID of the user
+  responses:
+    "200":
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: true
+              data:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+                    description: ID of the created checkout session
+                  successUrl:
+                    type: string
+                    description: URL to redirect upon successful checkout
+                  cancelUrl:
+                    type: string
+                    description: URL to redirect upon checkout cancellation
+    "404":
+      description: User not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                description: Indicates if the operation was successful
+              message:
+                type: string
+                description: User not found
+    "500":
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                description: Indicates if the operation was successful
+              message:
+                type: string
+                description: Detailed message about the error

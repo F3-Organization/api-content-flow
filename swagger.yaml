@@ -33,6 +33,8 @@ paths:
     $ref: "./docs/swagger/authentication/local/refresh-access-token.yaml"
   /plans:
     $ref: "./docs/swagger/plans/get-plans.yaml"
+  /create-checkout-session:
+    $ref: "./docs/swagger/subscription/create-checkout-session.yaml"
   /subscriptions:
     $ref: "./docs/swagger/subscription/create-subscription.yaml"
   /create-google-auth-url:

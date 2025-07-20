@@ -6,7 +6,6 @@ import {
   IRepositoryFactory,
   IServiceFactory,
 } from "@/application";
-import { DomainException } from "@/domain/error";
 import { HttpStatus } from "../../protocols.enum";
 
 export class CreateSubscriptionController implements IController {
@@ -22,18 +21,13 @@ export class CreateSubscriptionController implements IController {
   }
 
   async execute(req: any): Promise<IResponse> {
-    try {
-      const input = this.getParams(req);
-      const output = await this.useCase.execute(input);
-      return { success: true, data: output, statusCode: HttpStatus.CREATED };
-    } catch (err) {
-      const error = err as DomainException;
-      return {
-        success: false,
-        message: error.message,
-        statusCode: error.statusCode,
-      };
-    }
+    const input = this.getParams(req);
+    const output = await this.useCase.execute(input);
+    return {
+      success: true,
+      data: output,
+      statusCode: HttpStatus.CREATED,
+    };
   }
 
   private getParams(req: any): CreateSubscriptionNamespace.Input {

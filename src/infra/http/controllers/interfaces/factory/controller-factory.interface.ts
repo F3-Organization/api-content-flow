@@ -8,6 +8,7 @@ import {
   LoginOAuthGoogleController,
   CreateRecoveryPasswordTokenController,
   RecoveryPasswordController,
+  CreateCheckoutSessionController,
 } from "@/infra/http";
 
 export interface IControllerFactory {
@@ -20,4 +21,5 @@ export interface IControllerFactory {
   createLoginOAuthController(): LoginOAuthGoogleController;
   createCreateRecoveryPasswordTokenController(): CreateRecoveryPasswordTokenController;
   createRecoveryPasswordController(): RecoveryPasswordController;
+  createCreateCheckoutSessionController(): CreateCheckoutSessionController;
 }

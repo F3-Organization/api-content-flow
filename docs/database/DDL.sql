@@ -124,7 +124,6 @@ CREATE TABLE content_flow.payments (
     amount NUMERIC(10,2) NOT NULL,
     status VARCHAR(20) NOT NULL,
     method VARCHAR(30) NOT NULL,
-    gateway_payment_id VARCHAR(100),
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     paid_at TIMESTAMP WITH TIME ZONE,

@@ -30,7 +30,7 @@ export class SubscriptionRoutes implements IRoute {
     });
     await this.http.on({
       method: "post",
-      url: "/subscriptions",
+      url: "/create-subscription",
       controller: async (req: any) => {
         return await this.createSubscriptionController.execute(req);
       },

@@ -1,5 +1,5 @@
 import { DomainException } from "@/domain/error";
-import { IUseCase } from "../interfaces/usecase.interface";
+import { IUseCase } from "@/application";
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { IRepositoryFactory, IServiceFactory } from "@/application/factories";
 import {
@@ -77,40 +77,38 @@ export class CreateSubscriptionUseCase implements IUseCase {
       input,
       subscription.hadTrial,
     );
-    const stripeSubscritption =
+    const stripeSubscription =
       await this.paymentGatewayService.createSubscription(
         createInput,
         subscription.id,
       );
-    if (stripeSubscritption)
+    if (stripeSubscription)
       await this.updateSubscriptionProperties(
         subscription,
-        stripeSubscritption.subscriptionId!,
+        stripeSubscription.subscriptionId!,
       );
     await this.subscriptionRepository.update(subscription);
-    return stripeSubscritption;
+    return stripeSubscription;
   }
 
   private async updateSubscriptionProperties(
     subscription: Subscription,
-    stripeSubscritptionId: string,
+    stripeSubscriptionId: string,
   ) {
-    const stripeSubscritption =
+    const stripeSubscription =
       await this.paymentGatewayService.retrieveSubscription(
-        stripeSubscritptionId,
+        stripeSubscriptionId,
       );
-    if (stripeSubscritption.trial_start)
-      subscription.trialStart = new Date(
-        stripeSubscritption.trial_start * 1000,
-      );
-    if (stripeSubscritption.trial_end)
-      subscription.trialEnd = new Date(stripeSubscritption.trial_end * 1000);
-    if (stripeSubscritption.status)
+    if (stripeSubscription.trial_start)
+      subscription.trialStart = new Date(stripeSubscription.trial_start * 1000);
+    if (stripeSubscription.trial_end)
+      subscription.trialEnd = new Date(stripeSubscription.trial_end * 1000);
+    if (stripeSubscription.status)
       subscription.status = this.mapStripeStatusToDomain(
-        stripeSubscritption.status,
+        stripeSubscription.status,
       );
-    if (stripeSubscritption.status === "trialing") subscription.isTrial = true;
-    if (stripeSubscritption.status === "trialing") subscription.hadTrial = true;
+    if (stripeSubscription.status === "trialing") subscription.isTrial = true;
+    if (stripeSubscription.status === "trialing") subscription.hadTrial = true;
   }
 
   private async getPlan(priceId: string): Promise<Plan> {

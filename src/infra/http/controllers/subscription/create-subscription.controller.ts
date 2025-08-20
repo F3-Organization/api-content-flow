@@ -1,5 +1,5 @@
 import { IResponse } from "@/infra/adapters/express/interfaces/express-adapter.interface";
-import { IController } from "../interfaces";
+import { IController } from "@/infra";
 import {
   CreateSubscriptionNamespace,
   CreateSubscriptionUseCase,

@@ -1,6 +1,6 @@
 import {
-  connection,
   startTestDB,
+  connection,
   stopTestDB,
 } from "@/tests/test-utils/setup-test-db";
 import { makeFactory } from "@/infra/factories/factory";

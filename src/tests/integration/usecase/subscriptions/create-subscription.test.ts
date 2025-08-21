@@ -10,17 +10,12 @@ import {
   CreateSubscriptionNamespace,
   ISubscriptionRepository,
   IUserRepository,
-  IQueueFactory,
 } from "@/application";
 import { makeFactory } from "@/infra/factories/factory";
 import { registerUserMock } from "@/tests/infra/mocks/create-user-mocks";
 import { env } from "@/config/env";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
-import {
-  setupTestRabbitMq,
-  stopTestRabbit,
-} from "@/tests/test-utils/setup-test-rabbitMq";
 import { mockQueueFactory } from "@/tests/infra/mocks/factories/queue-factory-mock";
 
 let factory: IFactory;

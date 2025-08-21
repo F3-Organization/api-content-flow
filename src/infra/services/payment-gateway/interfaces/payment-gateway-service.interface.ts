@@ -20,9 +20,7 @@ export namespace PaymentGatewayServiceInput {
   }
 
   export interface CheckoutSessionOutput {
-    sessionId: string;
-    successUrl: string | null;
-    cancelUrl: string | null;
+    checkoutUrl: string | null;
   }
 }
 

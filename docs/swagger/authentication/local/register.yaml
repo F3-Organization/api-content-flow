@@ -1,7 +1,7 @@
 post:
   tags:
     - Auth
-  summary: Cria um novo usuário
+  summary: Register
   requestBody:
     required: true
     content:
@@ -11,10 +11,10 @@ post:
           properties:
             name:
               type: string
-              default: "Test user"
+              default: Test user
             email:
               type: string
-              default: "Teste@example.com"
+              default: Teste@example.com
             password:
               type: string
             role:
@@ -22,7 +22,7 @@ post:
               default: 1
             provider:
               type: string
-              default: "local"
+              default: local
   responses:
     "201":
       content:

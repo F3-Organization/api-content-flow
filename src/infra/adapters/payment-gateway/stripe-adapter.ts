@@ -3,7 +3,7 @@ import {
   IPaymentGateway,
   IPaymentGatewayInput,
   IPaymentGatewayOutput,
-} from "./interfaces/payment-gateway.interface";
+} from "@/infra";
 import { env } from "@/config/env";
 import { User } from "@/domain/entities";
 import { DomainException } from "@/domain/error";

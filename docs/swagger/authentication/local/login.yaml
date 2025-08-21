@@ -1,7 +1,7 @@
 post:
   tags:
     - Auth
-  summary: Login do usuário
+  summary: Login
   requestBody:
     required: true
     content:
@@ -37,6 +37,7 @@ post:
                     type: string
       description: Login successful
     "401":
+      description: Invalid password
       content:
         application/json:
           schema:
@@ -48,8 +49,8 @@ post:
               message:
                 type: string
                 default: Invalid password
-      description: Invalid password
     "404":
+      description: User not found
       content:
         application/json:
           schema:
@@ -61,4 +62,3 @@ post:
               message:
                 type: string
                 default: User not found
-      description: User not found

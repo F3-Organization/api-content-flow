@@ -1,4 +1,4 @@
-import { DomainException } from "@/domain/error/index";
+import { DomainException } from "@/domain/error";
 import {
   CPF,
   Email,

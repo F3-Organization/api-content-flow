@@ -13,6 +13,7 @@ post:
               type: string
   responses:
     "200":
+      description: Token refreshed successfully
       content:
         application/json:
           schema:
@@ -31,8 +32,8 @@ post:
                     type: string
                   refreshToken:
                     type: string
-      description: Token refreshed successfully
     "401":
+      description: Invalid refresh token
       content:
         application/json:
           schema:
@@ -44,4 +45,3 @@ post:
               message:
                 type: string
                 default: Invalid refresh token
-      description: Invalid refresh token

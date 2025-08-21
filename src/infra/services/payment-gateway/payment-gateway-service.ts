@@ -32,9 +32,7 @@ export class PaymentGatewayService implements IPaymentGatewayService {
       input.userId,
     );
     return {
-      sessionId: session.id,
-      successUrl: session.success_url,
-      cancelUrl: session.cancel_url,
+      checkoutUrl: session.url,
     };
   }
 

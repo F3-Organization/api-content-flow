@@ -9,7 +9,7 @@ import {
   UserRole,
   userRoleEnum,
 } from "@/domain/entities";
-import { Models } from "../models/tables";
+import { Models, UserModel } from "../models/tables";
 
 export class UserRepository implements IUserRepository {
   private userDAODatabase: UserDAODatabase;
@@ -28,7 +28,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async getById(id: string): Promise<User | undefined> {
-    const result = await this.userDAODatabase.getById(id);
+    const result: UserModel = await this.userDAODatabase.getById(id);
     return this.buildEntry(result);
   }
 

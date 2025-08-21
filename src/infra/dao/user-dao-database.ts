@@ -1,6 +1,6 @@
 import { IUserDAO } from "@/application";
-import { Models, Table } from "../models/tables";
-import { IConnectionDatabase } from "../adapters/database/interfaces/connection-database.interface";
+import { Models, Table } from "@/infra";
+import { IConnectionDatabase } from "@/infra";
 
 export class UserDAODatabase implements IUserDAO {
   constructor(private readonly connection: IConnectionDatabase) {}

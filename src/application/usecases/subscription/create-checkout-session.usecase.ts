@@ -1,20 +1,18 @@
-import { IUseCase } from "../interfaces/usecase.interface";
+import { IUseCase, IUserRepository } from "@/application";
 import { HttpStatus } from "@/infra/http/protocols.enum";
 import { DomainException } from "@/domain/error";
 import { IRepositoryFactory, IServiceFactory } from "@/application/factories";
-import { IUserRepository } from "@/application";
-import { IPaymentGatewayService } from "@/infra/services";
+import {
+  IPaymentGatewayService,
+  PaymentGatewayServiceInput,
+} from "@/infra/services";
+import CheckoutSessionOutput = PaymentGatewayServiceInput.CheckoutSessionOutput;
+import { User } from "@/domain/entities";
 
 export namespace CreateCheckoutSessionNamespace {
   export interface Input {
     userId: string;
     priceId: string;
-  }
-
-  export interface Output {
-    sessionId: string;
-    successUrl: string | null;
-    cancelUrl: string | null;
   }
 }
 
@@ -33,19 +31,16 @@ export class CreateCheckoutSessionUseCase implements IUseCase {
 
   async execute(
     input: CreateCheckoutSessionNamespace.Input,
-  ): Promise<CreateCheckoutSessionNamespace.Output> {
-    const user = await this.userRepository.getById(input.userId);
+  ): Promise<CheckoutSessionOutput> {
+    const user: User | undefined = await this.userRepository.getById(
+      input.userId,
+    );
     if (!user) {
       throw new DomainException("User not found", HttpStatus.NOT_FOUND);
     }
-    const session = await this.paymentGatewayService.createCheckoutSession({
+    return await this.paymentGatewayService.createCheckoutSession({
       priceId: input.priceId,
       userId: input.userId,
     });
-    return {
-      sessionId: session.sessionId,
-      successUrl: session.successUrl,
-      cancelUrl: session.cancelUrl,
-    };
   }
 }

@@ -29,15 +29,10 @@ post:
               data:
                 type: object
                 properties:
-                  sessionId:
+                  checkoutUrl:
                     type: string
-                    description: ID of the created checkout session
-                  successUrl:
-                    type: string
-                    description: URL to redirect upon successful checkout
-                  cancelUrl:
-                    type: string
-                    description: URL to redirect upon checkout cancellation
+                    description: URL to redirect the user to for payment
+
     "404":
       description: User not found
       content:

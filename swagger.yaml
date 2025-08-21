@@ -28,10 +28,10 @@ tags:
   - name: Subscription
     description: Endpoints related to subscriptions
 paths:
-  /register:
-    $ref: "./docs/swagger/authentication/local/register.yaml"
   /login:
     $ref: "./docs/swagger/authentication/local/login.yaml"
+  /register:
+    $ref: "./docs/swagger/authentication/local/register.yaml"
   /refresh-access-token:
     $ref: "./docs/swagger/authentication/local/refresh-access-token.yaml"
   /plans:

@@ -8,17 +8,14 @@ import {
   Request,
   Response,
 } from "express";
-import {
-  ExpressAdapterNamespace,
-  IExpressAdapter,
-  IResponse,
-} from "./interfaces/express-adapter.interface";
+import { ExpressAdapterNamespace, IExpressAdapter, IResponse } from "@/infra";
 import { DomainException } from "@/domain/error";
 import { HttpStatus } from "@/infra/http/protocols.enum";
+import redoc from "redoc-express";
 
 export class ExpressAdapter implements IExpressAdapter {
   private app: Application;
-  private routes: Router;
+  private readonly routes: Router;
   constructor(app: Application) {
     this.app = app;
     this.routes = Router();
@@ -119,13 +116,25 @@ export class ExpressAdapter implements IExpressAdapter {
   }
 
   private setDocsRoute() {
-    const swaggerDocument = YAML.load(
-      path.join(__dirname, "../../../../swagger-bundled.yaml"),
+    const specPath: string = path.join(
+      __dirname,
+      "../../../../swagger-bundled.yaml",
     );
+    const swaggerDocument = YAML.load(specPath);
+    this.app.get("/api/swagger-bundled.yaml", (req: any, res: any): void => {
+      res.sendFile(specPath);
+    });
     this.app.use(
-      "/api/swagger-docs",
+      "/api/swagger",
       swaggerUi.serve,
       swaggerUi.setup(swaggerDocument),
+    );
+    this.app.use(
+      "/api/redoc",
+      redoc({
+        title: "Redoc",
+        specUrl: "/api/swagger-bundled.yaml",
+      }),
     );
   }
 }

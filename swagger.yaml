@@ -1,7 +1,9 @@
-openapi: 3.0.4
+openapi: 3.1.0
 info:
   title: Content Flow API
   version: 1.0.0
+  description: Content Flow API Documentation
+    [Download specification file (YAML)](/api/swagger-bundled.yaml)
 servers:
   - url: http://localhost:3000/api
 components:
@@ -35,7 +37,7 @@ paths:
     $ref: "./docs/swagger/plans/get-plans.yaml"
   /create-checkout-session:
     $ref: "./docs/swagger/subscription/create-checkout-session.yaml"
-  /subscriptions:
+  /create-subscriptions:
     $ref: "./docs/swagger/subscription/create-subscription.yaml"
   /create-google-auth-url:
     $ref: "./docs/swagger/authentication/oauth-google/create-google-auth-url.yaml"

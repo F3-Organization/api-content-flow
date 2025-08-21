@@ -10,6 +10,7 @@ import {
   RecoveryPasswordController,
   CreateCheckoutSessionController,
 } from "@/infra/http";
+import { CancelSubscriptionController } from "@/infra/http/controllers/subscription/cancel-subscription.controller";
 
 export interface IControllerFactory {
   createRegisterUSerController(): RegisterUserController;
@@ -22,4 +23,5 @@ export interface IControllerFactory {
   createCreateRecoveryPasswordTokenController(): CreateRecoveryPasswordTokenController;
   createRecoveryPasswordController(): RecoveryPasswordController;
   createCreateCheckoutSessionController(): CreateCheckoutSessionController;
+  createCancelSubscriptionController(): CancelSubscriptionController;
 }

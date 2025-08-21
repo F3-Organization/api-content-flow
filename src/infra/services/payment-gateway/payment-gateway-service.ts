@@ -1,15 +1,17 @@
 import Stripe from "stripe";
-import { IPaymentGateway, IPaymentGatewayOutput } from "../../adapters";
+import { IPaymentGateway, IPaymentGatewayOutput } from "@/infra";
 import {
   IPaymentGatewayService,
   PaymentGatewayServiceInput,
-} from "./interfaces/payment-gateway-service.interface";
+} from "@/infra/services";
 import {
   IRepositoryFactory,
   ISubscriptionStripeDataRepository,
   ISubscriptionStripeDataRepositoryNamespace,
 } from "@/application";
-import { v7 as uuidv7 } from "uuid";
+import { v7 as uuidV7 } from "uuid";
+import { DomainException } from "@/domain/error";
+import { HttpStatus } from "@/infra/http/protocols.enum";
 
 export class PaymentGatewayService implements IPaymentGatewayService {
   subscriptionStripeDataRepository: ISubscriptionStripeDataRepository;
@@ -109,6 +111,26 @@ export class PaymentGatewayService implements IPaymentGatewayService {
     return savedCard.paymentMethod;
   }
 
+  async cancelSubscription(subscriptionId: string): Promise<boolean> {
+    const stripeSubscriptionData:
+      | ISubscriptionStripeDataRepositoryNamespace.Data
+      | undefined =
+      await this.subscriptionStripeDataRepository.getBySubscriptionId(
+        subscriptionId,
+      );
+    if (!subscriptionId)
+      throw new DomainException(
+        "Stripe Subscription not found",
+        HttpStatus.NOT_FOUND,
+      );
+    await this.stripeAdapter.cancelSubscription(subscriptionId);
+    await this.subscriptionStripeDataRepository.update({
+      ...stripeSubscriptionData!,
+      stripeStatus: "canceled",
+    });
+    return true;
+  }
+
   private buildToSave(input: {
     subscriptionId: string;
     subscription: IPaymentGatewayOutput.CreateSubscription;
@@ -116,7 +138,7 @@ export class PaymentGatewayService implements IPaymentGatewayService {
     savedCard: IPaymentGatewayOutput.SaveCard;
   }): ISubscriptionStripeDataRepositoryNamespace.Data {
     return {
-      id: uuidv7(),
+      id: uuidV7(),
       subscriptionId: input.subscriptionId,
       stripeSubscriptionId: input.subscription.subscriptionId!,
       stripeCustomerId: input.customerId,

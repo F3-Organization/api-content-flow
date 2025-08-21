@@ -444,6 +444,95 @@ paths:
                     type: string
                     description: Specific error message from the service
                     example: Stripe service error
+  /cancel-subscription:
+    post:
+      tags:
+        - Subscription
+      summary: Cancel a subscription.
+      description: |
+
+        **Behavior**
+        - If the user has no subscription, it will return a 404 error
+        - if the user has a subscription with "inactive" or "canceled" or "expired" status, it will return 400 error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+              properties:
+                userId:
+                  type: string
+                  description: ID of the user canceling the subscription
+                  example: 01234567-89ab-cdef-0123-456789abcdef
+      responses:
+        "200":
+          description: Subscription canceled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+                  default: Subscription canceled
+        "400":
+          description: Subscription is not active
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    default: Subscription is not active
+        "401":
+          description: The user is not authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    default: No token provided
+        "404":
+          description: Subscription not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    default: Subscription not found
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+                    default: Internal server error
   /create-google-auth-url:
     post:
       tags:

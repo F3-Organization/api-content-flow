@@ -56,11 +56,11 @@ post:
                   subscriptionId:
                     type: string
                     description: ID of the subscription created in Stripe
-                    example: "sub_1234567890abcdef"
+                    example: sub_1234567890abcdef
                   clientSecret:
                     type: string
                     description: Client secret for payment confirmation (can be null)
-                    example: "pi_1234567890abcdef_secret_1234567890abcdef"
+                    example: pi_1234567890abcdef_secret_1234567890abcdef
                     nullable: true
     "400":
       description: Invalid priceId provided
@@ -74,7 +74,7 @@ post:
                 default: false
               message:
                 type: string
-                example: "Invalid priceId provided"
+                example: Invalid priceId provided
     "403":
       description: User already has an active or pending subscription
       content:

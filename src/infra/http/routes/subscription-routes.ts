@@ -5,11 +5,13 @@ import {
   authenticationMiddleware,
   CreateSubscriptionController,
   CreateCheckoutSessionController,
+  CancelSubscriptionController,
 } from "@/infra";
 
 export class SubscriptionRoutes implements IRoute {
   private createSubscriptionController: CreateSubscriptionController;
   private createCheckoutSessionController: CreateCheckoutSessionController;
+  private cancelSubscriptionController: CancelSubscriptionController;
   constructor(
     private http: CreateExpress,
     private factory: IFactory,
@@ -18,6 +20,8 @@ export class SubscriptionRoutes implements IRoute {
       this.factory.controllerFactory.createCreateSubscriptionController();
     this.createCheckoutSessionController =
       this.factory.controllerFactory.createCreateCheckoutSessionController();
+    this.cancelSubscriptionController =
+      this.factory.controllerFactory.createCancelSubscriptionController();
     this.setup();
   }
   async setup(): Promise<void> {
@@ -33,6 +37,14 @@ export class SubscriptionRoutes implements IRoute {
       url: "/create-subscription",
       controller: async (req: any) => {
         return await this.createSubscriptionController.execute(req);
+      },
+      middlewares: [authenticationMiddleware],
+    });
+    await this.http.on({
+      method: "post",
+      url: "/cancel-subscription",
+      controller: async (req: any) => {
+        return await this.cancelSubscriptionController.execute(req);
       },
       middlewares: [authenticationMiddleware],
     });

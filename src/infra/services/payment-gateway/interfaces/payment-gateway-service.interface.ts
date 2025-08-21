@@ -43,4 +43,5 @@ export interface IPaymentGatewayService {
     customerId: string,
   ): Promise<Stripe.Customer | Stripe.DeletedCustomer>;
   retrieveSubscription(subscriptionId: string): Promise<Stripe.Subscription>;
+  cancelSubscription(subscriptionId: string): Promise<boolean>;
 }

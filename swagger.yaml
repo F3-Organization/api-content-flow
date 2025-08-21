@@ -1,3 +1,4 @@
+#file: noinspection YAMLSchemaValidation
 openapi: 3.1.0
 info:
   title: Content Flow API
@@ -39,6 +40,8 @@ paths:
     $ref: "./docs/swagger/subscription/create-checkout-session.yaml"
   /create-subscriptions:
     $ref: "./docs/swagger/subscription/create-subscription.yaml"
+  /cancel-subscription:
+    $ref: ./docs/swagger/subscription/cancel-subscription.yaml
   /create-google-auth-url:
     $ref: "./docs/swagger/authentication/oauth-google/create-google-auth-url.yaml"
   /login-oauth-google:

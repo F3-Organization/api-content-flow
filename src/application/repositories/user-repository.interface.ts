@@ -25,6 +25,7 @@ export namespace IUserRepositoryNamespace {
 
 export interface IUserRepository {
   save(user: User, auth: Authentication): Promise<void>;
+  update(input: User): Promise<void>;
   getById(id: string): Promise<User | undefined>;
   getByEmail(email: string): Promise<User | undefined>;
   saveFromGoogle(input: User): Promise<void>;

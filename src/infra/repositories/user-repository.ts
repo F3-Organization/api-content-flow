@@ -1,5 +1,5 @@
 import { IUserRepository } from "@/application";
-import { UserDAODatabase } from "@/infra";
+import { Models, UserDAODatabase } from "@/infra";
 import { ConnectionDatabase } from "@/infra";
 import {
   Authentication,
@@ -9,12 +9,15 @@ import {
   UserRole,
   userRoleEnum,
 } from "@/domain/entities";
-import { Models, UserModel } from "@/infra";
 
 export class UserRepository implements IUserRepository {
   private userDAODatabase: UserDAODatabase;
   constructor(private connection: ConnectionDatabase) {
     this.userDAODatabase = new UserDAODatabase(this.connection);
+  }
+  async update(input: User): Promise<void> {
+    const { formattedUser } = this.formatToDatabase(input);
+    await this.userDAODatabase.update(formattedUser);
   }
 
   async save(user: User, auth: Authentication): Promise<void> {
@@ -28,7 +31,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async getById(id: string): Promise<User | undefined> {
-    const result: UserModel = await this.userDAODatabase.getById(id);
+    const result: Models.User = await this.userDAODatabase.getById(id);
     return this.buildEntry(result);
   }
 
@@ -38,7 +41,7 @@ export class UserRepository implements IUserRepository {
   }
 
   private formatToDatabase(user: User, auth?: Authentication) {
-    const formattedUser = {
+    const formattedUser: Models.User = {
       id: user.getId,
       name: user.getName,
       email: user.getEmail.getValue,
@@ -49,7 +52,7 @@ export class UserRepository implements IUserRepository {
       avatar: user.getAvatar,
       updated_at: user.getUpdatedAt,
     };
-    let formattedAuth;
+    let formattedAuth: Models.Authentication;
     if (auth) {
       formattedAuth = {
         id: auth.getId,

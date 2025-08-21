@@ -109,7 +109,7 @@ export class PaymentGatewayService implements IPaymentGatewayService {
     return savedCard.paymentMethod;
   }
 
-  async cancelSubscription(subscriptionId: string): Promise<boolean> {
+  async cancelSubscription(subscriptionId: string): Promise<void> {
     const stripeSubscriptionData:
       | ISubscriptionStripeDataRepositoryNamespace.Data
       | undefined =
@@ -121,12 +121,13 @@ export class PaymentGatewayService implements IPaymentGatewayService {
         "Stripe Subscription not found",
         HttpStatus.NOT_FOUND,
       );
-    await this.stripeAdapter.cancelSubscription(subscriptionId);
+    await this.stripeAdapter.cancelSubscription(
+      stripeSubscriptionData?.stripeSubscriptionId!,
+    );
     await this.subscriptionStripeDataRepository.update({
       ...stripeSubscriptionData!,
       stripeStatus: "canceled",
     });
-    return true;
   }
 
   private buildToSave(input: {

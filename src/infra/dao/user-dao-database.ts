@@ -12,6 +12,14 @@ export class UserDAODatabase implements IUserDAO {
     });
   }
 
+  async update(user: Models.User): Promise<void> {
+    await this.connection.update({
+      table: Table.User,
+      where: { id: user.id },
+      data: user,
+    });
+  }
+
   async saveFromGoogle(user: Models.User): Promise<void> {
     await this.connection.insert({
       table: Table.User,

@@ -5,9 +5,9 @@ name: CI Tests
 
 on:
   push:
-    branches: [ "**" ]
+    branches: ["**"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build-and-test:
@@ -27,6 +27,8 @@ jobs:
       RABBITMQ_PORT: ${{ secrets.RABBITMQ_PORT }}
       RABBITMQ_USER: ${{ secrets.RABBITMQ_USER }}
       RABBITMQ_PASS: ${{ secrets.RABBITMQ_PASS }}
+      STRIPE_SUCCESS_URL: ${{ secrets.STRIPE_SUCCESS_URL }}
+      STRIPE_CANCEL_URL: ${{ secrets.STRIPE_CANCEL_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -34,4 +36,3 @@ jobs:
           node-version: 20
       - run: npm install
       - run: npm test
-

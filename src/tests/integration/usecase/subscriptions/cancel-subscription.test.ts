@@ -8,6 +8,8 @@ import { CancelSubscriptionUseCase } from "@/application/usecases/subscription/c
 import {
   CreateSubscriptionUseCase,
   ISubscriptionRepository,
+  IUserRepository,
+  IUserRepositoryNamespace,
   RegisterUserUseCase,
 } from "@/application";
 import { mockQueueFactory } from "@/tests/infra/mocks/factories/queue-factory-mock";
@@ -19,8 +21,10 @@ import { HttpStatus } from "@/infra/http/protocols.enum";
 
 let cancelSubscriptionUseCase: CancelSubscriptionUseCase;
 let subscriptionRepository: ISubscriptionRepository;
+let userRepository: IUserRepository;
 let user: User | undefined;
 let subscription: Subscription | undefined;
+let otherUserEmail = "teste@testemail.com";
 
 beforeAll(async () => {
   await startTestDB();
@@ -38,9 +42,8 @@ beforeAll(async () => {
     mockQueueFactory,
   );
   await registerUserUseCase.execute(registerUserMock.validUser);
-  user = await factory.repositoryFactory
-    .createUserRepository()
-    .getByEmail(registerUserMock.validUser.email);
+  userRepository = factory.repositoryFactory.createUserRepository();
+  user = await userRepository.getByEmail(registerUserMock.validUser.email);
   await createSubscriptionUseCase.execute({
     userId: user?.getId!,
     priceId: env.stripe.price_ids.basic!,
@@ -51,6 +54,10 @@ beforeAll(async () => {
   subscription = await factory.repositoryFactory
     .createSubscriptionRepository()
     .getByUserId(user?.getId!);
+  await registerUserUseCase.execute({
+    ...registerUserMock.validUser,
+    email: otherUserEmail,
+  });
 }, 300000);
 
 afterAll(async () => {
@@ -72,6 +79,14 @@ describe("Should test cancel subscription", () => {
     await subscriptionRepository.update(subscription!);
     await expect(
       cancelSubscriptionUseCase.execute({ userId: user?.getId! }),
+    ).rejects.toThrow(
+      new DomainException("Subscription is not active", HttpStatus.NOT_FOUND),
+    );
+  });
+  it("Should return an error subscription not found", async (): Promise<void> => {
+    const otherUser = await userRepository.getByEmail(otherUserEmail);
+    await expect(
+      cancelSubscriptionUseCase.execute({ userId: otherUser?.getId! }),
     ).rejects.toThrow(
       new DomainException("Subscription not found", HttpStatus.NOT_FOUND),
     );

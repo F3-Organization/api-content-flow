@@ -45,7 +45,7 @@ beforeAll(async (): Promise<void> => {
     userId: user?.getId!,
     priceId: env.stripe.price_ids.basic!,
   };
-});
+}, 30000);
 
 afterAll(async (): Promise<void> => {
   await stopTestDB();

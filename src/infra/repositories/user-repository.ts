@@ -1,6 +1,6 @@
 import { IUserRepository } from "@/application";
-import { UserDAODatabase } from "../dao/user-dao-database";
-import { ConnectionDatabase } from "../adapters/database/connection-database";
+import { UserDAODatabase } from "@/infra";
+import { ConnectionDatabase } from "@/infra";
 import {
   Authentication,
   CPF,
@@ -9,7 +9,7 @@ import {
   UserRole,
   userRoleEnum,
 } from "@/domain/entities";
-import { Models, UserModel } from "../models/tables";
+import { Models, UserModel } from "@/infra";
 
 export class UserRepository implements IUserRepository {
   private userDAODatabase: UserDAODatabase;

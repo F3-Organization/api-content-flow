@@ -24,7 +24,6 @@ post:
                 default: true
               message:
                 type: string
-                default: Token refreshed successfully
               data:
                 type: object
                 properties:
@@ -44,4 +43,3 @@ post:
                 default: false
               message:
                 type: string
-                default: Invalid refresh token

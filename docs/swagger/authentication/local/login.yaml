@@ -11,10 +11,11 @@ post:
           properties:
             email:
               type: string
-              default: Teste@example.com
             password:
               type: string
-              default: string
+          example:
+            email: Teste@example.com
+            password: string
   responses:
     "200":
       content:
@@ -24,10 +25,11 @@ post:
             properties:
               success:
                 type: boolean
-                default: true
               message:
                 type: string
-                default: Login successful
+            example:
+              success: true
+              message: Login successful
               data:
                 type: object
                 properties:
@@ -45,10 +47,11 @@ post:
             properties:
               success:
                 type: boolean
-                default: false
               message:
                 type: string
-                default: Invalid password
+            example:
+              success: false
+              message: Invalid password
     "404":
       description: User not found
       content:
@@ -58,7 +61,7 @@ post:
             properties:
               success:
                 type: boolean
-                default: false
               message:
                 type: string
-                default: User not found
+            example:
+              success: false

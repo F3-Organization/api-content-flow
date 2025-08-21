@@ -39,10 +39,11 @@ paths:
               properties:
                 email:
                   type: string
-                  default: Teste@example.com
                 password:
                   type: string
-                  default: string
+          example:
+            email: Teste@example.com
+            password: string
       responses:
         "200":
           content:
@@ -170,7 +171,6 @@ paths:
                     default: true
                   message:
                     type: string
-                    default: Token refreshed successfully
                   data:
                     type: object
                     properties:
@@ -190,7 +190,6 @@ paths:
                     default: false
                   message:
                     type: string
-                    default: Invalid refresh token
   /plans:
     get:
       tags:
@@ -278,15 +277,9 @@ paths:
                   data:
                     type: object
                     properties:
-                      sessionId:
+                      checkoutUrl:
                         type: string
-                        description: ID of the created checkout session
-                      successUrl:
-                        type: string
-                        description: URL to redirect upon successful checkout
-                      cancelUrl:
-                        type: string
-                        description: URL to redirect upon checkout cancellation
+                        description: URL to redirect the user to for payment
         "404":
           description: User not found
           content:

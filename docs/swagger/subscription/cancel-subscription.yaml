@@ -1,4 +1,4 @@
-patch:
+post:
   tags:
     - Subscription
   summary: Cancel a subscription.

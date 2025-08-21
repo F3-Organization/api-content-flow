@@ -6,7 +6,6 @@ import {
   CreateSubscriptionController,
   CreateCheckoutSessionController,
   CancelSubscriptionController,
-  IResponse,
 } from "@/infra";
 
 export class SubscriptionRoutes implements IRoute {
@@ -29,22 +28,22 @@ export class SubscriptionRoutes implements IRoute {
     await this.http.on({
       method: "post",
       url: "/create-checkout-session",
-      controller: async (req: any): Promise<IResponse> =>
+      controller: async (req: any) =>
         await this.createCheckoutSessionController.execute(req),
       middlewares: [authenticationMiddleware],
     });
     await this.http.on({
       method: "post",
       url: "/create-subscription",
-      controller: async (req: any): Promise<IResponse> => {
+      controller: async (req: any) => {
         return await this.createSubscriptionController.execute(req);
       },
       middlewares: [authenticationMiddleware],
     });
     await this.http.on({
-      method: "patch",
+      method: "post",
       url: "/cancel-subscription",
-      controller: async (req: any): Promise<IResponse> => {
+      controller: async (req: any) => {
         return await this.cancelSubscriptionController.execute(req);
       },
       middlewares: [authenticationMiddleware],

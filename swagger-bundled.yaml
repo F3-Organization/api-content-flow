@@ -41,9 +41,9 @@ paths:
                   type: string
                 password:
                   type: string
-              example:
-                email: Teste@example.com
-                password: string
+          example:
+            email: Teste@example.com
+            password: string
       responses:
         "200":
           content:
@@ -53,11 +53,10 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    default: true
                   message:
                     type: string
-                example:
-                  success: true
-                  message: Login successful
+                    default: Login successful
                   data:
                     type: object
                     properties:
@@ -75,11 +74,10 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    default: false
                   message:
                     type: string
-                example:
-                  success: false
-                  message: Invalid password
+                    default: Invalid password
         "404":
           description: User not found
           content:
@@ -89,10 +87,10 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    default: false
                   message:
                     type: string
-                example:
-                  success: false
+                    default: User not found
   /register:
     post:
       tags:
@@ -440,7 +438,7 @@ paths:
                     description: Specific error message from the service
                     example: Stripe service error
   /cancel-subscription:
-    patch:
+    post:
       tags:
         - Subscription
       summary: Cancel a subscription.

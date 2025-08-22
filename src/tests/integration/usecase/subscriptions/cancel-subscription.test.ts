@@ -9,7 +9,6 @@ import {
   CreateSubscriptionUseCase,
   ISubscriptionRepository,
   IUserRepository,
-  IUserRepositoryNamespace,
   RegisterUserUseCase,
 } from "@/application";
 import { mockQueueFactory } from "@/tests/infra/mocks/factories/queue-factory-mock";

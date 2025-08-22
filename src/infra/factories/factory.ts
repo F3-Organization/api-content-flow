@@ -1,5 +1,9 @@
 import { IFactory } from "@/application";
-import { GoogleOAuthService, PaymentGatewayService } from "../services";
+import {
+  GeminiService,
+  GoogleOAuthService,
+  PaymentGatewayService,
+} from "../services";
 import {
   AuthRepository,
   GetPlansController,
@@ -25,6 +29,7 @@ import {
   CreateCheckoutSessionController,
   PaymentRepository,
   CancelSubscriptionController,
+  GeminiAdapter,
 } from "@/infra";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
@@ -36,6 +41,7 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
       createGoogleOAuthAdapter: () => new GoogleOAuthAdapter(),
       createRabbitMqAdapter: async () => await RabbitMQAdapter.create(),
       createNodemailerAdapter: () => new NodemailerAdapter(),
+      createGeminiAdapter: () => new GeminiAdapter(),
     },
 
     serviceFactory: {
@@ -46,6 +52,7 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
         ),
       createGoogleOAuthService: () =>
         new GoogleOAuthService(Factory.adapterFactory),
+      createGeminiService: () => new GeminiService(Factory.adapterFactory),
     },
 
     repositoryFactory: {

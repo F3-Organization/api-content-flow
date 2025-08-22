@@ -50,4 +50,7 @@ export const env = {
     client_secret: process.env.OAUTH_CLIENT_SECRET,
     redirect_uri: process.env.OAUTH_REDIRECT_URI,
   },
+  gemini: {
+    apiKey: process.env.GEMINI_API_KEY,
+  },
 };

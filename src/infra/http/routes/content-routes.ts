@@ -3,6 +3,7 @@ import {
   ContentFormatController,
   CreateExpress,
   GenerateContentController,
+  IResponse,
 } from "@/infra";
 import { IFactory } from "@/application";
 
@@ -23,7 +24,7 @@ export class ContentRoutes implements IRoute {
     await this.http.on({
       method: "get",
       url: "/content-format",
-      controller: async (req: any) => {
+      controller: async (req: any): Promise<IResponse> => {
         return await this.contentFormatController.execute(req);
       },
     });
@@ -31,7 +32,7 @@ export class ContentRoutes implements IRoute {
     await this.http.on({
       method: "post",
       url: "/generate-content",
-      controller: async (req: any) => {
+      controller: async (req: any): Promise<IResponse> => {
         return await this.generateContentController.execute(req);
       },
     });

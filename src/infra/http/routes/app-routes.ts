@@ -5,6 +5,7 @@ import { AuthRoutes } from "./auth-routes";
 import { IFactory } from "@/application";
 import { PlanRoutes } from "./plan-routes";
 import { SubscriptionRoutes } from "./subscription-routes";
+import { ContentRoutes } from "@/infra/http/routes/content-routes";
 
 export class AppRoutes implements IRoute {
   constructor(
@@ -17,6 +18,7 @@ export class AppRoutes implements IRoute {
     new UserRoutes(this.http, this.factory);
     new AuthRoutes(this.http, this.factory);
     new PlanRoutes(this.http, this.factory);
+    new ContentRoutes(this.http, this.factory);
     new SubscriptionRoutes(this.http, this.factory);
   }
 }

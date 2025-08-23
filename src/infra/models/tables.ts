@@ -3,6 +3,7 @@ export namespace Table {
   export const User = "content_flow.users";
   export const Payment = "content_flow.payments";
   export const Subscription = "content_flow.subscription";
+  export const Content = "content_flow.content";
   export const Authentication = "content_flow.authentications";
   export const PasswordRecovery = "content_flow.password_recovery_tokens";
   export const subscriptionStripeData = "content_flow.subscription_stripe_data";
@@ -16,9 +17,10 @@ export namespace Models {
   export type SubscriptionStripeData = SubscriptionStripeDataModel;
   export type PasswordRecovery = PasswordRecoveryModel;
   export type Payment = PaymentModel;
+  export type Content = ContentModel;
 }
 
-export interface UserModel {
+interface UserModel {
   id: string;
   name: string;
   email: string;
@@ -30,7 +32,7 @@ export interface UserModel {
   updated_at: Date;
 }
 
-export interface AuthenticationModel {
+interface AuthenticationModel {
   id: string;
   user_id: string;
   password_hash: string;
@@ -39,7 +41,7 @@ export interface AuthenticationModel {
   updated_at: Date;
 }
 
-export interface PasswordRecoveryModel {
+interface PasswordRecoveryModel {
   id: string;
   user_id: string;
   token: number;
@@ -48,7 +50,7 @@ export interface PasswordRecoveryModel {
   created_at: Date;
 }
 
-export interface PlanModel {
+interface PlanModel {
   id: string;
   name: string;
   price: number;
@@ -59,7 +61,7 @@ export interface PlanModel {
   updated_at: Date;
 }
 
-export interface SubscriptionModel {
+interface SubscriptionModel {
   id: string;
   user_id: string;
   plan_id: string;
@@ -72,7 +74,7 @@ export interface SubscriptionModel {
   updated_at: Date;
 }
 
-export interface PlanFeatures {
+interface PlanFeatures {
   users: number;
   metrics: string[];
   support: string[];
@@ -82,7 +84,7 @@ export interface PlanFeatures {
   editorial_calendar: string[];
 }
 
-export interface SubscriptionStripeDataModel {
+interface SubscriptionStripeDataModel {
   id: string;
   subscription_id: string;
   stripe_subscription_id: string;
@@ -97,7 +99,7 @@ export interface SubscriptionStripeDataModel {
   updated_at: Date;
 }
 
-export interface PaymentModel {
+interface PaymentModel {
   id: string;
   user_id: string;
   plan_id: string;
@@ -109,4 +111,15 @@ export interface PaymentModel {
   updated_at: Date;
   paid_at?: Date;
   error_message?: string;
+}
+
+interface ContentModel {
+  id: string;
+  user_id: string;
+  title: string;
+  body: string;
+  format: "social" | "blog" | "email";
+  topic: string;
+  created_at: Date;
+  updated_at: Date;
 }

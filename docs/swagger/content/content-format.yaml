@@ -1,0 +1,28 @@
+get:
+  tags:
+    - Content
+  summary: Retrieve content-format enum
+  responses:
+    200:
+      description: Get content-formats with success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: true
+              data:
+                type: object
+                properties:
+                  BLOG:
+                    type: string
+                    default: "blog"
+                  SOCIAL:
+                    type: string
+                    default: "social"
+                  EMAIL:
+                    type: string
+                    default: "email"
+

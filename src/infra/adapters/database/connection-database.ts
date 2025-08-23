@@ -1,11 +1,12 @@
 import knex from "knex";
 import {
+  deleteType,
   IConnectionDatabase,
   insertType,
   queryType,
   rawType,
   updateType,
-} from "./interfaces/connection-database.interface";
+} from "@/infra";
 
 export class ConnectionDatabase implements IConnectionDatabase {
   constructor(private readonly connection: knex.Knex) {}
@@ -73,6 +74,12 @@ export class ConnectionDatabase implements IConnectionDatabase {
   async update<T = any>(params: updateType<T>): Promise<void> {
     await this.transaction(async (trx) => {
       await trx(params.table).update(params.data).where(params.where);
+    });
+  }
+
+  async delete(params: deleteType): Promise<void> {
+    await this.transaction(async (trx) => {
+      await trx(params.table).delete().where(params.where);
     });
   }
 }

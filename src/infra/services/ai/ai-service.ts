@@ -14,6 +14,7 @@ export class GeminiService implements IAIService {
       <body>
         <h1>${input.title}</h1>
         <h2>${input.topic}</h2>
+        <p> post for ${input.format}</p>
         <p>${input.body}</p>
       </body>
     `;

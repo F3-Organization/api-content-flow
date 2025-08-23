@@ -1,4 +1,4 @@
-import { IFactory } from "@/application";
+import { IContentRepository, IFactory } from "@/application";
 import {
   GeminiService,
   GoogleOAuthService,
@@ -30,7 +30,9 @@ import {
   PaymentRepository,
   CancelSubscriptionController,
   GeminiAdapter,
+  ContentRepository,
 } from "@/infra";
+import { ContentFormatController } from "../http/controllers/content/content-format.controller";
 
 export function makeFactory(connection: ConnectionDatabase): IFactory {
   const Factory: IFactory = {
@@ -66,6 +68,7 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
       createRecoveryPasswordRepository: () =>
         new RecoveryPasswordRepository(connection),
       createPaymentRepository: () => new PaymentRepository(connection),
+      createContentRepository: () => new ContentRepository(connection),
     },
 
     controllerFactory: {
@@ -103,6 +106,7 @@ export function makeFactory(connection: ConnectionDatabase): IFactory {
           Factory.repositoryFactory,
           Factory.serviceFactory,
         ),
+      createContentFormatController: () => new ContentFormatController(),
     },
 
     queueFactory: {

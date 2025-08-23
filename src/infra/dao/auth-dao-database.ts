@@ -1,6 +1,6 @@
 import { IAuthDAO } from "@/application/dao/auth-dao.interface";
-import { IConnectionDatabase } from "../adapters/database/interfaces/connection-database.interface";
-import { Models, Table } from "../models/tables";
+import { IConnectionDatabase } from "@/infra";
+import { Models, Table } from "@/infra";
 
 export class AuthDAODatabase implements IAuthDAO {
   constructor(private connection: IConnectionDatabase) {}

@@ -1,5 +1,5 @@
 import { SubscriptionDAO } from "@/application/dao/subscription-dao.interface";
-import { IConnectionDatabase } from "../adapters/database/interfaces/connection-database.interface";
+import { IConnectionDatabase } from "@/infra";
 import { Models, Table } from "..";
 
 export class SubscriptionDAODatabase implements SubscriptionDAO {

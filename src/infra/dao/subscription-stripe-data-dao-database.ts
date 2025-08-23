@@ -23,11 +23,10 @@ export class SubscriptionStripeDataDAODatabase
   }
 
   async getAll(): Promise<Models.SubscriptionStripeData[]> {
-    const result = await this.connection.query<Models.SubscriptionStripeData>({
+    return await this.connection.query<Models.SubscriptionStripeData>({
       table: Table.subscriptionStripeData,
       where: {},
     });
-    return result;
   }
 
   async getById(id: string): Promise<Models.SubscriptionStripeData> {

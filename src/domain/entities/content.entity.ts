@@ -1,6 +1,10 @@
 import { DomainException } from "@/domain/error";
 
-export type ContentFormat = "blog" | "social" | "email";
+export enum ContentFormat {
+  BLOG = "blog",
+  SOCIAL = "social",
+  EMAIL = "email",
+}
 
 export interface ContentProps {
   id: string;

@@ -11,6 +11,7 @@ import {
   CreateCheckoutSessionController,
 } from "@/infra/http";
 import { CancelSubscriptionController } from "@/infra/http/controllers/subscription/cancel-subscription.controller";
+import { ContentFormatController } from "@/infra/http/controllers/content/content-format.controller";
 
 export interface IControllerFactory {
   createRegisterUSerController(): RegisterUserController;
@@ -24,4 +25,5 @@ export interface IControllerFactory {
   createRecoveryPasswordController(): RecoveryPasswordController;
   createCreateCheckoutSessionController(): CreateCheckoutSessionController;
   createCancelSubscriptionController(): CancelSubscriptionController;
+  createContentFormatController(): ContentFormatController;
 }

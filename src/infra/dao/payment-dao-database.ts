@@ -1,6 +1,6 @@
 import { IPaymentDAO } from "@/application";
-import { Models, Table } from "../models";
-import { IConnectionDatabase } from "../adapters";
+import { Models, Table } from "@/infra";
+import { IConnectionDatabase } from "@/infra";
 
 export class PaymentDAO implements IPaymentDAO {
   constructor(private connection: IConnectionDatabase) {}

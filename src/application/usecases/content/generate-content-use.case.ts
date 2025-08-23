@@ -26,7 +26,7 @@ export namespace generateContent {
  * Consecutivamente, com Content instanciado, deve-se salvar no banco de dados e retornar para o controller os dados.
  * @return ContentDTO
  * */
-export class generateContentUseCase implements IUseCase {
+export class GenerateContentUseCase implements IUseCase {
   private contentRepository: IContentRepository;
   private geminiService: IAIService;
   constructor(
@@ -37,7 +37,13 @@ export class generateContentUseCase implements IUseCase {
     this.geminiService = this.serviceFactory.createGeminiService();
   }
   async execute(input: Input): Promise<string> {
-    const content = new Content({
+    const entry = this.buildEntry(input);
+    await this.contentRepository.save(entry);
+    return await this.geminiService.generateContent(entry);
+  }
+
+  private buildEntry(input: Input): Content {
+    return new Content({
       id: uuidV7(),
       userId: input.userId,
       title: input.title,
@@ -47,7 +53,5 @@ export class generateContentUseCase implements IUseCase {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    await this.contentRepository.save(content);
-    return await this.geminiService.generateContent(content);
   }
 }

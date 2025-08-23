@@ -1,16 +1,22 @@
 import { IRoute } from "@/infra/http/routes/interfaces/route.interface";
-import { CreateExpress, IControllerFactory } from "@/infra";
-import { ContentFormatController } from "@/infra/http/controllers/content/content-format.controller";
+import {
+  ContentFormatController,
+  CreateExpress,
+  GenerateContentController,
+} from "@/infra";
 import { IFactory } from "@/application";
 
 export class ContentRoutes implements IRoute {
   private contentFormatController: ContentFormatController;
+  private generateContentController: GenerateContentController;
   constructor(
     private http: CreateExpress,
     private factory: IFactory,
   ) {
     this.contentFormatController =
       this.factory.controllerFactory.createContentFormatController();
+    this.generateContentController =
+      this.factory.controllerFactory.createGenerateContentController();
     this.setup();
   }
   async setup(): Promise<void> {
@@ -19,6 +25,14 @@ export class ContentRoutes implements IRoute {
       url: "/content-format",
       controller: async (req: any) => {
         return await this.contentFormatController.execute(req);
+      },
+    });
+
+    await this.http.on({
+      method: "post",
+      url: "/generate-content",
+      controller: async (req: any) => {
+        return await this.generateContentController.execute(req);
       },
     });
   }

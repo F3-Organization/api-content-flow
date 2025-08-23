@@ -10,14 +10,11 @@ export class GeminiService implements IAIService {
   }
 
   async generateContent(input: Content): Promise<string> {
-    const prompt = `
-      <body>
-        <h1>${input.title}</h1>
-        <h2>${input.topic}</h2>
-        <p> post for ${input.format}</p>
-        <p>${input.body}</p>
-      </body>
-    `;
+    const prompt: string = this.generatePrompt(input);
     return await this.geminiAdapter.generate(prompt);
+  }
+
+  private generatePrompt(input: Content): string {
+    return `Generate a ${input.format} about ${input.topic} with the title ${input.title}. The content body is: ${input.body}`;
   }
 }

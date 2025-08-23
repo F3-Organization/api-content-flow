@@ -9,6 +9,7 @@ import {
   CreateRecoveryPasswordTokenController,
   RecoveryPasswordController,
   CreateCheckoutSessionController,
+  GenerateContentController,
 } from "@/infra/http";
 import { CancelSubscriptionController } from "@/infra/http/controllers/subscription/cancel-subscription.controller";
 import { ContentFormatController } from "@/infra/http/controllers/content/content-format.controller";
@@ -26,4 +27,5 @@ export interface IControllerFactory {
   createCreateCheckoutSessionController(): CreateCheckoutSessionController;
   createCancelSubscriptionController(): CancelSubscriptionController;
   createContentFormatController(): ContentFormatController;
+  createGenerateContentController(): GenerateContentController;
 }

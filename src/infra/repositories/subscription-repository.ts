@@ -1,8 +1,8 @@
 import { ISubscriptionRepository } from "@/application";
 import { Subscription, SubscriptionStatus } from "@/domain/entities";
-import { IConnectionDatabase } from "../adapters";
+import { IConnectionDatabase } from "@/infra";
 import { SubscriptionDAODatabase } from "../dao";
-import { Models, SubscriptionModel } from "../models";
+import { Models } from "@/infra";
 
 export class SubscriptionRepository implements ISubscriptionRepository {
   subscriptionDAO: SubscriptionDAODatabase;
@@ -45,7 +45,7 @@ export class SubscriptionRepository implements ISubscriptionRepository {
     };
   }
 
-  private buildEntry(output: SubscriptionModel) {
+  private buildEntry(output: Models.Subscription) {
     if (!output) return;
     return new Subscription({
       id: output.id,

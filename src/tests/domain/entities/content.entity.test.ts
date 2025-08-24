@@ -27,22 +27,22 @@ describe("Content Entity", () => {
 
   it("should throw error if userId is empty", () => {
     expect(() => new Content({ ...validProps, userId: "" })).toThrow(
-      "UserId is required"
+      "UserId is required",
     );
   });
   it("should throw error if title is empty", () => {
     expect(() => new Content({ ...validProps, title: "" })).toThrow(
-      "Title is required"
+      "Title is required",
     );
   });
   it("should throw error if body is empty", () => {
     expect(() => new Content({ ...validProps, body: "" })).toThrow(
-      "Body is required"
+      "Body is required",
     );
   });
   it("should throw error if format is empty", () => {
     expect(() => new Content({ ...validProps, format: "" as any })).toThrow(
-      "Format is required"
+      "Format is required",
     );
   });
 
@@ -68,7 +68,7 @@ describe("Content Entity", () => {
     const content = new Content(validProps);
     const oldUpdatedAt = content.updatedAt;
     await new Promise((r) => setTimeout(r, 2));
-    content.format = "social";
+    content.format = ContentFormat.SOCIAL;
     expect(content.format).toBe("social");
     expect(content.updatedAt.getTime()).toBeGreaterThan(oldUpdatedAt.getTime());
   });

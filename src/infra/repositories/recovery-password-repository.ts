@@ -2,9 +2,9 @@ import {
   IRecoveryPasswordRepository,
   RecoveryPasswordRepositoryNamespace,
 } from "@/application";
-import { IConnectionDatabase } from "../adapters";
-import { RecoveryPasswordDAODatabase } from "../dao/recovery-password-dao-database";
-import { Models, PasswordRecoveryModel } from "../models";
+import { IConnectionDatabase } from "@/infra";
+import { RecoveryPasswordDAODatabase } from "@/infra";
+import { Models } from "@/infra";
 
 export class RecoveryPasswordRepository implements IRecoveryPasswordRepository {
   private recoveryPasswordDAO: RecoveryPasswordDAODatabase;
@@ -30,7 +30,7 @@ export class RecoveryPasswordRepository implements IRecoveryPasswordRepository {
   }
 
   formatToInput(
-    output: PasswordRecoveryModel | null,
+    output: Models.PasswordRecovery | null,
   ): RecoveryPasswordRepositoryNamespace.Data | null {
     if (!output) return null;
     return {
